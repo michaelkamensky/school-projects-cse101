@@ -56,6 +56,7 @@ int main(void) {
     printf("the value of the cursor is, %d\n", get(myList));
     movePrev(myList);
     movePrev(myList);
+    movePrev(myList);
     printf("the value of the cursor is, %d\n", get(myList));
 
     return 0;
