@@ -34,7 +34,7 @@ typedef struct ListObj{
 // Returns true if Q is empty, otherwise returns false.
 static bool isEmpty(List Q){
    if( Q==NULL ){
-      printf("Llist Error: calling isEmpty() on NULL Llist reference\n");
+      printf("Llist Error: calling isEmpty() on NULL List reference\n");
       exit(EXIT_FAILURE);
    }
    return(Q->length==0);
@@ -116,7 +116,7 @@ int get(List L) {
 // Returns the length of Q.
 int length(List Q){
    if( Q==NULL ){
-      printf("Llist Error: calling getLength() on NULL Llist reference\n");
+      printf("Llist Error: calling getLength() on NULL List reference\n");
       exit(EXIT_FAILURE);
    }
    return(Q->length);
@@ -142,11 +142,11 @@ ListElement front(List Q){
 // Pre: !isEmpty(Q)
 ListElement back(List Q){
    if( Q==NULL ){
-      printf("Llist Error: calling getFront() on NULL Llist reference\n");
+      printf("Llist Error: calling getFront() on NULL List reference\n");
       exit(EXIT_FAILURE);
    }
    if( isEmpty(Q) ){
-      printf("Llist Error: calling getFront() on an empty Llist\n");
+      printf("Llist Error: calling getFront() on an empty List\n");
       exit(EXIT_FAILURE);
    }
    return(Q->back->data);
@@ -179,6 +179,14 @@ void moveFront(List L) {
    }
 } 
 
+// If L is non-empty, sets cursor under the back element,
+// otherwise does nothing.
+void moveBack(List L) {
+   if (L->front != NULL && L->length > 0) {
+      L->cursor = L->back;
+   }
+}
+
 // If cursor is defined and not at front, move cursor one
 // step toward the front of L; if cursor is defined and at
 // front, cursor becomes undefined; if cursor is undefined
@@ -191,20 +199,46 @@ void movePrev(List L) {
    }
 }
 
+// If cursor is defined and not at back, move cursor one
+// step toward the back of L; if cursor is defined and at
+// back, cursor becomes undefined; if cursor is undefined
+// do nothing
+void moveNext(List L) {
+   if (L->cursor != L->back) {
+      L->cursor = L->cursor->next;
+   } else {
+      L->cursor = NULL;
+   }
+}
+
+// Insert new element into L. If L is non-empty,
+// insertion takes place before front element.
 void prepend(List L, int x) {
    Node N = newNode(x);
-   if (L->front != NULL) {
+   if (L->front != NULL && L->length > 0) {
       L->front->previous = N;
+   } else {
+      if (L->length == 1 && L->back != NULL){
+         L->back->previous = N;
+         N->next = L->back;
+      }
    }
    N->next = L->front;
    L->front = N;
    L->length += 1;   
 }
 
+// Insert new element into L. If L is non-empty,
+// insertion takes place after back element.
 void append(List L, int x) {
    Node N = newNode(x);
-   if (L->back != NULL) {
+   if (L->back != NULL && L->length > 0) {
       L->back->next = N;
+   } else {
+      if (L->length == 1 && L->front != NULL){
+         L->front->next = N;
+         N->previous = L->front;
+      }
    }
    N->previous = L->back;
    L->back = N;
@@ -234,6 +268,31 @@ void insertAfter(List L, int x) {
    }
 }
 
+// Delete the front element. Pre: length()>0
+void deleteFront(List L){
+   if (L->length > 0) {
+      Node del = L->front;
+      L->front = L->front->next;
+      freeNode(&del);
+      L->length -= 1;
+
+   }
+} 
+
+// Delete the back element. Pre: length()>0
+void deleteBack(List L) {
+   if (L->length > 0) {
+      Node del = L->back;
+      L->back = L->back->next;
+      freeNode(&del);
+      L->length -= 1;
+
+   }
+}
+
+// Delete cursor element, making cursor undefined.
+// Pre: length()>0, index()>=0
+void delete(List L); 
 
 // DeLlist()
 // Deletes data at front of Q.

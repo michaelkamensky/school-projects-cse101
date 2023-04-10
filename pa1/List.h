@@ -63,6 +63,10 @@ bool isEmpty(List Q);
 // otherwise does nothing.
 void moveFront(List L); 
 
+// If L is non-empty, sets cursor under the back element,
+// otherwise does nothing.
+void moveBack(List L); 
+
 // temp func that prints the value of the cursor
 // for testing purposes
 void pcursor(List L);
@@ -72,6 +76,12 @@ void pcursor(List L);
 // front, cursor becomes undefined; if cursor is undefined
 // do nothing
 void movePrev(List L); 
+
+// If cursor is defined and not at back, move cursor one
+// step toward the back of L; if cursor is defined and at
+// back, cursor becomes undefined; if cursor is undefined
+// do nothing
+void moveNext(List L); 
 
 void prepend(List L, int x);
 
@@ -93,6 +103,17 @@ void EnList(List Q, ListElement data);
 // Deletes data at front of Q.
 // Pre: !isEmpty(Q)
 void DeList(List Q);
+
+// Delete the front element. Pre: length()>0
+void deleteFront(List L); 
+
+// Delete the back element. Pre: length()>0
+void deleteBack(List L); 
+
+// Delete cursor element, making cursor undefined.
+// Pre: length()>0, index()>=0
+void delete(List L); 
+
 
 
 // Other Functions ------------------------------------------------------------
