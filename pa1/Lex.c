@@ -7,9 +7,6 @@
 /* the main function of this program will use the list.c ADT
 to organize it
 the main function needs to be able 
-1) check the number of arguments given
-2) Count the number of lines the inoput file has
-3)Create a List whose elements are the indices of the above string array
 */
 int main(int argc, char *argv[]) {
     int count = 0;
@@ -45,7 +42,10 @@ int main(int argc, char *argv[]) {
     }
 
     // print out the number of lines
-    printf("The input_file has %d lines\n ", count);
+    // printf("The input_file has %d lines\n ", count);
+
+    // crteating an array of correct size to help sort the file
+    int *array = calloc(count, sizeof(int));
 
     // close the files
     fclose(input_file);
