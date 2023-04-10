@@ -14,10 +14,16 @@ int main(void) {
     prepend(myList, 45);
     append(myList, 1);
     append(myList, 136);
-    pcursor(myList);
+    printf("the value of the cursor is, %d\n", get(myList));    
     printf("the index of the list is, %d\n", index(myList));
+    insertBefore(myList, 3);
+    movePrev(myList);   
+    //printf("the index of the list is, %d\n", index(myList));
+    printf("the value of the cursor is, %d\n", get(myList));
     printf("the front of the list is, %d\n", front(myList));
     printf("the back of the list is, %d\n", back(myList));
+
+
 
     return 0;
 }

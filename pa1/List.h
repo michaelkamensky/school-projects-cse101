@@ -67,6 +67,12 @@ void moveFront(List L);
 // for testing purposes
 void pcursor(List L);
 
+// If cursor is defined and not at front, move cursor one
+// step toward the front of L; if cursor is defined and at
+// front, cursor becomes undefined; if cursor is undefined
+// do nothing
+void movePrev(List L); 
+
 void prepend(List L, int x);
 
 void append(List L, int x);

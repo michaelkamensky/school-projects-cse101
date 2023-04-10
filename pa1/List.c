@@ -104,6 +104,13 @@ int index(List L) {
    return -1;
 }
 
+// Returns cursor element of L. Pre: length()>0, index()>=0
+int get(List L) {
+   if (L->length > 0 && index(L) >= 0) {
+      return L->cursor->data;
+   }
+}
+
 
 // getLength()
 // Returns the length of Q.
@@ -172,11 +179,17 @@ void moveFront(List L) {
    }
 } 
 
-// temp func that prints the value of the cursor
-// for testing purposes
-void pcursor(List L) {
-   printf("the value of the cursor is %d \n", L->cursor->data);
-} 
+// If cursor is defined and not at front, move cursor one
+// step toward the front of L; if cursor is defined and at
+// front, cursor becomes undefined; if cursor is undefined
+// do nothing
+void movePrev(List L) {
+   if (L->cursor != L->front) {
+      L->cursor = L->cursor->previous;
+   } else {
+      L->cursor = NULL;
+   }
+}
 
 void prepend(List L, int x) {
    Node N = newNode(x);
@@ -185,8 +198,7 @@ void prepend(List L, int x) {
    }
    N->next = L->front;
    L->front = N;
-   L->length += 1;
-   
+   L->length += 1;   
 }
 
 void append(List L, int x) {
@@ -196,20 +208,19 @@ void append(List L, int x) {
    }
    N->previous = L->back;
    L->back = N;
-   L->length += 1;
-   
+   L->length += 1;   
 }
 
 // Insert new element before cursor.
 // Pre: length()>0, index()>=0
 void insertBefore(List L, int x) {
    Node N = newNode(x);
-   if (L->cursor != NULL) {
+   if (L->length > 0 && index(L) >= 0) {
+      L->cursor->previous->next = N;
       L->cursor->previous = N;
+      L->length += 1;
    }
-   N->next = L->cursor;
-   L->cursor = N;
-   L->length += 1;
+
 }
 
 
