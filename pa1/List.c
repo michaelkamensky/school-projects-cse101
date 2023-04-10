@@ -1,5 +1,3 @@
-#pragma once
-
 //-----------------------------------------------------------------------------
 // List.c
 // Implementation file for List ADT
@@ -27,9 +25,20 @@ typedef struct NodeObj{
 typedef struct ListObj{
    Node front;
    Node back;
-   int index;
+   //int index;
+   Node pointer;
    int length;
 } ListObj;
+
+// isEmpty()
+// Returns true if Q is empty, otherwise returns false.
+static bool isEmpty(List Q){
+   if( Q==NULL ){
+      printf("Queue Error: calling isEmpty() on NULL Queue reference\n");
+      exit(EXIT_FAILURE);
+   }
+   return(Q->length==0);
+}
 
 // Constructors-Destructors ---------------------------------------------------
 
@@ -78,6 +87,9 @@ void freeList(List* pQ){
 
 // Access functions -----------------------------------------------------------
 
+
+
+
 // getLength()
 // Returns the length of Q.
 int length(List Q){
@@ -118,6 +130,7 @@ ListElement back(List Q){
    return(Q->back->data);
 }
 
+#if 0
 // index()
 // Returns the value of the index.
 // Pre: !isEmpty(Q)
@@ -132,6 +145,8 @@ int index(List Q) {
    }
    return(Q->index);
 }
+#endif
+
 
 
 
