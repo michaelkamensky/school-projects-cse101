@@ -26,7 +26,7 @@ typedef struct ListObj{
    Node front;
    Node back;
    //int index;
-   Node pointer;
+   Node cursor;
    int length;
 } ListObj;
 
@@ -34,11 +34,13 @@ typedef struct ListObj{
 // Returns true if Q is empty, otherwise returns false.
 static bool isEmpty(List Q){
    if( Q==NULL ){
-      printf("Queue Error: calling isEmpty() on NULL Queue reference\n");
+      printf("Llist Error: calling isEmpty() on NULL Llist reference\n");
       exit(EXIT_FAILURE);
    }
    return(Q->length==0);
 }
+
+
 
 // Constructors-Destructors ---------------------------------------------------
 
@@ -87,14 +89,27 @@ void freeList(List* pQ){
 
 // Access functions -----------------------------------------------------------
 
+// Returns index of cursor element if defined, -1 otherwise.
+int index(List L) {
+   if (L->cursor != NULL && L->front != NULL) {
+      Node N = L->front;
+      int index = 0;
+      while (N != L->cursor) {
+         index += 1;
+         N = N->next;
 
+      }
+      return index;
+   } 
+   return -1;
+}
 
 
 // getLength()
 // Returns the length of Q.
 int length(List Q){
    if( Q==NULL ){
-      printf("Queue Error: calling getLength() on NULL Queue reference\n");
+      printf("Llist Error: calling getLength() on NULL Llist reference\n");
       exit(EXIT_FAILURE);
    }
    return(Q->length);
@@ -105,11 +120,11 @@ int length(List Q){
 // Pre: !isEmpty(Q)
 ListElement front(List Q){
    if( Q==NULL ){
-      printf("Queue Error: calling getFront() on NULL Queue reference\n");
+      printf("Llist Error: calling getFront() on NULL List reference\n");
       exit(EXIT_FAILURE);
    }
    if( isEmpty(Q) ){
-      printf("Queue Error: calling getFront() on an empty Queue\n");
+      printf("Llist Error: calling getFront() on an empty List\n");
       exit(EXIT_FAILURE);
    }
    return(Q->front->data);
@@ -120,11 +135,11 @@ ListElement front(List Q){
 // Pre: !isEmpty(Q)
 ListElement back(List Q){
    if( Q==NULL ){
-      printf("Queue Error: calling getFront() on NULL Queue reference\n");
+      printf("Llist Error: calling getFront() on NULL Llist reference\n");
       exit(EXIT_FAILURE);
    }
    if( isEmpty(Q) ){
-      printf("Queue Error: calling getFront() on an empty Queue\n");
+      printf("Llist Error: calling getFront() on an empty Llist\n");
       exit(EXIT_FAILURE);
    }
    return(Q->back->data);
@@ -136,23 +151,89 @@ ListElement back(List Q){
 // Pre: !isEmpty(Q)
 int index(List Q) {
    if( Q==NULL ){
-      printf("Queue Error: calling getFront() on NULL Queue reference\n");
+      printf("Llist Error: calling getFront() on NULL Llist reference\n");
       exit(EXIT_FAILURE);
    }
    if( isEmpty(Q) ){
-      printf("Queue Error: calling getFront() on an empty Queue\n");
+      printf("Llist Error: calling getFront() on an empty Llist\n");
       exit(EXIT_FAILURE);
    }
    return(Q->index);
 }
 #endif
 
+// Manipulation procedures ----------------------------------------------------
+
+// If L is non-empty, sets cursor under the front element,
+// otherwise does nothing.
+void moveFront(List L) {
+   if (L->front != NULL && L->length > 0) {
+      L->cursor = L->front;
+   }
+} 
+
+// temp func that prints the value of the cursor
+// for testing purposes
+void pcursor(List L) {
+   printf("the value of the cursor is %d \n", L->cursor->data);
+} 
+
+void prepend(List L, int x) {
+   Node N = newNode(x);
+   if (L->front != NULL) {
+      L->front->previous = N;
+   }
+   N->next = L->front;
+   L->front = N;
+   L->length += 1;
+   
+}
+
+void append(List L, int x) {
+   Node N = newNode(x);
+   if (L->back != NULL) {
+      L->back->next = N;
+   }
+   N->previous = L->back;
+   L->back = N;
+   L->length += 1;
+   
+}
+
+// Insert new element before cursor.
+// Pre: length()>0, index()>=0
+void insertBefore(List L, int x) {
+   Node N = newNode(x);
+   if (L->cursor != NULL) {
+      L->cursor->previous = N;
+   }
+   N->next = L->cursor;
+   L->cursor = N;
+   L->length += 1;
+}
 
 
 
+// DeLlist()
+// Deletes data at front of Q.
+// Pre: !isEmpty(Q)
+void DeList(List Q){
+   Node N = NULL;
 
-
-
-
-
-
+   if( Q==NULL ){
+      printf("Llist Error: calling DeLlist() on NULL Llist reference\n");
+      exit(EXIT_FAILURE);
+   }
+   if( isEmpty(Q) ){
+      printf("Llist Error: calling DeLlist on an empty Llist\n");
+      exit(EXIT_FAILURE);
+   }
+   N = Q->front;
+   if( length(Q)>1 ) { 
+      Q->front = Q->front->next; 
+   }else{ 
+      Q->front = Q->back = NULL; 
+   }
+   Q->length--;
+   freeNode(&N);
+}

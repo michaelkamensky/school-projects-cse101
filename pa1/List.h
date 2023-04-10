@@ -59,6 +59,22 @@ bool isEmpty(List Q);
 
 // Manipulation procedures ----------------------------------------------------
 
+// If L is non-empty, sets cursor under the front element,
+// otherwise does nothing.
+void moveFront(List L); 
+
+// temp func that prints the value of the cursor
+// for testing purposes
+void pcursor(List L);
+
+void prepend(List L, int x);
+
+void append(List L, int x);
+
+// Insert new element before cursor.
+// Pre: length()>0, index()>=0
+void insertBefore(List L, int x); 
+
 // EnList()
 // Places new data at the back of Q.
 void EnList(List Q, ListElement data);
