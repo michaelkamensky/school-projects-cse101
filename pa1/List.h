@@ -81,6 +81,10 @@ void append(List L, int x);
 // Pre: length()>0, index()>=0
 void insertBefore(List L, int x); 
 
+// Insert new element after cursor.
+// Pre: length()>0, index()>=0
+void insertAfter(List L, int x); 
+
 // EnList()
 // Places new data at the back of Q.
 void EnList(List Q, ListElement data);

@@ -214,8 +214,8 @@ void append(List L, int x) {
 // Insert new element before cursor.
 // Pre: length()>0, index()>=0
 void insertBefore(List L, int x) {
-   Node N = newNode(x);
    if (L->length > 0 && index(L) >= 0) {
+      Node N = newNode(x);
       L->cursor->previous->next = N;
       L->cursor->previous = N;
       L->length += 1;
@@ -223,6 +223,16 @@ void insertBefore(List L, int x) {
 
 }
 
+// Insert new element after cursor.
+// Pre: length()>0, index()>=0
+void insertAfter(List L, int x) {
+   if (L->length > 0 && index(L) >= 0) {
+      Node N = newNode(x);
+      L->cursor->next->previous = N;
+      L->cursor->next = N;
+      L->length += 1;
+   }
+}
 
 
 // DeLlist()
