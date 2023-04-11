@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     // printf("The input_file has %d lines\n ", count);
 
     // crteating an array of correct size to help sort the file
-    int *array = calloc(count, sizeof(int));
+    char **array = calloc(count, sizeof(char*));
 
     // close the files
     fclose(input_file);

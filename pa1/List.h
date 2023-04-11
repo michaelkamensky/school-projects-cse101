@@ -28,6 +28,7 @@ void freeList(List* pQ);
 
 // Access functions -----------------------------------------------------------
 
+
 int length(List L); // Returns the number of elements in L.
 
 int index(List L); // Returns index of cursor element if defined, -1 otherwise.
@@ -58,6 +59,10 @@ bool isEmpty(List Q);
 
 
 // Manipulation procedures ----------------------------------------------------
+
+// Resets L to its original empty state.
+void clear(List L);
+
 
 // Overwrites the cursor element’s data with x.
 // Pre: length()>0, index()>=0
@@ -126,6 +131,19 @@ void delete(List L);
 // Prints a string representation of Q consisting of a space separated list 
 // of ints to stdout.
 void printList(FILE* out, List L); 
+
+// Returns a new List representing the same integer
+// sequence as L. The cursor in the new list is undefined,
+// regardless of the state of the cursor in L. The state
+// of L is unchanged.
+List copyList(List L); 
+
+// Returns a new List which is the concatenation of
+// A and B. The cursor in the new List is undefined,
+// regardless of the states of the cursors in A and B.
+// The states of A and B are unchanged.
+List concatList(List A, List B); 
+
 
 
 #endif

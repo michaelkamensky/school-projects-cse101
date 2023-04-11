@@ -2,6 +2,32 @@
 
 #include "List.h"
 
+void test_copy_list(List myList) {
+    append(myList, 50);
+    prepend(myList, 30);
+    append(myList, 20);
+    append(myList, 10);
+    prepend(myList, 5);
+
+    printList(NULL, myList);
+    fprintf(stdout, "\n");
+
+    List copy = copyList(myList);
+
+    printList(NULL, copy);
+    fprintf(stdout, "\n");
+
+    clear(myList);
+    printList(NULL, myList);
+    fprintf(stdout, "\n");
+
+    List copy2 = copyList(myList);
+    printList(NULL, copy2);
+    fprintf(stdout, "\n");
+
+
+}
+
 int main(void) {
 
     List myList  = newList();
@@ -116,7 +142,7 @@ int main(void) {
     printList(NULL, myList);
 #endif
 
-
+#if 0
     append(myList, 50);
     prepend(myList, 30);
     append(myList, 20);
@@ -124,9 +150,14 @@ int main(void) {
     prepend(myList, 5);
 
     printList(NULL, myList);
+    fprintf(stdout, "\n");
+    clear(myList);
 
-    moveFront(myList);
-    moveNext(myList);
+    printList(NULL, myList);
+#endif
+
+
+    test_copy_list(myList);
 
 
 

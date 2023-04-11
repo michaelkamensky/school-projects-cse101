@@ -199,6 +199,21 @@ int index(List Q) {
 
 // Manipulation procedures ----------------------------------------------------
 
+// Resets L to its original empty state.
+void clear(List L) {
+   Node N = L->front;
+   Node del;
+   while (N != NULL) {
+      del = N;
+      N = N->next;
+      freeNode(&del);
+   }
+   L->front = NULL;
+   L->back = NULL;
+   L->cursor = NULL;
+   L->length = 0;
+}
+
 // Overwrites the cursor element’s data with x.
 // Pre: length()>0, index()>=0
 void set(List L, int x) {
@@ -370,3 +385,30 @@ void printList(FILE* out, List L) {
       N = N->next;
    }
 }
+
+// Returns a new List representing the same integer
+// sequence as L. The cursor in the new list is undefined,
+// regardless of the state of the cursor in L. The state
+// of L is unchanged.
+List copyList(List L) {
+   List copy = newList();
+   if (L->length > 0){
+      append(copy, L->front->data);
+      Node N = L->front;
+      N = N->next;
+      while (N != NULL) {
+         append(copy, N->data);
+         N = N->next;
+      }
+      return copy;
+   } else {
+      return copy;
+   }
+
+}
+
+// Returns a new List which is the concatenation of
+// A and B. The cursor in the new List is undefined,
+// regardless of the states of the cursors in A and B.
+// The states of A and B are unchanged.
+List concatList(List A, List B) {}
