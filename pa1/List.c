@@ -215,41 +215,30 @@ void moveNext(List L) {
 // insertion takes place before front element.
 void prepend(List L, int x) {
    Node N = newNode(x);
-   if (L->length == 1 && L->back != NULL) {
-      L->back->previous = N;
-      N->next = L->back;
-      L->front = N;
-      L->length += 1;
-
-   } else {
-      if (L->front != NULL && L->length > 0) {
-         L->front->previous = N;
-      } 
-      N->next = L->front;
-      L->front = N;
-      L->length += 1;
+   if (L->front != NULL && L->length > 0) {
+      L->front->previous = N;
+   } 
+   N->next = L->front;
+   L->front = N;
+   if (L->length == 0) {
+      L->back = N;
    }
+   L->length += 1;
 }
 
 // Insert new element into L. If L is non-empty,
 // insertion takes place after back element.
 void append(List L, int x) {
    Node N = newNode(x);
-   if (L->length == 1 && L->front != NULL) {
-      L->front->next = N;
-      N->previous = L->front;
-      L->back = N;
-      L->length += 1;
-
+   if (L->back != NULL && L->length > 0) {
+      L->back->next = N;
+   } 
+   N->previous = L->back;
+   L->back = N;
+   if (L->length == 0) {
+      L->front = N;
    }
-   else{
-      if (L->back != NULL && L->length > 0) {
-         L->back->next = N;
-      } 
-      N->previous = L->back;
-      L->back = N;
-      L->length += 1;
-   }
+   L->length += 1;
 }
 
 // Insert new element before cursor.

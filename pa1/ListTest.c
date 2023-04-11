@@ -45,15 +45,19 @@ int main(void) {
     printf("the value of the cursor is, %d\n", get(myList));
 #endif
 
-    prepend(myList, 50);
+
     append(myList, 0);
-    append(myList, 30);
-    append(myList, 25);
+    prepend(myList, 50);
+    prepend(myList, 15);
+    prepend(myList, 25);
+    prepend(myList, 75);
+
     moveFront(myList);
     moveNext(myList);
     printf("the value of the cursor is, %d\n", get(myList));
     moveBack(myList);
     printf("the value of the cursor is, %d\n", get(myList));
+    movePrev(myList);
     movePrev(myList);
     movePrev(myList);
     movePrev(myList);
