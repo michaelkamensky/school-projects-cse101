@@ -152,6 +152,34 @@ ListElement back(List Q){
    return(Q->back->data);
 }
 
+// Returns true iff Lists A and B are in same
+// state, and returns false otherwise.
+bool equals(List A, List B) {
+   if( A==NULL || B==NULL ){
+      printf("Queue Error: calling equals() on NULL Queue reference\n");
+      exit(EXIT_FAILURE);
+   }
+
+   // simple check for speed 
+   if ((A->length != B->length) && (A->front != B->front) && (A->back != B->back)) {
+      return false;
+   }
+
+   bool eq;
+   Node N, M;
+
+   eq = ( A->length == B->length );
+   N = A->front;
+   M = B->front;
+   while( eq && N!=NULL){
+      eq = ( N->data==M->data );
+      N = N->next;
+      M = M->next;
+   }
+   return eq;
+
+} 
+
 #if 0
 // index()
 // Returns the value of the index.
@@ -279,7 +307,7 @@ void deleteFront(List L){
 void deleteBack(List L) {
    if (L->length > 0) {
       Node del = L->back;
-      L->back = L->back->next;
+      L->back = L->back->previous;
       freeNode(&del);
       L->length -= 1;
 
@@ -288,7 +316,13 @@ void deleteBack(List L) {
 
 // Delete cursor element, making cursor undefined.
 // Pre: length()>0, index()>=0
-void delete(List L); 
+void delete(List L) {
+   if (L->length > 0 && index(L) >= 0) {
+      L->cursor->previous->next = L->cursor->next;
+      L->cursor->next->previous = L->cursor->previous;
+      freeNode(&(L->cursor));
+   }
+} 
 
 // DeLlist()
 // Deletes data at front of Q.
