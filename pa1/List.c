@@ -309,9 +309,13 @@ void insertBefore(List L, int x) {
 void insertAfter(List L, int x) {
    if (L->length > 0 && index(L) >= 0) {
       Node N = newNode(x);
+      N->next = L->cursor->next;
+      N->previous = L->cursor;
       L->cursor->next->previous = N;
       L->cursor->next = N;
+      printf("the length was %d \n", L->length);
       L->length += 1;
+      printf("the length is now %d \n", L->length);
    }
 }
 

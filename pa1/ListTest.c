@@ -76,6 +76,20 @@ void test_cursor_movment(List myList) {
 
 }
 
+int InsertAfter_length(void) {
+    List A  = newList();
+    append(A, 1);
+    append(A, 2);
+    append(A, 3);
+    append(A, 5);
+    moveFront(A);
+    insertAfter(A, 12);
+    printList(NULL, A);
+    if (length(A) != 5)
+      return 1;
+    return 0;
+  }
+
 int main(void) {
 
     List myList  = newList();
@@ -206,8 +220,8 @@ int main(void) {
 
 
     //test_copy_list(myList);
-    test_cursor_movment(myList);
-
+    //test_cursor_movment(myList);
+    printf("The result should be 1, %d \n", InsertAfter_length());
 
     return 0;
 }
