@@ -59,6 +59,10 @@ bool isEmpty(List Q);
 
 // Manipulation procedures ----------------------------------------------------
 
+// Overwrites the cursor element’s data with x.
+// Pre: length()>0, index()>=0
+void set(List L, int x); 
+
 // If L is non-empty, sets cursor under the front element,
 // otherwise does nothing.
 void moveFront(List L); 
@@ -121,10 +125,7 @@ void delete(List L);
 // printList()
 // Prints a string representation of Q consisting of a space separated list 
 // of ints to stdout.
-void printList(List Q);
+void printList(FILE* out, List L); 
 
-// equals()
-// Returns true if A is same int sequence as B, false otherwise.
-bool equals(List A, List B);
 
 #endif

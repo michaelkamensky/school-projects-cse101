@@ -10,10 +10,10 @@ Lex_objects = Lex.o List.o
 all: Lex ListTest
 
 Lex: $(Lex_objects)
-	$(CC) $(CFLAGS) -o $@ $?
+	$(CC) $(CFLAGS) -o $@ $^
 
 ListTest: ListTest.o List.o
-	$(CC) $(CFLAGS) -o $@ $?
+	$(CC) $(CFLAGS) -o $@ $^
 
 Lex.o: Lex.c
 	$(CC) $(CFLAGS)  -c $<

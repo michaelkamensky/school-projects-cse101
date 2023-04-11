@@ -152,7 +152,7 @@ ListElement back(List Q){
    return(Q->back->data);
 }
 
-// Returns true iff Lists A and B are in same
+// Returns true if Lists A and B are in same
 // state, and returns false otherwise.
 bool equals(List A, List B) {
    if( A==NULL || B==NULL ){
@@ -198,6 +198,12 @@ int index(List Q) {
 #endif
 
 // Manipulation procedures ----------------------------------------------------
+
+// Overwrites the cursor element’s data with x.
+// Pre: length()>0, index()>=0
+void set(List L, int x) {
+   L->cursor->data = x;
+}
 
 // If L is non-empty, sets cursor under the front element,
 // otherwise does nothing.
@@ -346,4 +352,21 @@ void DeList(List Q){
    }
    Q->length--;
    freeNode(&N);
+}
+
+// Other Functions ------------------------------------------------------------
+
+// Prints to the file pointed to by out, a
+// string representation of L consisting
+// of a space separated sequence of integers,
+// with front on left.
+void printList(FILE* out, List L) {
+   if(out == NULL) {
+      out = stdout;
+   }
+   Node N = L->front;
+   while (N != NULL) {
+      fprintf(out, FORMAT "\n", N->data);
+      N = N->next;
+   }
 }
