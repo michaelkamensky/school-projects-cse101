@@ -297,6 +297,8 @@ void append(List L, int x) {
 void insertBefore(List L, int x) {
    if (L->length > 0 && index(L) >= 0) {
       Node N = newNode(x);
+      N->previous = L->cursor->previous;
+      N->next = L->cursor;
       L->cursor->previous->next = N;
       L->cursor->previous = N;
       L->length += 1;

@@ -88,7 +88,21 @@ int InsertAfter_length(void) {
     if (length(A) != 5)
       return 1;
     return 0;
-  }
+}
+
+int InsertBefore_length(void) {
+    List A  = newList();
+    append(A, 1);
+    append(A, 2);
+    append(A, 3);
+    append(A, 5);
+    moveBack(A);
+    insertBefore(A, 12);
+    printList(NULL, A);
+    if (length(A) != 5)
+      return 1;
+    return 0;
+}
 
 int main(void) {
 
@@ -221,7 +235,8 @@ int main(void) {
 
     //test_copy_list(myList);
     //test_cursor_movment(myList);
-    printf("The result should be 1, %d \n", InsertAfter_length());
+    //printf("The result should be 0, %d \n", InsertAfter_length());
+    printf("The result should be 0, %d \n", InsertBefore_length());
 
     return 0;
 }
