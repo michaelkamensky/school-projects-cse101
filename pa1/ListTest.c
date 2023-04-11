@@ -3,6 +3,8 @@
 #include "List.h"
 
 void test_copy_list(List myList) {
+
+    // tests the copy function
     append(myList, 50);
     prepend(myList, 30);
     append(myList, 20);
@@ -25,6 +27,52 @@ void test_copy_list(List myList) {
     printList(NULL, copy2);
     fprintf(stdout, "\n");
 
+
+}
+
+void test_cursor_movment(List myList) {
+    // tests move front; move bach, next, previos, and Index
+    clear(myList);
+    append(myList, 50);
+    prepend(myList, 30);
+    append(myList, 20);
+    append(myList, 10);
+    prepend(myList, 5);
+
+    printList(NULL, myList);
+    fprintf(stdout, "\n");
+
+    moveFront(myList);
+    fprintf(stdout, "The expected value is 0 the res is %d \n", index(myList));
+
+    moveNext(myList);
+    fprintf(stdout, "The expected value is 1 the res is %d \n", index(myList));
+
+    moveBack(myList);
+    fprintf(stdout, "The expected value is 4 the res is %d \n", index(myList));
+
+    movePrev(myList);
+    fprintf(stdout, "The expected value is 3 the res is %d \n", index(myList));
+
+    moveFront(myList);
+    fprintf(stdout, "Should result in an error \n");
+    movePrev(myList);
+    fprintf(stdout, "The expected value is -1 the res is %d \n", index(myList));
+
+    moveBack(myList);
+    fprintf(stdout, "Should result in an error \n");
+    moveNext(myList);
+    fprintf(stdout, "The expected value is -1 the res is %d \n", index(myList));
+
+    clear(myList);
+
+    moveFront(myList);
+    fprintf(stdout, "Should result in an error \n");
+    fprintf(stdout, "The expected value is -1 the res is %d \n", index(myList));
+
+    moveBack(myList);
+    fprintf(stdout, "Should result in an error \n");
+    fprintf(stdout, "The expected value is -1 the res is %d \n", index(myList));
 
 }
 
@@ -157,8 +205,8 @@ int main(void) {
 #endif
 
 
-    test_copy_list(myList);
-
+    //test_copy_list(myList);
+    test_cursor_movment(myList);
 
 
     return 0;

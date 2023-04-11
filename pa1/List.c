@@ -217,7 +217,9 @@ void clear(List L) {
 // Overwrites the cursor element’s data with x.
 // Pre: length()>0, index()>=0
 void set(List L, int x) {
-   L->cursor->data = x;
+   if (L->length > 0 && index(L) >= 0) {
+      L->cursor->data = x;
+   }
 }
 
 // If L is non-empty, sets cursor under the front element,
