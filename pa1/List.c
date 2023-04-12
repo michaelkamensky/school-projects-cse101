@@ -299,7 +299,11 @@ void insertBefore(List L, int x) {
       Node N = newNode(x);
       N->previous = L->cursor->previous;
       N->next = L->cursor;
-      L->cursor->previous->next = N;
+      if (L->cursor->previous != NULL) {
+         L->cursor->previous->next = N;
+      } else {
+         L->front = N;
+      }
       L->cursor->previous = N;
       L->length += 1;
    }
@@ -313,11 +317,15 @@ void insertAfter(List L, int x) {
       Node N = newNode(x);
       N->next = L->cursor->next;
       N->previous = L->cursor;
-      L->cursor->next->previous = N;
+      if (L->cursor->next != NULL) {
+         L->cursor->next->previous = N;
+      } else {
+         L->back = N;
+      }
       L->cursor->next = N;
-      printf("the length was %d \n", L->length);
+      //printf("the length was %d \n", L->length);
       L->length += 1;
-      printf("the length is now %d \n", L->length);
+      //printf("the length is now %d \n", L->length);
    }
 }
 
@@ -326,6 +334,9 @@ void deleteFront(List L){
    if (L->length > 0) {
       Node del = L->front;
       L->front = L->front->next;
+      if (del == L->cursor) {
+         L->cursor = NULL;
+      }
       freeNode(&del);
       L->length -= 1;
 
@@ -337,6 +348,9 @@ void deleteBack(List L) {
    if (L->length > 0) {
       Node del = L->back;
       L->back = L->back->previous;
+      if (del == L->cursor) {
+         L->cursor = NULL;
+      }
       freeNode(&del);
       L->length -= 1;
 
@@ -347,9 +361,19 @@ void deleteBack(List L) {
 // Pre: length()>0, index()>=0
 void delete(List L) {
    if (L->length > 0 && index(L) >= 0) {
-      L->cursor->previous->next = L->cursor->next;
-      L->cursor->next->previous = L->cursor->previous;
+      if (L->cursor->previous != NULL) {
+         L->cursor->previous->next = L->cursor->next;
+      } else {
+         L->front = L->cursor->next;
+      }
+      if (L->cursor->next != NULL) {
+         L->cursor->next->previous = L->cursor->previous;
+      } else {
+         L->back = L->cursor->previous;
+      }
       freeNode(&(L->cursor));
+      L->cursor = NULL;
+      L->length -= 1;
    }
 } 
 

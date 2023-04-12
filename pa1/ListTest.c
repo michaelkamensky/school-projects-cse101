@@ -90,7 +90,7 @@ int InsertAfter_length(void) {
     return 0;
 }
 
-int InsertBefore_length(void) {
+int InsertBefore_length_m(void) {
     List A  = newList();
     append(A, 1);
     append(A, 2);
@@ -101,6 +101,81 @@ int InsertBefore_length(void) {
     printList(NULL, A);
     if (length(A) != 5)
       return 1;
+    return 0;
+}
+
+int InsertBefore_length(void){
+    List A  = newList();
+    prepend(A, 76);
+    prepend(A, 4);
+    prepend(A, 3);
+    prepend(A, 1);
+    moveFront(A);
+    insertBefore(A, 115);
+    if (length(A) != 5)
+      return 1;
+    return 0;
+}
+
+int Delete_length(void) {
+    List A  = newList();
+    append(A, 1);
+    append(A, 2);
+    moveFront(A);
+    delete (A);
+    append(A, 3);
+    append(A, 5);
+    moveFront(A);
+    insertAfter(A, 12);
+    delete (A);
+    if (length(A) != 3)
+      return 1;
+    return 0;
+}
+
+int InsertAfter_index(void) {
+    List A  = newList();
+    append(A, 5);
+    append(A, 6);
+    append(A, 4);
+    append(A, 33);
+    append(A, 2);
+    append(A, 1);
+    printList(NULL, A);
+    fprintf(stdout, "\n");
+    moveBack(A);
+    insertAfter(A, 75);
+    printList(NULL, A);
+    fprintf(stdout, "\n");
+    moveNext(A);
+    if (index(A) != 6)
+      return 1;
+    insertAfter(A, 345);
+    printList(NULL, A);
+    fprintf(stdout, "\n");
+    moveBack(A);
+    if (index(A) != 7)
+      return 2;
+    return 0;
+}
+
+
+int DeleteFront_index(void) {
+    List A  = newList();
+    prepend(A, 5);
+    prepend(A, 65);
+    prepend(A, 43);
+    prepend(A, 2);
+    prepend(A, 8);
+    prepend(A, 1);
+    moveFront(A);
+    deleteFront(A);
+    if (index(A) != -1)
+      return 1;
+    moveBack(A);
+    deleteFront(A);
+    if (index(A) != 3)
+      return 2;
     return 0;
 }
 
@@ -236,7 +311,11 @@ int main(void) {
     //test_copy_list(myList);
     //test_cursor_movment(myList);
     //printf("The result should be 0, %d \n", InsertAfter_length());
-    printf("The result should be 0, %d \n", InsertBefore_length());
+    //printf("The result should be 0, %d \n", InsertBefore_length());
+    //printf("The result should be 0, %d \n", Delete_length());
+    //printf("The result should be 0, %d \n", InsertAfter_index());
+    printf("The result should be 0, %d \n", DeleteFront_index());
+
 
     return 0;
 }
