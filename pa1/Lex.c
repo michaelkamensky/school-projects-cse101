@@ -33,20 +33,41 @@ void sort_list(List L, char* str) {
 
         // loop that goes through all the values of the list
         for (int j = 0; i < length(L); j++) {
-            // switch for the the three case statments
-            switch(strcmp(words[i], get(L))) {
-            case 1:
-                printf("One\n");
+            // is true if and only if s1 comes before s2
+            if(strcmp(words[i], get(L)) < 0) {
+                insertBefore(L, i);
                 break;
-            case 2:
-                printf("Two\n");
-                break;
-            case 3:
-                printf("Three\n");
-                break;
-            default:
-                printf("an error has occurd\n");
             }
+            // is true if and only if s1 comes after s2
+            if(strcmp(words[i], get(L)) > 0) {
+                moveNext(L);
+                continue;
+            }
+            if(strcmp(words[i], get(L)) == 0) {
+                insertBefore(L, i);
+                break;
+            }
+            printf("if this ran an error has occurd \n");
+#if 0
+            int result = strcmp(words[i], get(L));
+            // switch for the the three case statments
+            switch(result) {
+                // strings are the same
+                case 0:
+                    printf("One\n");
+                    break;
+                // The first string is less than the second
+                case -1:
+                    printf("Two\n");
+                    break;
+                // The first string is greater than the second
+                case 1:
+                    printf("Three\n");
+                    break;
+                default:
+                    printf("an error has occurd\n");
+            }
+#endif
         }
     }
     printf("\n");
