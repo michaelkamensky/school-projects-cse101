@@ -4,75 +4,60 @@
 
 #include "List.h"
 
-#define CHARLIMIT 100
-#define MAX_WORDS 100
-#define MAX_WORD_LENGTH 50
+#define CHARLIMIT 4096
+//#define DEBUG 1
+
+
+char *mystrdup(char *s) {
+    size_t size = strlen(s);
+    if (s[size - 1] == '\n') {
+        s[size - 1] = 0;
+    }
+    char* ret = malloc(size + 1);
+    strcpy(ret, s);
+    return ret;
+}
 
 // func gets an array and strcmp all the words and then inserts them in the right order in the list
-void sort_list(List L, char* str) {
+void sort_list(List L, char** myarray, int count) {
     // gets all the words into an array
-    char words[MAX_WORDS][MAX_WORD_LENGTH];
-    int word_count = 0;
-
-    char* token = strtok(str, " ");
-    while (token != NULL && word_count < MAX_WORDS) {
-        strcpy(words[word_count], token);
-        word_count++;
-        token = strtok(NULL, " ");
-    }
     
     // logic to organize the list similar to insertion sort
     // if statment to get the loop started
-    if (word_count > 0) {
-        append(L, 1);
+    if (count > 0) {
+        append(L, 0);
     }
     // loop to go through all the words in the line
-    for (int i = 1; i < (word_count-1); i++) {
+    for (int i = 1; i < (count); i++) {
+        char* new = myarray[i];
         // set curos to front to start the search
-        front(L);
+        moveFront(L);
 
-        // loop that goes through all the values of the list
-        for (int j = 0; i < length(L); j++) {
+        while (true) {
+            char* current = myarray[get(L)];
             // is true if and only if s1 comes before s2
-            if(strcmp(words[i], get(L)) < 0) {
+            if(strcmp(new, current) < 0) {
                 insertBefore(L, i);
                 break;
-            }
-            // is true if and only if s1 comes after s2
-            if(strcmp(words[i], get(L)) > 0) {
-                moveNext(L);
-                continue;
-            }
-            if(strcmp(words[i], get(L)) == 0) {
-                insertBefore(L, i);
-                break;
-            }
-            printf("if this ran an error has occurd \n");
-#if 0
-            int result = strcmp(words[i], get(L));
-            // switch for the the three case statments
-            switch(result) {
-                // strings are the same
-                case 0:
-                    printf("One\n");
+            } else {
+                if ((index(L) + 1) == length(L)) {
+                    insertAfter(L, i);
                     break;
-                // The first string is less than the second
-                case -1:
-                    printf("Two\n");
-                    break;
-                // The first string is greater than the second
-                case 1:
-                    printf("Three\n");
-                    break;
-                default:
-                    printf("an error has occurd\n");
+                } else {
+                    moveNext(L);
+                }
             }
-#endif
         }
     }
-    printf("\n");
+}
 
-} 
+void do_output(FILE *fout, List L, char** myarray) {
+    moveFront(L);
+    for(int i = 0; i < length(L); i++){
+        fprintf(fout, "%s\n", myarray[get(L)]);
+        moveNext(L);
+    }
+}
 
 /* the main function of this program will use the list.c ADT
 to organize it
@@ -118,34 +103,30 @@ int main(int argc, char *argv[]) {
     fseek(input_file, 0, SEEK_SET);
 
     // crteating an array of correct size to help sort the file
-    char **array = calloc(count, sizeof(char*));
+    char **myarray = calloc(count, sizeof(char*));
 
     // limit of the number of characters in the file
     char line[CHARLIMIT];
 
     // looping through the file to get the lines to sort
+    int i = 0;
     while (fgets(line, sizeof(line), input_file)) {
-        // creating a list that will be sorted when filled
-        List sort = newList();
-        // function that takes a string and list and returns a list with the correct ordering
-        sort_list(sort, line);
-
+#ifdef DEBUG
+        printf("%s\n", line);
+#endif
+        myarray[i] = mystrdup(line);
+        i += 1;    
     }
+    List sort = newList();
+    sort_list(sort, myarray, count);
+#ifdef DEBUG
+    printList(NULL, sort);
+#endif
+    do_output(output_file, sort, myarray);
 
     // close the files
     fclose(input_file);
     fclose(output_file);
 
-/*
-    // creates variables that will be used for reading and writting to the files
-    char copied_text[30];
-
-    // loop that copies the contents of the inputfile into the outputfile
-    while (fscanf(input_file, "%s", copied_text) != EOF) { 
-
-        //prints the input file into the out put file
-        fprintf(output_file, "%s ", copied_text);
-    }
-*/
     return 0;
 }
