@@ -207,8 +207,10 @@ int NonEmpty_front(void) {
 
 int main(void) {
 
+#if 0
     List myList  = newList();
     List myList2  = newList();
+#endif
 #if 0
     prepend(myList, 50);
     prepend(myList, 30);

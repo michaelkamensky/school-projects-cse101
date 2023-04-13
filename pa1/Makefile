@@ -1,7 +1,7 @@
 SHELL := /bin/sh
 CC = gcc 
 CFLAGS = -std=c17
-#CFLAGS = -Wall -Wpedantic -Werror -Wextra -g $(shell pkg-config --cflags gmp)
+CFLAGS += -Wall -Wpedantic -Werror -Wextra 
 CFLAGS += -g
 #LFLAGS = $(shell pkg-config --libs gmp)
 Lex_objects = Lex.o List.o 
