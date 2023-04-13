@@ -334,6 +334,8 @@ void deleteFront(List L){
    if (L->length > 0) {
       Node del = L->front;
       L->front = L->front->next;
+      // addded line to fix code
+      //L->front->previous = NULL;
       if (del == L->cursor) {
          L->cursor = NULL;
       }
@@ -348,9 +350,10 @@ void deleteBack(List L) {
    if (L->length > 0) {
       Node del = L->back;
       L->back = L->back->previous;
+      //L->back->next = NULL;
       if (del == L->cursor) {
          L->cursor = NULL;
-      }
+      } 
       freeNode(&del);
       L->length -= 1;
 

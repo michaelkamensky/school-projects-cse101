@@ -4,6 +4,55 @@
 
 #include "List.h"
 
+#define CHARLIMIT 100
+#define MAX_WORDS 100
+#define MAX_WORD_LENGTH 50
+
+// func gets an array and strcmp all the words and then inserts them in the right order in the list
+void sort_list(List L, char* str) {
+    // gets all the words into an array
+    char words[MAX_WORDS][MAX_WORD_LENGTH];
+    int word_count = 0;
+
+    char* token = strtok(str, " ");
+    while (token != NULL && word_count < MAX_WORDS) {
+        strcpy(words[word_count], token);
+        word_count++;
+        token = strtok(NULL, " ");
+    }
+    
+    // logic to organize the list similar to insertion sort
+    // if statment to get the loop started
+    if (word_count > 0) {
+        append(L, 1);
+    }
+    // loop to go through all the words in the line
+    for (int i = 1; i < (word_count-1); i++) {
+        // set curos to front to start the search
+        front(L);
+
+        // loop that goes through all the values of the list
+        for (int j = 0; i < length(L); j++) {
+            // switch for the the three case statments
+            switch(strcmp(words[i], get(L))) {
+            case 1:
+                printf("One\n");
+                break;
+            case 2:
+                printf("Two\n");
+                break;
+            case 3:
+                printf("Three\n");
+                break;
+            default:
+                printf("an error has occurd\n");
+            }
+        }
+    }
+    printf("\n");
+
+} 
+
 /* the main function of this program will use the list.c ADT
 to organize it
 the main function needs to be able 
@@ -44,8 +93,23 @@ int main(int argc, char *argv[]) {
     // print out the number of lines
     // printf("The input_file has %d lines\n ", count);
 
+    // using fseek to go to the front of the file
+    fseek(input_file, 0, SEEK_SET);
+
     // crteating an array of correct size to help sort the file
     char **array = calloc(count, sizeof(char*));
+
+    // limit of the number of characters in the file
+    char line[CHARLIMIT];
+
+    // looping through the file to get the lines to sort
+    while (fgets(line, sizeof(line), input_file)) {
+        // creating a list that will be sorted when filled
+        List sort = newList();
+        // function that takes a string and list and returns a list with the correct ordering
+        sort_list(sort, line);
+
+    }
 
     // close the files
     fclose(input_file);

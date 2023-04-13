@@ -179,6 +179,32 @@ int DeleteFront_index(void) {
     return 0;
 }
 
+int NonEmpty_front(void) {
+    List A  = newList();
+    prepend(A, 5);
+    append(A, 7);
+    prepend(A, 2);
+    moveFront(A);
+    insertBefore(A, 43);
+    fprintf(stdout, "the original list \n");
+    printList(NULL, A);
+    fprintf(stdout, "\n");
+    deleteFront(A);
+    fprintf(stdout, "after delete front \n");
+    printList(NULL, A);
+    fprintf(stdout, "\n");
+    printf("index is %d \n", get(A));
+    printf("front is %d \n", front(A));
+    delete (A);
+    printf("front is %d \n", front(A));
+    //fprintf(stdout, "after delete \n");
+    //printList(NULL, A);
+    //fprintf(stdout, "\n");
+    if (front(A) != 5)
+      return 1;
+    return 0;
+  }
+
 int main(void) {
 
     List myList  = newList();
@@ -314,7 +340,8 @@ int main(void) {
     //printf("The result should be 0, %d \n", InsertBefore_length());
     //printf("The result should be 0, %d \n", Delete_length());
     //printf("The result should be 0, %d \n", InsertAfter_index());
-    printf("The result should be 0, %d \n", DeleteFront_index());
+    //printf("The result should be 0, %d \n", DeleteFront_index());
+    printf("The result should be 0, %d \n", NonEmpty_front());
 
 
     return 0;
