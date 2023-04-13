@@ -124,6 +124,14 @@ int main(int argc, char *argv[]) {
 #endif
     do_output(output_file, sort, myarray);
 
+    // free memory
+    freeList(&sort);
+    for (int j = 0; j < count; j++) {
+        free(myarray[j]);
+    }
+    free(myarray);
+
+
     // close the files
     fclose(input_file);
     fclose(output_file);
