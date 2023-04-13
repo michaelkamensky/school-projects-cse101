@@ -83,17 +83,21 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // checks that there is at least one character and therefore at least one line
-    if(getc(input_file) != EOF) {
-        count += 1;
-    }
 
     // counts the number of lines that the file has
+    bool last_is_newline = false;
     for (c = getc(input_file); c != EOF; c = getc(input_file)) {
         if (c == '\n') {
             count += 1;
+            last_is_newline = true;
+        } else {
+           last_is_newline = false; 
         }
 
+    }
+    // there is no terminating new line
+    if (last_is_newline == false) {
+        count += 1;
     }
 
     // print out the number of lines

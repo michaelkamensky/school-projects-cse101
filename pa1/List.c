@@ -71,6 +71,7 @@ List newList(){
    Q = malloc(sizeof(ListObj));
    assert( Q!=NULL );
    Q->front = Q->back = NULL;
+   Q->cursor = NULL;
    Q->length = 0;
    return(Q);
 }
@@ -108,7 +109,10 @@ int index(List L) {
 int get(List L) {
    if (L->length > 0 && index(L) >= 0) {
       return L->cursor->data;
-   }
+   } else {
+      printf("List Error: calling get() on empty List reference or undefiend cursor\n");
+      return -1;
+   }  
 }
 
 
@@ -334,8 +338,9 @@ void deleteFront(List L){
    if (L->length > 0) {
       Node del = L->front;
       L->front = L->front->next;
-      // addded line to fix code
-      //L->front->previous = NULL;
+      if (L->front != NULL) {
+         L->front->previous = NULL;
+      }
       if (del == L->cursor) {
          L->cursor = NULL;
       }
@@ -350,7 +355,9 @@ void deleteBack(List L) {
    if (L->length > 0) {
       Node del = L->back;
       L->back = L->back->previous;
-      //L->back->next = NULL;
+      if (L->back != NULL) {
+         L->back->next = NULL;
+      }
       if (del == L->cursor) {
          L->cursor = NULL;
       } 
