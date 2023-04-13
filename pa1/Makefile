@@ -25,5 +25,5 @@ ListTest.o: ListTest.c
 	$(CC) $(CFLAGS)  -c $<
 
 clean:
-	rm -f Lex *.o
+	rm -f Lex ListTest *.o
 
