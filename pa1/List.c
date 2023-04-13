@@ -25,7 +25,7 @@ typedef struct NodeObj{
 typedef struct ListObj{
    Node front;
    Node back;
-   //int index;
+   int index;
    Node cursor;
    int length;
 } ListObj;
@@ -73,6 +73,7 @@ List newList(){
    Q->front = Q->back = NULL;
    Q->cursor = NULL;
    Q->length = 0;
+   Q->index = -1;
    return(Q);
 }
 
@@ -92,17 +93,7 @@ void freeList(List* pQ){
 
 // Returns index of cursor element if defined, -1 otherwise.
 int index(List L) {
-   if (L->cursor != NULL && L->front != NULL) {
-      Node N = L->front;
-      int index = 0;
-      while (N != L->cursor) {
-         index += 1;
-         N = N->next;
-
-      }
-      return index;
-   } 
-   return -1;
+   return L->index;
 }
 
 // Returns cursor element of L. Pre: length()>0, index()>=0
@@ -184,22 +175,6 @@ bool equals(List A, List B) {
 
 } 
 
-#if 0
-// index()
-// Returns the value of the index.
-// Pre: !isEmpty(Q)
-int index(List Q) {
-   if( Q==NULL ){
-      printf("Llist Error: calling getFront() on NULL Llist reference\n");
-      exit(EXIT_FAILURE);
-   }
-   if( isEmpty(Q) ){
-      printf("Llist Error: calling getFront() on an empty Llist\n");
-      exit(EXIT_FAILURE);
-   }
-   return(Q->index);
-}
-#endif
 
 // Manipulation procedures ----------------------------------------------------
 
@@ -215,6 +190,7 @@ void clear(List L) {
    L->front = NULL;
    L->back = NULL;
    L->cursor = NULL;
+   L->index = -1;
    L->length = 0;
 }
 
@@ -231,6 +207,7 @@ void set(List L, int x) {
 void moveFront(List L) {
    if (L->front != NULL && L->length > 0) {
       L->cursor = L->front;
+      L->index = 0;
    }
 } 
 
@@ -239,6 +216,7 @@ void moveFront(List L) {
 void moveBack(List L) {
    if (L->front != NULL && L->length > 0) {
       L->cursor = L->back;
+      L->index = L->length - 1;
    }
 }
 
@@ -249,8 +227,10 @@ void moveBack(List L) {
 void movePrev(List L) {
    if (L->cursor != L->front) {
       L->cursor = L->cursor->previous;
+      L->index -= 1;
    } else {
       L->cursor = NULL;
+      L->index = -1;
    }
 }
 
@@ -261,8 +241,10 @@ void movePrev(List L) {
 void moveNext(List L) {
    if (L->cursor != L->back) {
       L->cursor = L->cursor->next;
+      L->index += 1;
    } else {
       L->cursor = NULL;
+      L->index = -1;
    }
 }
 
@@ -279,6 +261,9 @@ void prepend(List L, int x) {
       L->back = N;
    }
    L->length += 1;
+   if (L->cursor != NULL) {
+      L->index += 1;
+   }
 }
 
 // Insert new element into L. If L is non-empty,
@@ -310,6 +295,9 @@ void insertBefore(List L, int x) {
       }
       L->cursor->previous = N;
       L->length += 1;
+      if (L->cursor != NULL) {
+         L->index += 1;
+      }
    }
 
 }
@@ -343,9 +331,13 @@ void deleteFront(List L){
       }
       if (del == L->cursor) {
          L->cursor = NULL;
+         L->index = -1;
       }
       freeNode(&del);
       L->length -= 1;
+      if (L->cursor != NULL) {
+         L->index -= 1;
+      }
 
    }
 } 
@@ -360,6 +352,7 @@ void deleteBack(List L) {
       }
       if (del == L->cursor) {
          L->cursor = NULL;
+         L->index = -1;
       } 
       freeNode(&del);
       L->length -= 1;
@@ -383,6 +376,7 @@ void delete(List L) {
       }
       freeNode(&(L->cursor));
       L->cursor = NULL;
+      L->index = -1;
       L->length -= 1;
    }
 } 
