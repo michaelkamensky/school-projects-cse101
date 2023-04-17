@@ -1,10 +1,13 @@
 //-----------------------------------------------------------------------------
-// List.h
-// Header file for List ADT
+// Graph.h
+// Header file for Graph ADT
 //-----------------------------------------------------------------------------
 #ifndef Graph_H_INCLUDE_
 #define Graph_H_INCLUDE_
 #include<stdbool.h>
+
+// Exported types -------------------------------------------------------------
+typedef struct GraphObj* Graph;
 
 /*** Constructors-Destructors ***/
 Graph newGraph(int n);
