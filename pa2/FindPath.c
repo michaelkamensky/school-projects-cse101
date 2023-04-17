@@ -11,8 +11,6 @@ to organize it
 the main function needs to be able 
 */
 int main(int argc, char *argv[]) {
-    int count = 0;
-    char c;
 
     // Check that we have two file arguments
     if (argc != 3) {
@@ -34,10 +32,30 @@ int main(int argc, char *argv[]) {
     int num1;
     int num2;
 
-    // reading the file to create graph and tests for said graph
+    int vert;
 
-    while (fscanf(input_file, "%d %d", &num1, &num2) != "0 0") {
-        printf("Read from file: %d %d\n", num1, num2);
+    // reading the number of verticies
+    fscanf(input_file, "%d", &vert);
+
+    // printing the number of verticies
+    printf("the number of verticies %d \n", vert);
+
+    // allocating the memmory for the array of vertecies  
+
+    // reading the file to create graph
+    while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
+        if (num1 == 0 && num2 == 0) {
+            break;
+        }
+        printf("Adding the edge: %d %d\n", num1, num2);
+    }
+
+    // reading the file to read the source and dest vertecies
+    while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
+        if (num1 == 0 && num2 == 0) {
+            break;
+        }
+        printf("Source and Dest: %d %d\n", num1, num2);
     }
 
 

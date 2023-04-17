@@ -4,7 +4,8 @@ CFLAGS = -std=c17
 CFLAGS += -Wall -Wpedantic -Werror -Wextra 
 CFLAGS += -g
 #LFLAGS = $(shell pkg-config --libs gmp)
-FindPath_objects = FindPath.o Graph.o 
+FindPath_objects = FindPath.o Graph.o
+# FindPath_objects = FindPath.o
 
 
 all: FindPath GraphTest
@@ -27,4 +28,4 @@ GraphTest.o: GraphTest.c
 
 
 clean:
-	rm -f Lex ListTest *.o
+	rm -f FindPath GraphTest *.o
