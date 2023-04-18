@@ -19,6 +19,14 @@ LINK           = gcc -std=c17 -Wall -g -o
 REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
 
+all: GraphTest FindPath
+
+GraphTest : GraphTest.o $(BASE_OBJECTS)
+	$(LINK) GraphTest GraphTest.o $(BASE_OBJECTS)
+
+GraphTest.o : GraphTest.c $(HEADERS)
+	$(COMPILE) GraphTest.c
+
 FindPath : FindPath.o $(BASE_OBJECTS)
 	$(LINK) FindPath FindPath.o $(BASE_OBJECTS)
 
