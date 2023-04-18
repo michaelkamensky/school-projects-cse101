@@ -36,9 +36,7 @@ int main(int argc, char *argv[]) {
 
     // reading the number of verticies
     fscanf(input_file, "%d", &vert);
-
-    // printing the number of verticies
-    printf("the number of verticies %d \n", vert);
+  
 
     // creating new graph with the correct number of verticies
     Graph G = newGraph(vert);
@@ -54,14 +52,23 @@ int main(int argc, char *argv[]) {
     }
 
     // printing out the graph
-    printGraph(stdout, G);
+    printGraph(output_file, G);
 
     // reading the file to read the source and dest vertecies
     while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
         if (num1 == 0 && num2 == 0) {
             break;
         }
-        printf("Source and Dest: %d %d\n", num1, num2);
+        BFS(G, num1);
+        fprintf(output_file, "\n");
+        fprintf(output_file, "The distance from %d to %d is %d\n", num1, num2, getDist(G, num2));
+        List new = newList();
+        getPath(new, G, num2);
+        fprintf(output_file, "A shortest %d-%d path is: ", num1, num2);
+        printList(output_file, new);
+        fprintf(output_file, "\n");
+        freeList(&new);
+        
     }
 
 
