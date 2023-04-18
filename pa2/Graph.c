@@ -133,7 +133,7 @@ void getPath(List L, Graph G, int u) {
    else if (getParent(G, u) == NIL) {
       append(L, NIL);
    } else {
-      getPath(L, G, u);
+      getPath(L, G, getParent(G, u));
       append(L, u);
    }
    
@@ -166,25 +166,73 @@ void makeNull(Graph G) {
       // the value of white is one
       G->parents[i] = NIL;
    }
+
+   // reset the non arry values back to their defults
+   G->edges = 0;
+   G->source = NIL;
+
+
+}
+
+void static insert_in_order(List L, int v){
+   if (length(L) > 0) {
+      moveFront(L);
+      while (true) {
+         int current = get(L);
+         // is true if and only if s1 comes before s2
+         if (current > v )
+         {
+            insertBefore(L, v);
+            break;
+         }
+         else
+         {
+            if ((index(L) + 1) == length(L))
+            {
+               insertAfter(L, v);
+               break;
+            }
+            else
+            {
+               moveNext(L);
+            }
+         }
+      }
+   } else {
+      append(L, v);
+   }
 }
 
 // adds an edge
 void addEdge(Graph G, int u, int v) {
-   // need to add neighbors between the two nodes
-   append(G->neighbors[u], v);
-   append(G->neighbors[v], u);
+   
+   // need to add neighbors between the two node
+   insert_in_order(G->neighbors[u], v);
+   insert_in_order(G->neighbors[v], u);
    G->edges += 1;
 
    // 
 }
 
 void addArc(Graph G, int u, int v) {
-   append(G->neighbors[u], v);
+   insert_in_order(G->neighbors[u], v);
    G->edges += 1;
 }
 
+void enqueue(List L, int i) {
+   append(L, i);
+}
+
+int dequeue(List L) {
+   int x = front(L);
+   deleteFront(L);
+   return x;
+}
+
+
 // does the breath first search of a graph
 void BFS(Graph G, int s) {
+   G->source = s;
    int vert = getOrder(G);
    for (int i = 1; i < vert; i++) {
       if (i != s){
@@ -195,22 +243,29 @@ void BFS(Graph G, int s) {
    }
    G->color[s] = GRAY;
    G->distances[s] = 0;
-   G->parents = NIL;
-   List L = newList();
-   append(L, s);
+   G->parents[s] = NIL;
+   List Q = newList();
+   enqueue(Q, s);
    // while loop that works until the List is empty
    int x;
-   while (length(L) > 0) {
-      x = front(L);
-      deleteFront(L);
-      // another loop that checks the neighbors or adjecent nodes
-      for(int y = 1; y < length(G->neighbors[x]); y++) {
-         if(G->color[y] == WHITE) {
+   while (length(Q) > 0) {
+      x = dequeue(Q);
+      // loop to get the values at all indexes
+      List N = G->neighbors[x];
+      moveFront(N);
+      while (true) {
+         int y = get(N);
+         if (G->color[y] == WHITE) {
             G->color[y] = GRAY;
             G->distances[y] = G->distances[x] + 1;
             G->parents[y] = x;
-            append(L, y);
-         } 
+            enqueue(Q, y);
+         }
+         if (index(N) < (length(N) - 1)) {
+            moveNext(N);
+         } else {
+            break;
+         }
       }
       G->color[x] = BLACK;
    }
