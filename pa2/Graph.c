@@ -47,6 +47,14 @@ Graph newGraph(int n) {
    G->parents = calloc(n+1, sizeof(int));
    G->distances = calloc(n+1, sizeof(int));
 
+   // for loop to initialize all values
+   for (int i = 1; i < (n+1); i++) {
+      G->neighbors[i] = newList();
+      G->color[i] = WHITE;
+      G->parents[i] = NIL;
+      G->distances[i] = INF;
+   }
+
    return G;
 
 }
@@ -63,7 +71,7 @@ void freeGraph(Graph* pG) {
    free(G->color);
    free(G->parents);
    free(G->distances);
-   free(pG);
+   free(G);
    *pG = NULL;
 }
 
@@ -239,6 +247,8 @@ BFS(G,s)
 void printGraph(FILE* out, Graph G){
    // for loop to loop through all the lists and print them out
    for (int i = 1; i < (getOrder(G) + 1); i++) {
+      fprintf(out, "%d: ", i);
       printList(out, G->neighbors[i]);
+      fprintf(out, "\n");
    }
 }

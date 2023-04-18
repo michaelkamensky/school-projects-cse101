@@ -417,7 +417,7 @@ void printList(FILE* out, List L) {
    }
    Node N = L->front;
    while (N != NULL) {
-      fprintf(out, FORMAT "\n", N->data);
+      fprintf(out, FORMAT " ", N->data);
       N = N->next;
    }
 }
