@@ -19,7 +19,7 @@ GraphTest: GraphTest.o Graph.o
 FindPath.o: FindPath.c
 	$(CC) $(CFLAGS)  -c $<
 
-Graph.o: Graph.c
+Graph.o: Graph.c List.c
 	$(CC) $(CFLAGS)  -c $<
 
 GraphTest.o: GraphTest.c

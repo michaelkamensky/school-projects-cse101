@@ -6,6 +6,10 @@
 #define INF -1  //defines INF for the FBS
 #define NIL 0  //defines NIL for the FBS
 
+#define WHITE 1
+#define GRAY 2
+#define BLACK 3
+
 
 // Exported types -------------------------------------------------------------
 typedef struct GraphObj* Graph;
