@@ -111,7 +111,7 @@ int get(List L) {
 // Returns the length of Q.
 int length(List Q){
    if( Q==NULL ){
-      printf("Llist Error: calling getLength() on NULL List reference\n");
+      printf("List Error: calling getLength() on NULL List reference\n");
       exit(EXIT_FAILURE);
    }
    return(Q->length);

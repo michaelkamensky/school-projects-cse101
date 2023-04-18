@@ -40,15 +40,21 @@ int main(int argc, char *argv[]) {
     // printing the number of verticies
     printf("the number of verticies %d \n", vert);
 
-    // allocating the memmory for the array of vertecies  
+    // creating new graph with the correct number of verticies
+    Graph G = newGraph(vert);
+
 
     // reading the file to create graph
     while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
         if (num1 == 0 && num2 == 0) {
             break;
         }
-        printf("Adding the edge: %d %d\n", num1, num2);
+        // adding the edges to the graph
+        addEdge(G, num1, num2);
     }
+
+    // printing out the graph
+    printGraph(stdout, G);
 
     // reading the file to read the source and dest vertecies
     while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
