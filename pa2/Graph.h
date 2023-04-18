@@ -2,6 +2,7 @@
 // Graph.h
 // Header file for Graph ADT
 //-----------------------------------------------------------------------------
+#include "List.h"
 
 #define INF -1  //defines INF for the FBS
 #define NIL 0  //defines NIL for the FBS
