@@ -1,31 +1,43 @@
 SHELL := /bin/sh
-CC = gcc 
-CFLAGS = -std=c17
-CFLAGS += -Wall -Wpedantic -Werror -Wextra 
-CFLAGS += -g
-#LFLAGS = $(shell pkg-config --libs gmp)
-FindPath_objects = FindPath.o Graph.o
-# FindPath_objects = FindPath.o
+#------------------------------------------------------------------------------
+#  Makefile for CMPS 101 Programming Assignment 2
+#
+#  make                     makes FindPath
+#  make GraphClient         makes GraphClient
+#  make clean               removes binaries
+#  make checkFind           tests FindPath for memory leaks on in7
+#  make checkClient         tests GraphClient for memory leaks
+#------------------------------------------------------------------------------
 
+BASE_SOURCES   = Graph.c List.c
+BASE_OBJECTS   = Graph.o List.o
+HEADERS        = Graph.h List.h
+# COMPILE        = gcc -std=c17 -Wall -c
+COMPILE        = gcc -std=c17 -Wall -g -c
+# LINK           = gcc -std=c17 -Wall -o
+LINK           = gcc -std=c17 -Wall -g -o
+REMOVE         = rm -f
+MEMCHECK       = valgrind --leak-check=full
 
-all: FindPath GraphTest
+FindPath : FindPath.o $(BASE_OBJECTS)
+	$(LINK) FindPath FindPath.o $(BASE_OBJECTS)
 
-FindPath: $(FindPath_objects)
-	$(CC) $(CFLAGS) -o $@ $^
+GraphClient : GraphClient.o $(BASE_OBJECTS)
+	$(LINK) GraphClient GraphClient.o $(BASE_OBJECTS)
 
-GraphTest: GraphTest.o Graph.o
-	$(CC) $(CFLAGS) -o $@ $^
+FindPath.o : FindPath.c $(HEADERS)
+	$(COMPILE) FindPath.c
 
-FindPath.o: FindPath.c
-	$(CC) $(CFLAGS)  -c $<
+GraphClient.o : GraphClient.c $(HEADERS)
+	$(COMPILE) GraphClient.c
 
-Graph.o: Graph.c List.c
-	$(CC) $(CFLAGS)  -c $<
+$(BASE_OBJECTS) : $(BASE_SOURCES) $(HEADERS)
+	$(COMPILE) $(BASE_SOURCES)
 
-GraphTest.o: GraphTest.c
-	$(CC) $(CFLAGS)  -c $<
+clean :
+	$(REMOVE) FindPath GraphClient FindPath.o GraphClient.o $(BASE_OBJECTS)
 
+checkFind : FindPath
+	$(MEMCHECK) FindPath in7 junk7
 
-
-clean:
-	rm -f FindPath GraphTest *.o
+checkClient : GraphClient
