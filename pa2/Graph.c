@@ -175,7 +175,7 @@ void makeNull(Graph G) {
 }
 
 void static insert_in_order(List L, int v){
-   if (length(L) > 0) {
+   if (length(L) > 0 && L != NULL) {
       moveFront(L);
       while (true) {
          int current = get(L);
