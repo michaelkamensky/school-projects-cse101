@@ -121,7 +121,18 @@ int getDist(Graph G, int u) {
       fprintf(stderr, "Error Graph does not exist\n");
       return -1;
    }
-   return G->distances[u];
+   else if (G->distances[u] < 1 || G->distances[u] > getOrder(G)) {
+      fprintf(stderr, "Error the point %d is not in range\n", G->distances[u]);
+      return -1;
+   }
+   else if (G->source == NIL) {
+      return INF;
+   }
+   else if (G->distances[u] == NIL) {
+      return INF;
+   } else {
+      return G->distances[u];
+   }
 }
 
 // this func returns the path 
