@@ -41,7 +41,6 @@ int main(int argc, char *argv[]) {
     // creating new graph with the correct number of verticies
     Graph G = newGraph(vert);
 
-
     // reading the file to create graph
     while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
         if (num1 == 0 && num2 == 0) {
@@ -74,15 +73,10 @@ int main(int argc, char *argv[]) {
             fprintf(output_file, "The distance from %d to %d is infinity\n", num1, num2);
             fprintf(output_file, "No %d-%d path exists", num1, num2);
         }
-        
     }
-
-
-
 
     // close the files
     fclose(input_file);
     fclose(output_file);
-
     return 0;
 }

@@ -10,7 +10,6 @@
 #include "List.h"
 #include "Graph.h"
 
-
 // structs --------------------------------------------------------------------
 
 // private GraphObj type
@@ -30,8 +29,6 @@ typedef struct GraphObj{
    // the array for distance
    int *distances;
 } GraphObj;
-
-
 
 // Constructors-Destructors ---------------------------------------------------
 
@@ -56,7 +53,6 @@ Graph newGraph(int n) {
    }
 
    return G;
-
 }
 
 // frees the graph and sets the original pointer to NULL
@@ -74,8 +70,6 @@ void freeGraph(Graph* pG) {
    free(G);
    *pG = NULL;
 }
-
-
 
 // Access functions -----------------------------------------------------------
 
@@ -150,9 +144,7 @@ void getPath(List L, Graph G, int u) {
       getPath(L, G, getParent(G, u));
       append(L, u);
    }
-   
 }
-
 
 // Manipulation procedures ----------------------------------------------------
 
@@ -184,8 +176,6 @@ void makeNull(Graph G) {
    // reset the non arry values back to their defults
    G->edges = 0;
    G->source = NIL;
-
-
 }
 
 void static insert_in_order(List L, int v){
@@ -224,8 +214,6 @@ void addEdge(Graph G, int u, int v) {
    insert_in_order(G->neighbors[u], v);
    insert_in_order(G->neighbors[v], u);
    G->edges += 1;
-
-   // 
 }
 
 void addArc(Graph G, int u, int v) {
@@ -242,7 +230,6 @@ int dequeue(List L) {
    deleteFront(L);
    return x;
 }
-
 
 // does the breath first search of a graph
 void BFS(Graph G, int s) {
@@ -283,33 +270,7 @@ void BFS(Graph G, int s) {
       }
       G->color[x] = BLACK;
    }
-
 }
-
-// Psudo Code Version
-#if 0
-BFS(G,s)
-   for x in V(G)-{s}
-        color[x] = white
-        d[x] = inf
-        p[x] = nil 
-   color[s] = gray       // discover the source s
-   d[s] = 0
-   p[s] = nil 
-   Q = { }               // construct a new empty queue
-   Enqueue(Q,s)
-   while Q ≠ { }
-        x = Dequeue(Q) 
-        for y in adj[x]
-             if color[y] == white         // y is undiscovered
-                  color[y] = gray         // discover y
-                  d[y] = d[x]+1
-                  p[y] = x
-                  Enqueue(Q,y)
-        color[x] = black                  // finish x
-#endif
-
-
 
 // Other Functions ------------------------------------------------------------
 
