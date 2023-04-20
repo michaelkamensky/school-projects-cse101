@@ -29,8 +29,8 @@ int main(int argc, char *argv[]) {
     }
 
     // creating arrays to store the data from file into
-    int num1;
-    int num2;
+    int src;
+    int dst;
 
     int vert;
 
@@ -42,36 +42,36 @@ int main(int argc, char *argv[]) {
     Graph G = newGraph(vert);
 
     // reading the file to create graph
-    while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
-        if (num1 == 0 && num2 == 0) {
+    while (fscanf(input_file, "%d %d", &src, &dst) != EOF) {
+        if (src == 0 && dst == 0) {
             break;
         }
         // adding the edges to the graph
-        addEdge(G, num1, num2);
+        addEdge(G, src, dst);
     }
 
     // printing out the graph
     printGraph(output_file, G);
 
     // reading the file to read the source and dest vertecies
-    while (fscanf(input_file, "%d %d", &num1, &num2) != EOF) {
-        if (num1 == 0 && num2 == 0) {
+    while (fscanf(input_file, "%d %d", &src, &dst) != EOF) {
+        if (src == 0 && dst == 0) {
             break;
         }
-        BFS(G, num1);
+        BFS(G, src);
         fprintf(output_file, "\n");
-        int dist = getDist(G, num2);
+        int dist = getDist(G, dst);
         if (dist != INF) {
-            fprintf(output_file, "The distance from %d to %d is %d\n", num1, num2, dist);
+            fprintf(output_file, "The distance from %d to %d is %d\n", src, dst, dist);
             List new = newList();
-            getPath(new, G, num2);
-            fprintf(output_file, "A shortest %d-%d path is: ", num1, num2);
+            getPath(new, G, dst);
+            fprintf(output_file, "A shortest %d-%d path is: ", src, dst);
             printList(output_file, new);
             fprintf(output_file, "\n");
             freeList(&new);
         } else {
-            fprintf(output_file, "The distance from %d to %d is infinity\n", num1, num2);
-            fprintf(output_file, "No %d-%d path exists", num1, num2);
+            fprintf(output_file, "The distance from %d to %d is infinity\n", src, dst);
+            fprintf(output_file, "No %d-%d path exists", src, dst);
         }
     }
 
