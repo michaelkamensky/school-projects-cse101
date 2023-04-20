@@ -121,6 +121,9 @@ int getDist(Graph G, int u) {
       fprintf(stderr, "Error Graph does not exist\n");
       return -1;
    }
+   else if (G->source == u){
+      return 0;
+   }
    else if (G->distances[u] < 1 || G->distances[u] > getOrder(G)) {
       fprintf(stderr, "Error the point %d is not in range\n", G->distances[u]);
       return -1;
@@ -245,12 +248,10 @@ int dequeue(List L) {
 void BFS(Graph G, int s) {
    G->source = s;
    int vert = getOrder(G);
-   for (int i = 1; i < vert; i++) {
-      if (i != s){
-         G->color[i] = WHITE;
-         G->distances[i] = INF;
-         G->parents[i] = NIL;
-      }
+   for (int i = 1; i <= vert; i++) {
+      G->color[i] = WHITE;
+      G->distances[i] = INF;
+      G->parents[i] = NIL;
    }
    G->color[s] = GRAY;
    G->distances[s] = 0;
@@ -263,19 +264,21 @@ void BFS(Graph G, int s) {
       x = dequeue(Q);
       // loop to get the values at all indexes
       List N = G->neighbors[x];
-      moveFront(N);
-      while (true) {
-         int y = get(N);
-         if (G->color[y] == WHITE) {
-            G->color[y] = GRAY;
-            G->distances[y] = G->distances[x] + 1;
-            G->parents[y] = x;
-            enqueue(Q, y);
-         }
-         if (index(N) < (length(N) - 1)) {
-            moveNext(N);
-         } else {
-            break;
+      if (length(N) > 0) {
+         moveFront(N);
+         while (true) {
+            int y = get(N);
+            if (G->color[y] == WHITE) {
+               G->color[y] = GRAY;
+               G->distances[y] = G->distances[x] + 1;
+               G->parents[y] = x;
+               enqueue(Q, y);
+            }
+            if (index(N) < (length(N) - 1)) {
+               moveNext(N);
+            } else {
+               break;
+            }
          }
       }
       G->color[x] = BLACK;

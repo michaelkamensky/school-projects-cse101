@@ -5,7 +5,7 @@
 #include "List.h"
 
 #define INF -1  //defines INF for the FBS
-#define NIL 0  //defines NIL for the FBS
+#define NIL -2  //defines NIL for the FBS
 
 #define WHITE 1
 #define GRAY 2

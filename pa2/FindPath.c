@@ -61,13 +61,19 @@ int main(int argc, char *argv[]) {
         }
         BFS(G, num1);
         fprintf(output_file, "\n");
-        fprintf(output_file, "The distance from %d to %d is %d\n", num1, num2, getDist(G, num2));
-        List new = newList();
-        getPath(new, G, num2);
-        fprintf(output_file, "A shortest %d-%d path is: ", num1, num2);
-        printList(output_file, new);
-        fprintf(output_file, "\n");
-        freeList(&new);
+        int dist = getDist(G, num2);
+        if (dist != INF) {
+            fprintf(output_file, "The distance from %d to %d is %d\n", num1, num2, dist);
+            List new = newList();
+            getPath(new, G, num2);
+            fprintf(output_file, "A shortest %d-%d path is: ", num1, num2);
+            printList(output_file, new);
+            fprintf(output_file, "\n");
+            freeList(&new);
+        } else {
+            fprintf(output_file, "The distance from %d to %d is infinity\n", num1, num2);
+            fprintf(output_file, "No %d-%d path exists", num1, num2);
+        }
         
     }
 
