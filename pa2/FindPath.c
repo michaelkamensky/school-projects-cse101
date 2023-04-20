@@ -74,7 +74,8 @@ int main(int argc, char *argv[]) {
             fprintf(output_file, "No %d-%d path exists", src, dst);
         }
     }
-
+    // free the graph
+    freeGraph(&G);
     // close the files
     fclose(input_file);
     fclose(output_file);

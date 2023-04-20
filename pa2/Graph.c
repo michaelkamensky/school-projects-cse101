@@ -59,7 +59,7 @@ Graph newGraph(int n) {
 void freeGraph(Graph* pG) {
    Graph G = *pG;  
    int vert = getOrder(G);
-   for (int i = 1; i < vert; i++) {
+   for (int i = 1; i <= vert; i++) {
       freeList(&(G->neighbors[i]));
    }
 
@@ -118,8 +118,8 @@ int getDist(Graph G, int u) {
    else if (G->source == u){
       return 0;
    }
-   else if (G->distances[u] < 1 || G->distances[u] > getOrder(G)) {
-      fprintf(stderr, "Error the point %d is not in range\n", G->distances[u]);
+   else if (u < 1 || u > getOrder(G)) {
+      fprintf(stderr, "Error the point %d is not in range\n", u);
       return -1;
    }
    else if (G->source == NIL) {
@@ -270,6 +270,7 @@ void BFS(Graph G, int s) {
       }
       G->color[x] = BLACK;
    }
+   freeList(&Q);
 }
 
 // Other Functions ------------------------------------------------------------
