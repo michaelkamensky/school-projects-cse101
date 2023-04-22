@@ -20,20 +20,19 @@
 
 // private GraphObj type
 typedef struct GraphObj{
-   // int for the most recently used source
-   int source;
-   // number of vertecies
    int vertecies;
    // number of edges
    int edges;
    // neighbors list
    List *neighbors;
+   // finished stack
+   int *finished;
+   // discover list
+   int *discover;
    // the array for the color
    int *color; 
    // the array for parents
    int *parents;
-   // the array for distance
-   int *distances;
 } GraphObj;
 
 // Constructors-Destructors ---------------------------------------------------
@@ -43,19 +42,20 @@ Graph newGraph(int n) {
    Graph G = malloc(sizeof(GraphObj));
    G->vertecies = n;
    G->edges = 0;
-   G->source = NIL;
 
    G->neighbors = calloc(n+1, sizeof(List));
+   G->finished = calloc(n+1, sizeof(int));
+   G->discover = calloc(n+1, sizeof(int));
    G->color = calloc(n+1, sizeof(int));
    G->parents = calloc(n+1, sizeof(int));
-   G->distances = calloc(n+1, sizeof(int));
 
    // for loop to initialize all values
    for (int i = 1; i < (n+1); i++) {
       G->neighbors[i] = newList();
+      G->finished[i] = newList();
+      G->discover[i] = 0;
       G->color[i] = WHITE;
       G->parents[i] = NIL;
-      G->distances[i] = INF;
    }
 
    return G;
@@ -72,7 +72,6 @@ void freeGraph(Graph* pG) {
    free(G->neighbors);
    free(G->color);
    free(G->parents);
-   free(G->distances);
    free(G);
    *pG = NULL;
 }
@@ -97,92 +96,41 @@ int getSize(Graph G) {
    return G->edges;
 }
 
-// returns the source vertex
-int getSource(Graph G) {
-   if (G == NULL) {
-      fprintf(stderr, "Error Graph does not exist\n");
-      return -1;
-   }
-   return G->source;
-}
-
 // return the parents of the vertex number u
+/* Pre: 1<=u<=n=getOrder(G) */
 int getParent(Graph G, int u) {
    if (G == NULL) {
       fprintf(stderr, "Error Graph does not exist\n");
       return -1;
    }
-   return G->parents[u];
+   if (u >= 1 && u >= getOrder(G)){
+      return G->parents[u];
+   }
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getParent\n");
+   return -1;
+
 }
 
-// returns the list from the source node to the node u
-int getDist(Graph G, int u) {
-   if (G == NULL) {
-      fprintf(stderr, "Error Graph does not exist\n");
-      return -1;
+// List of what nodes were discovered
+/* Pre: 1<=u<=n=getOrder(G) */
+int getDiscover(Graph G, int u) {
+   if (u >= 1 && u >= getOrder(G)){
+      return G->discover[u];
    }
-   else if (G->source == u){
-      return 0;
-   }
-   else if (u < 1 || u > getOrder(G)) {
-      fprintf(stderr, "Error the point %d is not in range\n", u);
-      return -1;
-   }
-   else if (G->source == NIL) {
-      return INF;
-   }
-   else if (G->distances[u] == NIL) {
-      return INF;
-   } else {
-      return G->distances[u];
-   }
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getDiscover\n");
+   return -1;
 }
 
-// this func returns the path 
-void getPath(List L, Graph G, int u) {
-   // logic from print path should be the same but we simply write to the list
-   if (G->source == u) {
-        append(L, u);
-   } 
-   else if (getParent(G, u) == NIL) {
-      append(L, NIL);
-   } else {
-      getPath(L, G, getParent(G, u));
-      append(L, u);
+/* Pre: 1<=u<=n=getOrder(G) */
+int getFinish(Graph G, int u) {
+   if (u >= 1 && u >= getOrder(G)){
+      return G->finished[u];
    }
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getFinished\n");
+   return -1;
 }
 
 // Manipulation procedures ----------------------------------------------------
-
-// this function clears out all the of the neighbors list sets color to white disntance to INF and parents to NULL
-void makeNull(Graph G) {
-   // clears out all the lists in neighbors
-   for(int i = 1; i < (G->vertecies + 1); i++) {
-      clear(G->neighbors[i]);
-   }
-
-   // sets all the values of the color graph to one
-   for(int i = 1; i < (G->vertecies + 1); i++) {
-      // the value of white is one
-      G->color[i] = WHITE;
-   }
-
-   // sets distances to INF 
-   for(int i = 1; i < (G->vertecies + 1); i++) {
-      // the value of white is one
-      G->distances[i] = INF;
-   }
-
-   // set the parents of the graph to NIL
-   for(int i = 1; i < (G->vertecies + 1); i++) {
-      // the value of white is one
-      G->parents[i] = NIL;
-   }
-
-   // reset the non arry values back to their defults
-   G->edges = 0;
-   G->source = NIL;
-}
 
 void static insert_in_order(List L, int v){
    if (length(L) > 0 && L != NULL) {
@@ -237,47 +185,39 @@ int dequeue(List L) {
    return x;
 }
 
-// does the breath first search of a graph
-void BFS(Graph G, int s) {
-   G->source = s;
-   int vert = getOrder(G);
-   for (int i = 1; i <= vert; i++) {
+// helper function for the depth first search 
+static int Visit(Graph G, int x, int time) {
+   time += 1;
+   G->discover[x] = time;
+   G->color[x] = GRAY;
+   for (int y = 0; y < length(G->neighbors[x]); y++) {
+      if (G->color[y] == WHITE) {
+         G->parents[y] = x;
+         Visit(G, y, time);
+      }
+   }
+   G->color[x] = BLACK;
+   time += 1;
+   G->finished[x] = time;
+}
+
+// Depth First Search Algorithm
+/* Pre: length(S)==getOrder(G) */
+void DFS(Graph G, List S) {
+   for (int i = 1; i <= getOrder(G); i++) {
       G->color[i] = WHITE;
-      G->distances[i] = INF;
       G->parents[i] = NIL;
    }
-   G->color[s] = GRAY;
-   G->distances[s] = 0;
-   G->parents[s] = NIL;
-   List Q = newList();
-   enqueue(Q, s);
-   // while loop that works until the List is empty
-   int x;
-   while (length(Q) > 0) {
-      x = dequeue(Q);
-      // loop to get the values at all indexes
-      List N = G->neighbors[x];
-      if (length(N) > 0) {
-         moveFront(N);
-         while (true) {
-            int y = get(N);
-            if (G->color[y] == WHITE) {
-               G->color[y] = GRAY;
-               G->distances[y] = G->distances[x] + 1;
-               G->parents[y] = x;
-               enqueue(Q, y);
-            }
-            if (index(N) < (length(N) - 1)) {
-               moveNext(N);
-            } else {
-               break;
-            }
-         }
+   int time = 0;
+   // main loop of DFS
+   for (int x = 1; x <= getOrder(G); x++) {
+      if (G->color[x] == WHITE) {
+         Visit(G, x, time);
       }
-      G->color[x] = BLACK;
    }
-   freeList(&Q);
+
 }
+
 
 // Other Functions ------------------------------------------------------------
 
