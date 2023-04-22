@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#2 
+* List.c 
+* List ADT creates a doubly linked list with a cursor that can be used to modify the list
+*********************************************************************************/ 
 //-----------------------------------------------------------------------------
 // List.c
 // Implementation file for List ADT

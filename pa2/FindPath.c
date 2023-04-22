@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#2 
+* FindPath.c 
+* Scans file and then uses graph adt and breath first search to find the shortest paths between nodes
+*********************************************************************************/ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
