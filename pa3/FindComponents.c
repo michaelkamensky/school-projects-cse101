@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
     // printing out the graph
     printGraph(output_file, G);
 
+#if 0
     // reading the file to read the source and dest vertecies
     while (fscanf(input_file, "%d %d", &src, &dst) != EOF) {
         if (src == 0 && dst == 0) {
@@ -80,6 +81,7 @@ int main(int argc, char *argv[]) {
             fprintf(output_file, "No %d-%d path exists", src, dst);
         }
     }
+#endif
     // free the graph
     freeGraph(&G);
     // close the files

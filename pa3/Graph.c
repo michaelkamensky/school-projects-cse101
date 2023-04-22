@@ -52,7 +52,7 @@ Graph newGraph(int n) {
    // for loop to initialize all values
    for (int i = 1; i < (n+1); i++) {
       G->neighbors[i] = newList();
-      G->finished[i] = newList();
+      G->finished[i] = NIL;
       G->discover[i] = 0;
       G->color[i] = WHITE;
       G->parents[i] = NIL;
@@ -70,6 +70,8 @@ void freeGraph(Graph* pG) {
    }
 
    free(G->neighbors);
+   free(G->finished);
+   free(G->discover);
    free(G->color);
    free(G->parents);
    free(G);
@@ -106,7 +108,7 @@ int getParent(Graph G, int u) {
    if (u >= 1 && u >= getOrder(G)){
       return G->parents[u];
    }
-   fprintf(stderr, "Error %d does not statisfy the pre cond for getParent\n");
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getParent\n", u);
    return -1;
 
 }
@@ -117,7 +119,7 @@ int getDiscover(Graph G, int u) {
    if (u >= 1 && u >= getOrder(G)){
       return G->discover[u];
    }
-   fprintf(stderr, "Error %d does not statisfy the pre cond for getDiscover\n");
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getDiscover\n", u);
    return -1;
 }
 
@@ -126,7 +128,7 @@ int getFinish(Graph G, int u) {
    if (u >= 1 && u >= getOrder(G)){
       return G->finished[u];
    }
-   fprintf(stderr, "Error %d does not statisfy the pre cond for getFinished\n");
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getFinished\n", u);
    return -1;
 }
 
@@ -186,11 +188,11 @@ int dequeue(List L) {
 }
 
 // helper function for the depth first search 
-static int Visit(Graph G, int x, int time) {
+static void Visit(Graph G, int x, int time) {
    time += 1;
    G->discover[x] = time;
    G->color[x] = GRAY;
-   for (int y = 0; y < length(G->neighbors[x]); y++) {
+   for (int y = 1; y <= length(G->neighbors[x]); y++) {
       if (G->color[y] == WHITE) {
          G->parents[y] = x;
          Visit(G, y, time);
