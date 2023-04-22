@@ -1,6 +1,6 @@
 /********************************************************************************* 
 * Michael V Kamensky
-* 2023 Winter CSE101 PA#2 
+* 2023 Winter CSE101 PA#3 
 * Graph.c 
 * Graph ADT creates a graph using arc or edges and can use breath first search to find the shortest pathways between nodes
 *********************************************************************************/ 

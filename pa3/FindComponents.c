@@ -1,8 +1,8 @@
 /********************************************************************************* 
 * Michael V Kamensky
-* 2023 Winter CSE101 PA#2 
-* FindPath.c 
-* Scans file and then uses graph adt and breath first search to find the shortest paths between nodes
+* 2023 Winter CSE101 PA#3 
+* FindComponents.c 
+* Scans file and then uses graph adt and uses Depth first search to find the stength on connection between nodes
 *********************************************************************************/ 
 #include <stdio.h>
 #include <stdlib.h>
