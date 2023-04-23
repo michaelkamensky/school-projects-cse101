@@ -108,7 +108,9 @@ void test_DFS_2(void) {
 
     printList(stdout, s);
     printf("\n");
+    printf("\n");
 
+#if 0
     int num_comp = getNumComponents(tr);
     int num_verts = getOrder(tr);
     for (int comp = 1; comp <= num_comp; comp++) {
@@ -120,6 +122,36 @@ void test_DFS_2(void) {
         }
         printf("\n");
     }
+#endif
+    
+    int total_compt = 0;
+    moveBack(s);
+    for (int i = 0; i < length(s); i++) {
+        int value = get(s);
+        if (getParent(tr, value) == NIL) {
+            total_compt += 1;
+        }
+        movePrev(s);
+    }
+
+    printf("G contains %d strongly connected components:\n", total_compt);
+    moveBack(s);
+    int comp = 0;
+    List print = newList();
+    for (int i = 1; i <= length(s); i++) { 
+        int value = get(s);
+        // printf("%d", value);
+        prepend(print, value);
+        if (getParent(tr, value) == NIL) {
+            comp += 1;
+            printf("Component %d: ", comp);
+            printList(stdout, print);
+            printf("\n");
+            clear(print);
+        }
+        movePrev(s);
+    }
+    freeList(&print);
 
 
 }

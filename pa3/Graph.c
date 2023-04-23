@@ -122,7 +122,7 @@ int getParent(Graph G, int u) {
       fprintf(stderr, "Error Graph does not exist\n");
       return -1;
    }
-   if (u >= 1 && u >= getOrder(G)){
+   if (u >= 1 && u <= getOrder(G)){
       return G->parents[u];
    }
    fprintf(stderr, "Error %d does not statisfy the pre cond for getParent\n", u);
