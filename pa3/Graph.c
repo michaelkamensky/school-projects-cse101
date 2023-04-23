@@ -177,20 +177,11 @@ void addArc(Graph G, int u, int v) {
    G->edges += 1;
 }
 
-void enqueue(List L, int i) {
-   append(L, i);
-}
-
-int dequeue(List L) {
-   int x = front(L);
-   deleteFront(L);
-   return x;
-}
 
 // helper function for the depth first search 
-static void Visit(Graph G, List S, int x, int time) {
-   time += 1;
-   G->discover[x] = time;
+static void Visit(Graph G, List S, int x, int *time) {
+   *time += 1;
+   G->discover[x] = *time;
    G->color[x] = GRAY;
    for (int y = 1; y <= length(G->neighbors[x]); y++) {
       if (G->color[y] == WHITE) {
@@ -200,8 +191,8 @@ static void Visit(Graph G, List S, int x, int time) {
    }
    G->color[x] = BLACK;
    prepend(S, x);
-   time += 1;
-   G->finished[x] = time;
+   *time += 1;
+   G->finished[x] = *time;
 }
 
 // Depth First Search Algorithm
@@ -212,13 +203,30 @@ void DFS(Graph G, List S) {
       G->parents[i] = NIL;
    }
    int time = 0;
-   // main loop of DFS
-   for (int x = 1; x <= getOrder(G); x++) {
-      if (G->color[x] == WHITE) {
-         Visit(G, S, x, time);
+   int list_length = length(S);
+   // checker for list if it is empty run as normally if it has items copy the list and run DFS based of list
+   if (list_length == 0) {
+      // main loop of DFS when list is empty
+      for (int x = 1; x <= getOrder(G); x++) {
+         if (G->color[x] == WHITE) {
+            Visit(G, S, x, &time);
+         }
       }
+   } else {
+      // if this condition is reached this means that the list was not empty and now need to do the loop backwards
+      // create a copied list that serves as input and the original will serve as out put
+      List cp = copyList(S);
+      // need to clear the original list
+      clear(S);
+      for (int x = 1; x <= list_length; x++) {
+         int fr = front(cp);
+         deleteFront(cp);
+         if (G->color[fr] == WHITE) {
+            Visit(G, S, fr, &time);
+         }
+      }
+      freeList(&cp);
    }
-
 }
 
 
@@ -233,6 +241,7 @@ void printGraph(FILE* out, Graph G){
    }
 }
 
+#if 0
 // helper for the reversing of the list
 static List reverse_list_cp(List L) {
    List ret = newList();
@@ -245,19 +254,25 @@ static List reverse_list_cp(List L) {
    }
    return ret;
 } 
+#endif
 
 // returns a graph with the edges reversed but is the same in all other regards
 Graph transpose(Graph G) {
    int order = getOrder(G);
    Graph ret = newGraph(order);
-   for (int i = 1; i <= order; i++) {
-      ret->color[i] = G->color[i];
-      ret->parents[i] = G->parents[i];
-      ret->discover[i] = G->discover[i];
-      ret->finished[i] = G->finished[i];
-      ret->edges = G->edges;
+   int dst;
+   int src;
 
-      ret->neighbors[i] = reverse_list_cp(G->neighbors[i]);
+   for (int i = 1; i <= order; i++) {
+      dst = i;
+      List adjs = G->neighbors[i];
+      moveFront(adjs);
+      for (int j = 0; j < length(adjs); j++) {
+         src = get(adjs);
+         moveNext(adjs);
+         addArc(ret, src, dst);
+      }
+      
    }
    return ret;
 }
