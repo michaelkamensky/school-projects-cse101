@@ -188,17 +188,18 @@ int dequeue(List L) {
 }
 
 // helper function for the depth first search 
-static void Visit(Graph G, int x, int time) {
+static void Visit(Graph G, List S, int x, int time) {
    time += 1;
    G->discover[x] = time;
    G->color[x] = GRAY;
    for (int y = 1; y <= length(G->neighbors[x]); y++) {
       if (G->color[y] == WHITE) {
          G->parents[y] = x;
-         Visit(G, y, time);
+         Visit(G, S, y, time);
       }
    }
    G->color[x] = BLACK;
+   prepend(S, x);
    time += 1;
    G->finished[x] = time;
 }
@@ -214,7 +215,7 @@ void DFS(Graph G, List S) {
    // main loop of DFS
    for (int x = 1; x <= getOrder(G); x++) {
       if (G->color[x] == WHITE) {
-         Visit(G, x, time);
+         Visit(G, S, x, time);
       }
    }
 
@@ -230,4 +231,48 @@ void printGraph(FILE* out, Graph G){
       printList(out, G->neighbors[i]);
       fprintf(out, "\n");
    }
+}
+
+// helper for the reversing of the list
+static List reverse_list_cp(List L) {
+   List ret = newList();
+   int back;
+   moveBack(L);
+   for (int j = 0; j < length(L); j++) {
+      back = get(L);
+      append(ret, back);
+      movePrev(L);
+   }
+   return ret;
+} 
+
+// returns a graph with the edges reversed but is the same in all other regards
+Graph transpose(Graph G) {
+   int order = getOrder(G);
+   Graph ret = newGraph(order);
+   for (int i = 1; i <= order; i++) {
+      ret->color[i] = G->color[i];
+      ret->parents[i] = G->parents[i];
+      ret->discover[i] = G->discover[i];
+      ret->finished[i] = G->finished[i];
+      ret->edges = G->edges;
+
+      ret->neighbors[i] = reverse_list_cp(G->neighbors[i]);
+   }
+   return ret;
+}
+
+// copies a graph and returns it
+Graph copyGraph(Graph G) {
+   int order = getOrder(G);
+   Graph ret = newGraph(order);
+   for (int i = 1; i <= order; i++) {
+      ret->color[i] = G->color[i];
+      ret->parents[i] = G->parents[i];
+      ret->discover[i] = G->discover[i];
+      ret->finished[i] = G->finished[i];
+      ret->neighbors[i] = copyList(G->neighbors[i]);
+      ret->edges = G->edges;
+   }
+   return ret;
 }
