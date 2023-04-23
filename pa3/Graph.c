@@ -23,6 +23,8 @@ typedef struct GraphObj{
    int vertecies;
    // number of edges
    int edges;
+   // number of components
+   int num_compnents;
    // neighbors list
    List *neighbors;
    // finished stack
@@ -33,6 +35,8 @@ typedef struct GraphObj{
    int *color; 
    // the array for parents
    int *parents;
+   // array for components
+   int *components;
 } GraphObj;
 
 // Constructors-Destructors ---------------------------------------------------
@@ -42,12 +46,14 @@ Graph newGraph(int n) {
    Graph G = malloc(sizeof(GraphObj));
    G->vertecies = n;
    G->edges = 0;
+   G->num_compnents = 0;
 
    G->neighbors = calloc(n+1, sizeof(List));
    G->finished = calloc(n+1, sizeof(int));
    G->discover = calloc(n+1, sizeof(int));
    G->color = calloc(n+1, sizeof(int));
    G->parents = calloc(n+1, sizeof(int));
+   G->components = calloc(n+1, sizeof(int));
 
    // for loop to initialize all values
    for (int i = 1; i < (n+1); i++) {
@@ -56,6 +62,7 @@ Graph newGraph(int n) {
       G->discover[i] = 0;
       G->color[i] = WHITE;
       G->parents[i] = NIL;
+      G->components[i] = 0;
    }
 
    return G;
@@ -74,6 +81,7 @@ void freeGraph(Graph* pG) {
    free(G->discover);
    free(G->color);
    free(G->parents);
+   free(G->components);
    free(G);
    *pG = NULL;
 }
@@ -87,6 +95,15 @@ int getOrder(Graph G) {
       return -1;
    }
    return G->vertecies;
+}
+
+// returns the number of components 
+int getNumComponents(Graph G) {
+   if (G == NULL) {
+      fprintf(stderr, "Error Graph does not exist\n");
+      return -1;
+   }
+   return G->num_compnents;
 }
 
 // retruns the number of edges
@@ -116,7 +133,7 @@ int getParent(Graph G, int u) {
 // List of what nodes were discovered
 /* Pre: 1<=u<=n=getOrder(G) */
 int getDiscover(Graph G, int u) {
-   if (u >= 1 && u >= getOrder(G)){
+   if (u >= 1 && u <= getOrder(G)){
       return G->discover[u];
    }
    fprintf(stderr, "Error %d does not statisfy the pre cond for getDiscover\n", u);
@@ -125,10 +142,20 @@ int getDiscover(Graph G, int u) {
 
 /* Pre: 1<=u<=n=getOrder(G) */
 int getFinish(Graph G, int u) {
-   if (u >= 1 && u >= getOrder(G)){
+   if (u >= 1 && u <= getOrder(G)){
       return G->finished[u];
    }
    fprintf(stderr, "Error %d does not statisfy the pre cond for getFinished\n", u);
+   return -1;
+}
+
+// List of what nodes were discovered
+/* Pre: 1<=u<=n=getOrder(G) */
+int getCompnent(Graph G, int u) {
+   if (u >= 1 && u <= getOrder(G)){
+      return G->components[u];
+   }
+   fprintf(stderr, "Error %d does not statisfy the pre cond for getComponents\n", u);
    return -1;
 }
 
@@ -177,20 +204,37 @@ void addArc(Graph G, int u, int v) {
    G->edges += 1;
 }
 
+void static push_stack(List L, int x) {
+   printf("push %p: %d\n", L, x);
+   prepend(L, x);
+}
+
+int static pop_stack(List L) {
+   int fr = front(L);
+   printf("pop %p: %d\n", L, fr);
+   deleteFront(L);
+   return fr;
+}
 
 // helper function for the depth first search 
-static void Visit(Graph G, List S, int x, int *time) {
+static void Visit(Graph G, List S, int x, int *time, int counter) {
    *time += 1;
    G->discover[x] = *time;
    G->color[x] = GRAY;
-   for (int y = 1; y <= length(G->neighbors[x]); y++) {
+   G->components[x] = counter;
+   List adj = G->neighbors[x];
+   moveFront(adj);
+   for (int j = 1; j <= length(adj); j++) {
+      int y = get(adj);
       if (G->color[y] == WHITE) {
          G->parents[y] = x;
-         Visit(G, S, y, time);
+         Visit(G, S, y, time, counter);
       }
+      moveNext(adj);
    }
    G->color[x] = BLACK;
-   prepend(S, x);
+   //prepend(S, x);
+   push_stack(S, x);
    *time += 1;
    G->finished[x] = *time;
 }
@@ -203,30 +247,38 @@ void DFS(Graph G, List S) {
       G->parents[i] = NIL;
    }
    int time = 0;
+   int counter = 0;
    int list_length = length(S);
    // checker for list if it is empty run as normally if it has items copy the list and run DFS based of list
    if (list_length == 0) {
       // main loop of DFS when list is empty
       for (int x = 1; x <= getOrder(G); x++) {
          if (G->color[x] == WHITE) {
-            Visit(G, S, x, &time);
+            counter += 1;
+            Visit(G, S, x, &time, counter);
          }
       }
    } else {
       // if this condition is reached this means that the list was not empty and now need to do the loop backwards
       // create a copied list that serves as input and the original will serve as out put
       List cp = copyList(S);
+      printf("the copied list is \n");
+      printList(stdout,cp);
+      printf("\n");
       // need to clear the original list
       clear(S);
       for (int x = 1; x <= list_length; x++) {
-         int fr = front(cp);
-         deleteFront(cp);
+         //int fr = front(cp);
+         //deleteFront(cp);
+         int fr = pop_stack(cp);
          if (G->color[fr] == WHITE) {
-            Visit(G, S, fr, &time);
+            counter += 1;
+            Visit(G, S, fr, &time, counter);
          }
       }
       freeList(&cp);
    }
+   G->num_compnents = counter - 1;
 }
 
 

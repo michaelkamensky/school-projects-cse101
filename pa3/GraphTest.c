@@ -109,8 +109,17 @@ void test_DFS_2(void) {
     printList(stdout, s);
     printf("\n");
 
-
-
+    int num_comp = getNumComponents(tr);
+    int num_verts = getOrder(tr);
+    for (int comp = 1; comp <= num_comp; comp++) {
+        printf("Component %d: ", comp);
+        for (int vert = 1; vert <= num_verts; vert++) {
+            if (getCompnent(tr, vert) == comp) {
+                printf("%d ", vert);
+            }
+        }
+        printf("\n");
+    }
 
 
 }
