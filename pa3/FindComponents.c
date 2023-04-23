@@ -63,32 +63,51 @@ int main(int argc, char *argv[]) {
     fprintf(output_file, "\n");
 
     // logic finding the components
+    List s = newList();
 
-#if 0
-    // reading the file to read the source and dest vertecies
-    while (fscanf(input_file, "%d %d", &src, &dst) != EOF) {
-        if (src == 0 && dst == 0) {
-            break;
+    DFS(G, s);
+
+    Graph tr = transpose(G);
+
+    DFS(tr, s);
+
+    // now logic to print out the components
+
+    int total_compt = 0;
+    moveBack(s);
+    for (int i = 0; i < length(s); i++) {
+        int value = get(s);
+        if (getParent(tr, value) == NIL) {
+            total_compt += 1;
         }
-        BFS(G, src);
-        fprintf(output_file, "\n");
-        int dist = getDist(G, dst);
-        if (dist != INF) {
-            fprintf(output_file, "The distance from %d to %d is %d\n", src, dst, dist);
-            List new = newList();
-            getPath(new, G, dst);
-            fprintf(output_file, "A shortest %d-%d path is: ", src, dst);
-            printList(output_file, new);
-            fprintf(output_file, "\n");
-            freeList(&new);
-        } else {
-            fprintf(output_file, "The distance from %d to %d is infinity\n", src, dst);
-            fprintf(output_file, "No %d-%d path exists", src, dst);
-        }
+        movePrev(s);
     }
-#endif
+
+    fprintf(output_file, "G contains %d strongly connected components:\n", total_compt);
+    moveBack(s);
+    int comp = 0;
+    List print = newList();
+    for (int i = 1; i <= length(s); i++) { 
+        int value = get(s);
+        // printf("%d", value);
+        prepend(print, value);
+        if (getParent(tr, value) == NIL) {
+            comp += 1;
+            fprintf(output_file, "Component %d: ", comp);
+            printList(output_file, print);
+            fprintf(output_file, "\n");
+            clear(print);
+        }
+        movePrev(s);
+    }
+    freeList(&print);
+
     // free the graph
     freeGraph(&G);
+    // free the graph
+    freeGraph(&tr);
+    // free the final list
+    freeList(&s);
     // close the files
     fclose(input_file);
     fclose(output_file);
