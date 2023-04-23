@@ -23,8 +23,6 @@ typedef struct GraphObj{
    int vertecies;
    // number of edges
    int edges;
-   // number of components
-   int num_compnents;
    // neighbors list
    List *neighbors;
    // finished stack
@@ -35,8 +33,6 @@ typedef struct GraphObj{
    int *color; 
    // the array for parents
    int *parents;
-   // array for components
-   int *components;
 } GraphObj;
 
 // Constructors-Destructors ---------------------------------------------------
@@ -46,14 +42,12 @@ Graph newGraph(int n) {
    Graph G = malloc(sizeof(GraphObj));
    G->vertecies = n;
    G->edges = 0;
-   G->num_compnents = 0;
 
    G->neighbors = calloc(n+1, sizeof(List));
    G->finished = calloc(n+1, sizeof(int));
    G->discover = calloc(n+1, sizeof(int));
    G->color = calloc(n+1, sizeof(int));
    G->parents = calloc(n+1, sizeof(int));
-   G->components = calloc(n+1, sizeof(int));
 
    // for loop to initialize all values
    for (int i = 1; i < (n+1); i++) {
@@ -62,9 +56,7 @@ Graph newGraph(int n) {
       G->discover[i] = 0;
       G->color[i] = WHITE;
       G->parents[i] = NIL;
-      G->components[i] = 0;
    }
-
    return G;
 }
 
@@ -81,7 +73,6 @@ void freeGraph(Graph* pG) {
    free(G->discover);
    free(G->color);
    free(G->parents);
-   free(G->components);
    free(G);
    *pG = NULL;
 }
@@ -95,15 +86,6 @@ int getOrder(Graph G) {
       return -1;
    }
    return G->vertecies;
-}
-
-// returns the number of components 
-int getNumComponents(Graph G) {
-   if (G == NULL) {
-      fprintf(stderr, "Error Graph does not exist\n");
-      return -1;
-   }
-   return G->num_compnents;
 }
 
 // retruns the number of edges
@@ -146,16 +128,6 @@ int getFinish(Graph G, int u) {
       return G->finished[u];
    }
    fprintf(stderr, "Error %d does not statisfy the pre cond for getFinished\n", u);
-   return -1;
-}
-
-// List of what nodes were discovered
-/* Pre: 1<=u<=n=getOrder(G) */
-int getCompnent(Graph G, int u) {
-   if (u >= 1 && u <= getOrder(G)){
-      return G->components[u];
-   }
-   fprintf(stderr, "Error %d does not statisfy the pre cond for getComponents\n", u);
    return -1;
 }
 
@@ -217,18 +189,17 @@ int static pop_stack(List L) {
 }
 
 // helper function for the depth first search 
-static void Visit(Graph G, List S, int x, int *time, int counter) {
+static void Visit(Graph G, List S, int x, int *time) {
    *time += 1;
    G->discover[x] = *time;
    G->color[x] = GRAY;
-   G->components[x] = counter;
    List adj = G->neighbors[x];
    moveFront(adj);
    for (int j = 1; j <= length(adj); j++) {
       int y = get(adj);
       if (G->color[y] == WHITE) {
          G->parents[y] = x;
-         Visit(G, S, y, time, counter);
+         Visit(G, S, y, time);
       }
       moveNext(adj);
    }
@@ -247,15 +218,13 @@ void DFS(Graph G, List S) {
       G->parents[i] = NIL;
    }
    int time = 0;
-   int counter = 0;
    int list_length = length(S);
    // checker for list if it is empty run as normally if it has items copy the list and run DFS based of list
    if (list_length == 0) {
       // main loop of DFS when list is empty
       for (int x = 1; x <= getOrder(G); x++) {
          if (G->color[x] == WHITE) {
-            counter += 1;
-            Visit(G, S, x, &time, counter);
+            Visit(G, S, x, &time);
          }
       }
    } else {
@@ -274,13 +243,11 @@ void DFS(Graph G, List S) {
          //deleteFront(cp);
          int fr = pop_stack(cp);
          if (G->color[fr] == WHITE) {
-            counter += 1;
-            Visit(G, S, fr, &time, counter);
+            Visit(G, S, fr, &time);
          }
       }
       freeList(&cp);
    }
-   G->num_compnents = counter;
 }
 
 

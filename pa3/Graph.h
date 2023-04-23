@@ -27,13 +27,10 @@ void freeGraph(Graph* pG);
 
 // Access functions
 int getOrder(Graph G);
-// returns the number of components 
-int getNumComponents(Graph G);
 int getSize(Graph G);
 int getParent(Graph G, int u); /* Pre: 1<=u<=n=getOrder(G) */
 int getDiscover(Graph G, int u); /* Pre: 1<=u<=n=getOrder(G) */
 int getFinish(Graph G, int u); /* Pre: 1<=u<=n=getOrder(G) */
-int getCompnent(Graph G, int u); /* Pre: 1<=u<=n=getOrder(G) */
 
 // Manipulation procedures
 void addArc(Graph G, int u, int v); /* Pre: 1<=u<=n, 1<=v<=n */
