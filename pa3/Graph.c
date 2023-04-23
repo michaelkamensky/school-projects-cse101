@@ -205,13 +205,13 @@ void addArc(Graph G, int u, int v) {
 }
 
 void static push_stack(List L, int x) {
-   printf("push %p: %d\n", L, x);
+   // printf("push %p: %d\n", L, x);
    prepend(L, x);
 }
 
 int static pop_stack(List L) {
    int fr = front(L);
-   printf("pop %p: %d\n", L, fr);
+   // printf("pop %p: %d\n", L, fr);
    deleteFront(L);
    return fr;
 }
@@ -262,9 +262,11 @@ void DFS(Graph G, List S) {
       // if this condition is reached this means that the list was not empty and now need to do the loop backwards
       // create a copied list that serves as input and the original will serve as out put
       List cp = copyList(S);
+#if 0
       printf("the copied list is \n");
       printList(stdout,cp);
       printf("\n");
+#endif
       // need to clear the original list
       clear(S);
       for (int x = 1; x <= list_length; x++) {
@@ -278,7 +280,7 @@ void DFS(Graph G, List S) {
       }
       freeList(&cp);
    }
-   G->num_compnents = counter - 1;
+   G->num_compnents = counter;
 }
 
 
