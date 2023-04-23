@@ -164,7 +164,6 @@ void static insert_in_order(List L, int v){
 
 // adds an edge
 void addEdge(Graph G, int u, int v) {
-   
    // need to add neighbors between the two node
    insert_in_order(G->neighbors[u], v);
    insert_in_order(G->neighbors[v], u);
@@ -204,7 +203,6 @@ static void Visit(Graph G, List S, int x, int *time) {
       moveNext(adj);
    }
    G->color[x] = BLACK;
-   //prepend(S, x);
    push_stack(S, x);
    *time += 1;
    G->finished[x] = *time;
@@ -231,11 +229,6 @@ void DFS(Graph G, List S) {
       // if this condition is reached this means that the list was not empty and now need to do the loop backwards
       // create a copied list that serves as input and the original will serve as out put
       List cp = copyList(S);
-#if 0
-      printf("the copied list is \n");
-      printList(stdout,cp);
-      printf("\n");
-#endif
       // need to clear the original list
       clear(S);
       for (int x = 1; x <= list_length; x++) {
@@ -250,7 +243,6 @@ void DFS(Graph G, List S) {
    }
 }
 
-
 // Other Functions ------------------------------------------------------------
 
 void printGraph(FILE* out, Graph G){
@@ -261,21 +253,6 @@ void printGraph(FILE* out, Graph G){
       fprintf(out, "\n");
    }
 }
-
-#if 0
-// helper for the reversing of the list
-static List reverse_list_cp(List L) {
-   List ret = newList();
-   int back;
-   moveBack(L);
-   for (int j = 0; j < length(L); j++) {
-      back = get(L);
-      append(ret, back);
-      movePrev(L);
-   }
-   return ret;
-} 
-#endif
 
 // returns a graph with the edges reversed but is the same in all other regards
 Graph transpose(Graph G) {

@@ -2,7 +2,7 @@
 * Michael V Kamensky
 * 2023 Winter CSE101 PA#3 
 * FindComponents.c 
-* Scans file and then uses graph adt and uses Depth first search to find the stength on connection between nodes
+* Scans file and then uses graph adt and uses Depth first search to find the strongly connected nodes
 *********************************************************************************/ 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,13 +11,11 @@
 #include "List.h"
 #include "Graph.h"
 
-
 /* the main function of this program will use the List.c and Graph.c ADT
 to organize it
 the main function needs to be able 
 */
 int main(int argc, char *argv[]) {
-
     // Check that we have two file arguments
     if (argc != 3) {
         printf("Usage: %s <input file> <output file>\n", argv[0]);
@@ -37,13 +35,11 @@ int main(int argc, char *argv[]) {
     // creating arrays to store the data from file into
     int src;
     int dst;
-
     int vert;
 
     // reading the number of verticies
     fscanf(input_file, "%d", &vert);
   
-
     // creating new graph with the correct number of verticies
     Graph G = newGraph(vert);
 
@@ -52,7 +48,7 @@ int main(int argc, char *argv[]) {
         if (src == 0 && dst == 0) {
             break;
         }
-        // adding the edges to the graph
+        // adding the arcs to the graph
         addArc(G, src, dst);
     }
 
