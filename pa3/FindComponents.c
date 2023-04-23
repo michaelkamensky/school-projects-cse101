@@ -53,11 +53,16 @@ int main(int argc, char *argv[]) {
             break;
         }
         // adding the edges to the graph
-        addEdge(G, src, dst);
+        addArc(G, src, dst);
     }
 
     // printing out the graph
+    fprintf(output_file, "Adjacency list representation of G:\n");
     printGraph(output_file, G);
+
+    fprintf(output_file, "\n");
+
+    // logic finding the components
 
 #if 0
     // reading the file to read the source and dest vertecies
