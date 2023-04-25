@@ -52,8 +52,8 @@ Graph newGraph(int n) {
    // for loop to initialize all values
    for (int i = 1; i < (n+1); i++) {
       G->neighbors[i] = newList();
-      G->finished[i] = NIL;
-      G->discover[i] = 0;
+      G->finished[i] = UNDEF;
+      G->discover[i] = UNDEF;
       G->color[i] = WHITE;
       G->parents[i] = NIL;
    }
@@ -171,8 +171,22 @@ void addEdge(Graph G, int u, int v) {
 }
 
 void addArc(Graph G, int u, int v) {
-   insert_in_order(G->neighbors[u], v);
-   G->edges += 1;
+   // check if a duplicate is being added
+   // need a for loop to loop through the list
+   List L = G->neighbors[u];
+   bool con = false;
+   moveFront(L);
+   for (int i = 0; i < length(L); i++) {
+      if (get(L) == v) {
+         con = true;
+         break;
+      }
+      moveNext(L);
+   }
+   if (con == false) {
+      insert_in_order(G->neighbors[u], v);
+      G->edges += 1;
+   }
 }
 
 void static push_stack(List L, int x) {

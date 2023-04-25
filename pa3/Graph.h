@@ -10,8 +10,10 @@
 //-----------------------------------------------------------------------------
 #include "List.h"
 
-#define INF -1  //defines INF for the FBS
+// #define INF -1  //defines INF for the FBS
 #define NIL -2  //defines NIL for the FBS
+
+#define UNDEF -1
 
 #define WHITE 1
 #define GRAY 2

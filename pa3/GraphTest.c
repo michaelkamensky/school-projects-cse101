@@ -156,12 +156,29 @@ void test_DFS_2(void) {
 
 }
 
+bool test_DG_getSize (void) {
+    Graph A = newGraph(55);
+    addArc(A, 54, 1);
+    addArc(A, 54, 2);
+    addArc(A, 54, 2);
+    addArc(A, 54, 3);
+    addArc(A, 1, 54);
+    addArc(A, 1, 54);
+    addArc(A, 1, 55);
+    addArc(A, 1, 55);
+    if (getSize(A) != 5) {
+      return false;
+    }
+    return true;
+}
+
 int main(void) {
     //test_graph_create();
     //test_DFS();
     //test_copy_graph();
     //test_transpose();
-    test_DFS_2();
+    //test_DFS_2();
+    printf("the result for test_DG_getSize %d should be 1\n", test_DG_getSize());
 
     return 0;
 }
