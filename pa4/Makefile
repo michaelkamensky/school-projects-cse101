@@ -29,7 +29,7 @@ REMOVE         = rm -f
 MEMCHECK       = valgrind --leak-check=full
 
 $(MAIN): $(OBJECT) $(ADT1_OBJECT) $(ADT2_OBJECT)
-	$(LINK) $(MAIN) $(OBJECT) $(ADT1_OBJECT) $(ADT2_OBJECT)
+	$(LINK) $(MAIN) $(OBJECT) $(ADT1_OBJECT) $(ADT2_OBJECT) -lm
 
 $(ADT1_TEST): $(ADT1_TEST).o $(ADT1_OBJECT) $(ADT2_OBJECT)
 	$(LINK) $(ADT1_TEST) $(ADT1_TEST).o $(ADT1_OBJECT) $(ADT2_OBJECT) -lm

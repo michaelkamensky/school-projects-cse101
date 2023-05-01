@@ -219,15 +219,26 @@ Matrix scalarMult(double x, Matrix A) {
     return ret;
 }
 
+static void moveNextIfAny(List row) {
+    if (index(row) >= 0) {
+        moveNext(row);
+    }
+}
+
+static void *getIfAny(List row) {
+    void *ret = NULL;
+    if (index(row) >= 0) {
+        ret = get(row);
+    }
+    return ret;
+}
+
 // sum()
 // Returns a reference to a new Matrix object representing A+B.
 // pre: size(A)==size(B)
 Matrix sum(Matrix A, Matrix B) {
     if (size(A) == size(B)) {
         Matrix sum = newMatrix(A->size);
-        Entry data_A;
-        Entry data_B;
-        Entry added;
         List row_A;
         List row_B;
         for (int i = 1; i <= A->size; i++) {
@@ -235,14 +246,36 @@ Matrix sum(Matrix A, Matrix B) {
             row_B = B->rows[i];
             moveFront(row_A);
             moveFront(row_B);
-            while (index(row_A)>=0) {
-                data_A = get(row_A);
-                data_B = get(row_B);
-                added = malloc(sizeof(EntryObj));
-                added->column = data_A->column;
-                added->value = data_A->value + data_B->value;
-                append(sum->rows[i], added);
-                moveNext(row_A);
+            while (1) {
+                if (index(row_A) < 0 && index(row_B) < 0) {
+                    break;
+                }
+                Entry entry_A = getIfAny(row_A);
+                Entry entry_B = getIfAny(row_B);
+                if (entry_A && entry_B) {
+                    if (entry_A->column == entry_B->column) {
+                        double value = (entry_A->value + entry_B->value);
+                        changeEntry(sum, i, entry_A->column, value);
+                        moveNextIfAny(row_A);
+                        moveNextIfAny(row_B);
+                    }
+                    else if (entry_A->column > entry_B->column) {
+                        changeEntry(sum, i, entry_B->column, entry_B->value);
+                        moveNextIfAny(row_B);
+                    }
+                    else if (entry_A->column < entry_B->column) {
+                        changeEntry(sum, i, entry_A->column, entry_A->value);
+                        moveNextIfAny(row_A);
+                    }
+                } 
+                else if (entry_A) {
+                    changeEntry(sum, i, entry_A->column, entry_A->value);
+                    moveNextIfAny(row_A);
+                } 
+                else if (entry_B) {
+                    changeEntry(sum, i, entry_B->column, entry_B->value);
+                    moveNextIfAny(row_B);
+                }
             }
         }
         return sum;
@@ -258,10 +291,7 @@ Matrix sum(Matrix A, Matrix B) {
 // pre: size(A)==size(B)
 Matrix diff(Matrix A, Matrix B) {
     if (size(A) == size(B)) {
-        Matrix diff = newMatrix(A->size);
-        Entry data_A;
-        Entry data_B;
-        Entry added;
+        Matrix sum = newMatrix(A->size);
         List row_A;
         List row_B;
         for (int i = 1; i <= A->size; i++) {
@@ -269,21 +299,45 @@ Matrix diff(Matrix A, Matrix B) {
             row_B = B->rows[i];
             moveFront(row_A);
             moveFront(row_B);
-            while (index(row_A)>=0) {
-                data_A = get(row_A);
-                data_B = get(row_B);
-                added = malloc(sizeof(EntryObj));
-                added->column = data_A->column;
-                added->value = data_A->value - data_B->value;
-                append(diff->rows[i], added);
-                moveNext(row_A);
+            while (1) {
+                if (index(row_A) < 0 && index(row_B) < 0) {
+                    break;
+                }
+                Entry entry_A = getIfAny(row_A);
+                Entry entry_B = getIfAny(row_B);
+                if (entry_A && entry_B) {
+                    if (entry_A->column == entry_B->column) {
+                        double value = (entry_A->value - entry_B->value);
+                        if (value != 0.0) {
+                            changeEntry(sum, i, entry_A->column, value);
+                        }
+                        moveNextIfAny(row_A);
+                        moveNextIfAny(row_B);
+                    }
+                    else if (entry_A->column > entry_B->column) {
+                        changeEntry(sum, i, entry_B->column, - entry_B->value);
+                        moveNextIfAny(row_B);
+                    }
+                    else if (entry_A->column < entry_B->column) {
+                        changeEntry(sum, i, entry_A->column, entry_A->value);
+                        moveNextIfAny(row_A);
+                    }
+                } 
+                else if (entry_A) {
+                    changeEntry(sum, i, entry_A->column, entry_A->value);
+                    moveNextIfAny(row_A);
+                } 
+                else if (entry_B) {
+                    changeEntry(sum, i, entry_B->column, -entry_B->value);
+                    moveNextIfAny(row_B);
+                }
             }
         }
-        return diff;
+        return sum;
     } else {
         fprintf(stderr,"error has matrix size of A does not match matrix size of B");
-        Matrix diff = newMatrix(A->size);
-        return diff;
+        Matrix sum = newMatrix(A->size);
+        return sum;
     }  
 }
 
