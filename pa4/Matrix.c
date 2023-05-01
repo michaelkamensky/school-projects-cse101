@@ -146,26 +146,112 @@ void changeEntry(Matrix M, int i, int j, double x) {
 // Matrix Arithmetic operations
 // copy()
 // Returns a reference to a new Matrix object having the same entries as A.
-Matrix copy(Matrix A);
+Matrix copy(Matrix A) {
+    Matrix cpy = newMatrix(A->size);
+    List row;
+    Entry added;
+    Entry data;
+    for (int i = 1; i <= A->size; i++) {
+        row = A->rows[i];
+        moveFront(row);
+        while (index(row)>=0) {
+            data = get(row);
+            added = malloc(sizeof(EntryObj));
+            added->column = data->column;
+            added->value = data->value;
+            append(cpy->rows[i], added);
+            moveNext(row);
+        }
+    }
+    return cpy;
+}
 
 // transpose()
 // Returns a reference to a new Matrix object representing the transpose
 // of A.
-Matrix transpose(Matrix A);
+Matrix transpose(Matrix A) {
+    Matrix trp = newMatrix(A->size);
+    Entry data;
+    //Entry added;
+    List row;
+    for (int i = 1; i <= A->size; i++) {
+        row = A->rows[i];
+        moveFront(row);
+        while (index(row)>=0) {
+            data = get(row);
+            //added = malloc(sizeof(EntryObj));
+            //added->column = i;
+            //added->value = data->value;
+            rowInsertEntry(trp->rows[data->column], i, data->value);
+            //append(trp->rows[data->column], added);
+            moveNext(row);
+        }
+    }
+    return trp;
+}
 
 // scalarMult()
 // Returns a reference to a new Matrix object representing xA.
-Matrix scalarMult(double x, Matrix A);
+Matrix scalarMult(double x, Matrix A) {
+    Matrix ret = newMatrix(A->size);
+    Entry data;
+    Entry added;
+    List row;
+    for (int i = 1; i <= A->size; i++) {
+        row = A->rows[i];
+        moveFront(row);
+        while (index(row)>=0) {
+            data = get(row);
+            added = malloc(sizeof(EntryObj));
+            added->column = data->column;
+            added->value = (data->value) * x;
+            append(ret->rows[i], added);
+            moveNext(row);
+        }
+    }
+    return ret;
+}
 
 // sum()
 // Returns a reference to a new Matrix object representing A+B.
 // pre: size(A)==size(B)
-Matrix sum(Matrix A, Matrix B);
+Matrix sum(Matrix A, Matrix B) {
+    if (size(A) == size(B)) {
+        Matrix sum = newMatrix(A->size);
+        Entry data_A;
+        Entry data_B;
+        Entry added;
+        List row_A;
+        List row_B;
+        for (int i = 1; i <= A->size; i++) {
+            row_A = A->rows[i];
+            row_B = B->rows[i];
+            moveFront(row_A);
+            moveFront(row_B);
+            while (index(row_A)>=0) {
+                data_A = get(row_A);
+                data_B = get(row_B);
+                added = malloc(sizeof(EntryObj));
+                added->column = data_A->column;
+                added->value = data_A->value + data_B->value;
+                append(sum->rows[i], added);
+                moveNext(row_A);
+            }
+        }
+        return sum;
+    } else {
+        fprintf(stderr,"error has matrix size of A does not match matrix size of B");
+        Matrix sum = newMatrix(A->size);
+        return sum;
+    }
+    
+}
 
 // diff()
 // Returns a reference to a new Matrix object representing A-B.
 // pre: size(A)==size(B)
 Matrix diff(Matrix A, Matrix B);
+
 // product()
 // Returns a reference to a new Matrix object representing AB
 // pre: size(A)==size(B)
