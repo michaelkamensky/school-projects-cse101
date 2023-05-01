@@ -8,12 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "List.h"
+//#include "List.h"
 #include "Matrix.h"
 
-/* the main function of this program will use the List.c and Graph.c ADT
-to organize it
-the main function needs to be able 
+/* the main function of this program will use the List.c and Matrix.c ADT
 */
 int main(int argc, char *argv[]) {
     // Check that we have two file arguments
@@ -32,16 +30,14 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // creating arrays to store the data from file into
     int matrix_size;
     int a_entries_n;
     int b_entries_n;
     
-
-    // reading the number of verticies
+    // reading the number entries
     fscanf(input_file, "%d %d %d", &matrix_size, &a_entries_n, &b_entries_n);
   
-    // creating new graph with the correct number of verticies
+    // creating new matricies of the right size
     Matrix A = newMatrix(matrix_size);
     Matrix B = newMatrix(matrix_size);
 
@@ -51,7 +47,7 @@ int main(int argc, char *argv[]) {
     int j;
     double val;
 
-    // reading the file to create graph
+    // reading the file to create matrix
     for (int k = 0; k < a_entries_n; k++) {
         int rc = fscanf(input_file, "%d %d %lf", &i, &j, &val);
         if (rc == EOF) {
@@ -72,7 +68,7 @@ int main(int argc, char *argv[]) {
         changeEntry(B, i, j, val);
     }
 
-    // printing out the mnatrixes
+    // printing out the matrices
     fprintf(output_file, "A has %d non-zero entries:\n", NNZ(A));
     printMatrix(output_file, A);
     fprintf(output_file, "\n");
