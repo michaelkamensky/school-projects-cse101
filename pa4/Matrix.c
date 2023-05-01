@@ -40,6 +40,13 @@ Matrix newMatrix(int n) {
 void freeMatrix(Matrix* pM) {
     Matrix m = *pM;
     for (int i = 1; i <= m->size; i++) {
+        //free all entries in the list 
+        List row = m->rows[i];
+        moveFront(row);
+        while(index(row)>=0) {
+            free(get(row));
+            moveNext(row);
+        }
         freeList(&m->rows[i]);
     }
     free(m->rows);
@@ -243,22 +250,100 @@ Matrix sum(Matrix A, Matrix B) {
         fprintf(stderr,"error has matrix size of A does not match matrix size of B");
         Matrix sum = newMatrix(A->size);
         return sum;
-    }
-    
+    }  
 }
 
 // diff()
 // Returns a reference to a new Matrix object representing A-B.
 // pre: size(A)==size(B)
-Matrix diff(Matrix A, Matrix B);
+Matrix diff(Matrix A, Matrix B) {
+    if (size(A) == size(B)) {
+        Matrix diff = newMatrix(A->size);
+        Entry data_A;
+        Entry data_B;
+        Entry added;
+        List row_A;
+        List row_B;
+        for (int i = 1; i <= A->size; i++) {
+            row_A = A->rows[i];
+            row_B = B->rows[i];
+            moveFront(row_A);
+            moveFront(row_B);
+            while (index(row_A)>=0) {
+                data_A = get(row_A);
+                data_B = get(row_B);
+                added = malloc(sizeof(EntryObj));
+                added->column = data_A->column;
+                added->value = data_A->value - data_B->value;
+                append(diff->rows[i], added);
+                moveNext(row_A);
+            }
+        }
+        return diff;
+    } else {
+        fprintf(stderr,"error has matrix size of A does not match matrix size of B");
+        Matrix diff = newMatrix(A->size);
+        return diff;
+    }  
+}
+
+// vector product of two lists helper function
+static double vector_product(List A, List B, int *is_zero) {
+    double ret;
+    *is_zero = 1;
+    moveFront(A);
+    moveFront(B);
+    while (1) {
+        if (index(A) < 0 ||  index(B) < 0) {
+            break;
+        }
+        Entry entry_A = get(A);
+        Entry entry_B = get(B);
+        if (entry_A->column == entry_B->column) {
+            ret += (entry_A->value * entry_B->value);
+            *is_zero = 0;
+            moveNext(A);
+            moveNext(B);
+        }
+        else if (entry_A->column > entry_B->column) {
+            moveNext(B);
+        }
+        else if (entry_A->column < entry_B->column) {
+            moveNext(A);
+        }
+    }
+    return ret;
+}
 
 // product()
 // Returns a reference to a new Matrix object representing AB
 // pre: size(A)==size(B)
-Matrix product(Matrix A, Matrix B);
+Matrix product(Matrix A, Matrix B) {
+    Matrix AB = newMatrix(size(A));
+    if (size(A) == size(B)) {      
+        Matrix Bt = transpose(B);
+        double value;
+        int is_zero;
+        for (int i = 1; i <= A->size; i++) {
+            List row_i = A->rows[i];
+            for (int j = 1; j <= B->size; j++) {
+                // rows in transpose Matrix are the columns of original
+                List column_j = Bt->rows[j];
+                value = vector_product(row_i, column_j, &is_zero);
+                if (!is_zero) {
+                    changeEntry(AB, i, j, value);
+                }
+            }
+        }
+        freeMatrix(&Bt);
+    } else {
+        fprintf(stderr,"error has matrix size of A does not match matrix size of B"); 
+    }
+    return AB; 
+}
 
 static double round_one_decimal(double val) {
-    double rounded_down = floorl(val * 100) / 100;
+    double rounded_down = floor(val * 100) / 100;
     return rounded_down;
 }
 
@@ -280,7 +365,8 @@ void printMatrix(FILE* out, Matrix M) {
             Entry val;
             while (index(row)>=0) {
                 val = get(row);
-                fprintf(out, " (%d, %.1f)", val->column, round_one_decimal(val->value));
+                double rounded_value = round_one_decimal(val->value); 
+                fprintf(out, " (%d, %.1f)", val->column, rounded_value);
                 moveNext(row);
             }
             fprintf(out, "\n");
