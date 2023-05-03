@@ -94,6 +94,8 @@ int equals(Matrix A, Matrix B) {
             if (eA->column != eB->column || eA->value != eB->value) {
                 return 0;
             }
+            moveNext(rowsA);
+            moveNext(rowsB);
         }
     }
     return 1;
@@ -117,24 +119,32 @@ static void rowInsertEntry(List L, int j, double x) {
         val = get(L);
         // if there is an existing entry
         if (val->column == j) {
-            val->value = x;
+            if (x == 0.0) {
+                delete(L);
+            } else {
+                val->value = x;
+            }
             return;
         }
         if (val->column > j) {
-            added = malloc(sizeof(EntryObj));
-            added->column = j;
-            added->value = x;
-            insertBefore(L, added);
+            if (x != 0.0) {
+                added = malloc(sizeof(EntryObj));
+                added->column = j;
+                added->value = x;
+                insertBefore(L, added);
+            }
             return;
         }
         moveNext(L);
     }
     // if this condition is reached that means we reached the end of the list and the new j is the biggest column value yet
     // this means we have to append it to the list
-    added = malloc(sizeof(EntryObj));
-    added->column = j;
-    added->value = x;
-    append(L, added);
+    if (x != 0.0 ) {
+        added = malloc(sizeof(EntryObj));
+        added->column = j;
+        added->value = x;
+        append(L, added);
+    }
 }
 
 // changeEntry()
@@ -147,7 +157,6 @@ void changeEntry(Matrix M, int i, int j, double x) {
     }
     List row = M->rows[i];
     rowInsertEntry(row, j, x);
-    
 }
 
 // Matrix Arithmetic operations
@@ -238,6 +247,12 @@ static void *getIfAny(List row) {
 // pre: size(A)==size(B)
 Matrix sum(Matrix A, Matrix B) {
     if (size(A) == size(B)) {
+        Matrix Acopy = NULL;
+        if (A == B) {
+            // if A == B you need to have a copy to properly iterate through the matricies lists
+            Acopy = copy(A);
+            B = Acopy;
+        }
         Matrix sum = newMatrix(A->size);
         List row_A;
         List row_B;
@@ -278,6 +293,9 @@ Matrix sum(Matrix A, Matrix B) {
                 }
             }
         }
+        if (Acopy != NULL) {
+            freeMatrix(&Acopy);
+        }
         return sum;
     } else {
         fprintf(stderr,"error has matrix size of A does not match matrix size of B");
@@ -291,6 +309,12 @@ Matrix sum(Matrix A, Matrix B) {
 // pre: size(A)==size(B)
 Matrix diff(Matrix A, Matrix B) {
     if (size(A) == size(B)) {
+        Matrix Acopy = NULL;
+        if (A == B) {
+            // if A == B you need to have a copy to properly iterate through the matricies lists
+            Acopy = copy(A);
+            B = Acopy;
+        }
         Matrix sum = newMatrix(A->size);
         List row_A;
         List row_B;
@@ -333,6 +357,9 @@ Matrix diff(Matrix A, Matrix B) {
                 }
             }
         }
+        if (Acopy != NULL) {
+            freeMatrix(&Acopy);
+        }
         return sum;
     } else {
         fprintf(stderr,"error has matrix size of A does not match matrix size of B");
@@ -374,7 +401,13 @@ static double vector_product(List A, List B, int *is_zero) {
 // pre: size(A)==size(B)
 Matrix product(Matrix A, Matrix B) {
     Matrix AB = newMatrix(size(A));
-    if (size(A) == size(B)) {      
+    if (size(A) == size(B)) {     
+        Matrix Acopy = NULL;
+        if (A == B) {
+            // if A == B you need to have a copy to properly iterate through the matricies lists
+            Acopy = copy(A);
+            B = Acopy;
+        } 
         Matrix Bt = transpose(B);
         double value;
         int is_zero;
@@ -390,6 +423,9 @@ Matrix product(Matrix A, Matrix B) {
             }
         }
         freeMatrix(&Bt);
+        if (Acopy != NULL) {
+            freeMatrix(&Acopy);
+        }
     } else {
         fprintf(stderr,"error has matrix size of A does not match matrix size of B"); 
     }
