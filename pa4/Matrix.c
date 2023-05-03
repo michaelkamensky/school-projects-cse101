@@ -377,7 +377,7 @@ Matrix diff(Matrix A, Matrix B) {
 
 // vector product of two lists helper function
 static double vector_product(List A, List B, int *is_zero) {
-    double ret;
+    double ret = 0.0;
     *is_zero = 1;
     moveFront(A);
     moveFront(B);
