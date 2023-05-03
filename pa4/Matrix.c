@@ -106,6 +106,12 @@ int equals(Matrix A, Matrix B) {
 // Re-sets M to the zero Matrix state.
 void makeZero(Matrix M) {
     for (int i = 1; i <= M->size; i++) {
+        List row = M->rows[i];
+        moveFront(row);
+        while(index(row)>=0) {
+            free(get(row));
+            moveNext(row);
+        }
         clear(M->rows[i]);
     }
 }
@@ -120,6 +126,7 @@ static void rowInsertEntry(List L, int j, double x) {
         // if there is an existing entry
         if (val->column == j) {
             if (x == 0.0) {
+                free(val);
                 delete(L);
             } else {
                 val->value = x;
