@@ -396,10 +396,12 @@ Matrix product(Matrix A, Matrix B) {
     return AB; 
 }
 
+#if 0
 static double round_one_decimal(double val) {
     double rounded_down = floor(val * 100) / 100;
     return rounded_down;
 }
+#endif
 
 // printMatrix()
 // Prints a string representation of Matrix M to filestream out. Zero rows
