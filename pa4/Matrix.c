@@ -421,8 +421,8 @@ void printMatrix(FILE* out, Matrix M) {
             Entry val;
             while (index(row)>=0) {
                 val = get(row);
-                double rounded_value = round_one_decimal(val->value); 
-                fprintf(out, " (%d, %.1f)", val->column, rounded_value);
+                // double rounded_value = round_one_decimal(val->value); 
+                fprintf(out, " (%d, %.1f)", val->column, val->value);
                 moveNext(row);
             }
             fprintf(out, "\n");
