@@ -427,9 +427,15 @@ Matrix product(Matrix A, Matrix B) {
         int is_zero;
         for (int i = 1; i <= A->size; i++) {
             List row_i = A->rows[i];
+            if (row_i == 0 ) {
+                break;
+            }
             for (int j = 1; j <= B->size; j++) {
                 // rows in transpose Matrix are the columns of original
                 List column_j = Bt->rows[j];
+                if (column_j == 0 ) {
+                    break;
+                }
                 value = vector_product(row_i, column_j, &is_zero);
                 if (!is_zero) {
                     changeEntry(AB, i, j, value);
