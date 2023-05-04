@@ -427,14 +427,14 @@ Matrix product(Matrix A, Matrix B) {
         int is_zero;
         for (int i = 1; i <= A->size; i++) {
             List row_i = A->rows[i];
-            if (row_i == 0 ) {
-                break;
+            if (length(row_i) == 0 ) {
+                continue;
             }
             for (int j = 1; j <= B->size; j++) {
                 // rows in transpose Matrix are the columns of original
                 List column_j = Bt->rows[j];
-                if (column_j == 0 ) {
-                    break;
+                if (length(column_j) == 0 ) {
+                    continue;
                 }
                 value = vector_product(row_i, column_j, &is_zero);
                 if (!is_zero) {
@@ -470,7 +470,7 @@ void printMatrix(FILE* out, Matrix M) {
             Entry val;
             while (index(row)>=0) {
                 val = get(row);
-                fprintf(out, " (%d, %.1f)", val->column, val->value);
+                fprintf(out, "(%d, %.1f) ", val->column, val->value);
                 moveNext(row);
             }
             fprintf(out, "\n");
