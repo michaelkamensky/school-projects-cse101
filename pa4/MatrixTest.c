@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#4 
+* MatrixTest.c 
+* A program with a main function that tests all the function of the matrix to see if they work
+*********************************************************************************/ 
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -2,7 +2,7 @@
 * Michael V Kamensky
 * 2023 Winter CSE101 PA#4 
 * Matrix.h 
-* Matrix ADT for sparse matrixes 
+* Matrix ADT public prototypes
 *********************************************************************************/ 
 //-----------------------------------------------------------------------------
 // Matrix.h

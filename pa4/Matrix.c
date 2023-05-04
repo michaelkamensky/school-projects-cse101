@@ -1,3 +1,10 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#4 
+* Matrix.c
+* Matrix ADT for sparse matrixes back end functions, uses an array list to simulate a sparse matrix
+*********************************************************************************/ 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>

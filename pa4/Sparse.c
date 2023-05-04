@@ -2,7 +2,7 @@
 * Michael V Kamensky
 * 2023 Winter CSE101 PA#4 
 * FindComponents.c 
-* Scans file and then uses graph adt and uses Depth first search to find the strongly connected nodes
+* Scans file creates two matracies and runs operations on them to print out certain results
 *********************************************************************************/ 
 #include <stdio.h>
 #include <stdlib.h>
