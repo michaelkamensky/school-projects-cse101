@@ -181,9 +181,38 @@ void List::insertAfter(ListElement x) {
 
 // insertBefore()
 // Inserts x before cursor.
-void List::insertBefore(ListElement x) {}
+void List::insertBefore(ListElement x) {
+    Node *node = new Node(x);
+    num_elements += 1;
+    pos_cursor += 1;
+    node->prev = beforeCursor;
+    beforeCursor->next = node;
+    beforeCursor = node;
+    node->next = afterCursor;
+    afterCursor->prev = node;
+}
 
+// setAfter()
+// Overwrites the List element after the cursor with x.
+// pre: position()<length()
+void List::setAfter(ListElement x) {
+    if (pos_cursor < num_elements) {
+        afterCursor->data = x;
+    } else {
+        throw std::length_error("List: setAfter(): no element to overide");
+    }
+}
 
+// setBefore()
+// Overwrites the List element before the cursor with x.
+// pre: position()>0
+void List::setBefore(ListElement x) {
+    if (pos_cursor > 0) {
+        beforeCursor->data = x;
+    } else {
+        throw std::length_error("List: setBefore(): no element to overide");
+    }
+}
 
 // to_string()
 // Returns a string representation of this List consisting of a comma 
@@ -197,6 +226,38 @@ std::string List::to_string() const {
     }
     
     return s;
+}
+
+// eraseAfter()
+// Deletes element after cursor.
+// pre: position()<length()
+void List::eraseAfter() {
+    if (pos_cursor < num_elements) {
+        Node *node = afterCursor;
+        afterCursor = afterCursor->next;
+        afterCursor->prev = beforeCursor;
+        beforeCursor->next = afterCursor;
+        delete node;
+        num_elements -= 1;
+    } else {
+        throw std::length_error("List: setAfter(): no element to overide");
+    }
+}
+
+// eraseBefore()
+// Deletes element before cursor.
+// pre: position()>0
+void List::eraseBefore() {
+    if (pos_cursor > 0) {
+        Node *node = beforeCursor;
+        beforeCursor = beforeCursor->prev;
+        beforeCursor->next = afterCursor;
+        afterCursor->prev = beforeCursor;
+        delete node;
+        num_elements -= 1;
+    } else {
+        throw std::length_error("List: setAfter(): no element to overide");
+    }
 }
 
 // Overriden Operators -----------------------------------------------------
