@@ -11,9 +11,9 @@
 
 // Node constructor
 List::Node::Node(ListElement x){
-   data = x;
-   next = nullptr;
-   prev = nullptr;
+    data = x;
+    next = nullptr;
+    prev = nullptr;
 }
 
 // Class Constructors & Destructors -------------------------------------------
@@ -21,43 +21,57 @@ List::Node::Node(ListElement x){
 // Creates a new Queue in the empty state.
 List::List(){
 #if DEBUG
-   std::cout << "contructor called" << std::endl;
+    std::cout << "contructor called" << std::endl;
 #endif
-   frontDummy = new Node(DUMMYVAL);
-   backDummy = new Node(DUMMYVAL);
-   frontDummy->next = backDummy;
-   backDummy->prev = frontDummy;
-   beforeCursor = frontDummy;
-   afterCursor = backDummy;
-   num_elements = 0;
-   pos_cursor = 0;
-   
+    frontDummy = new Node(DUMMYVAL);
+    backDummy = new Node(DUMMYVAL);
+    frontDummy->next = backDummy;
+    backDummy->prev = frontDummy;
+    beforeCursor = frontDummy;
+    afterCursor = backDummy;
+    num_elements = 0;
+    pos_cursor = 0;
 }
 
-#if 0
 // Copy Constructor.
-Queue::Queue(const Queue& Q){
-   std::cout << "copy contructor called" << std::endl;
-   // make this an empty Queue
-   front = nullptr;
-   back = nullptr;
-   length = 0;
-
-   // load elements of Q into this Queue
-   Node* N = Q.front;
-   while( N!=nullptr ){
-      this->Enqueue(N->data);
-      N = N->next;
-   }
-}
+List::List(const List& L){
+#if DEBUG
+    std::cout << "copy contructor called" << std::endl;
 #endif
+    frontDummy = new Node(DUMMYVAL);
+    backDummy = new Node(DUMMYVAL);
+    frontDummy->next = backDummy;
+    backDummy->prev = frontDummy;
+    beforeCursor = frontDummy;
+    afterCursor = backDummy;
+    num_elements = 0;
+    pos_cursor = 0;
+    Node *iter = L.frontDummy;
+    iter = iter->next;
+    while (iter != L.backDummy) {
+        std::cout << iter->data << std::endl;
+        Node *node = new Node(iter->data);
+        node->prev = beforeCursor;
+        beforeCursor->next = node;
+        beforeCursor = node;
+        node->next = afterCursor;
+        afterCursor->prev = node;
+        num_elements += 1;
+        // move to the next node
+        iter = iter->next;
+    }
+    // reset cursor
+    beforeCursor = frontDummy;
+    afterCursor = beforeCursor->next;
+}
+
 
 // Destructor
 List::~List(){
 #if DEBUG
-   std::cout << "destructor called" << std::endl;
+    std::cout << "destructor called" << std::endl;
 #endif
-
+    // TODO
 }
 
 
@@ -259,6 +273,65 @@ void List::eraseBefore() {
         throw std::length_error("List: setAfter(): no element to overide");
     }
 }
+
+// Other Functions ---------------------------------------------------------
+
+// findNext()
+// Starting from the current cursor position, performs a linear search (in 
+// the direction front-to-back) for the first occurrence of element x. If x
+// is found, places the cursor immediately after the found element, then 
+// returns the final cursor position. If x is not found, places the cursor 
+// at position length(), and returns -1. 
+int List::findNext(ListElement x) {
+    while(pos_cursor < num_elements) {
+        if(peekNext() == x) {
+            return pos_cursor;
+        }
+        moveNext();
+    }
+    return -1;
+}
+
+// findPrev()
+// Starting from the current cursor position, performs a linear search (in 
+// the direction back-to-front) for the first occurrence of element x. If x
+// is found, places the cursor immediately before the found element, then
+// returns the final cursor position. If x is not found, places the cursor 
+// at position 0, and returns -1. 
+int List::findPrev(ListElement x) {
+    while(pos_cursor > 0) {
+        if(peekPrev() == x) {
+            movePrev();
+            return pos_cursor;
+        }
+        movePrev();
+    }
+    return -1;
+}
+
+// cleanup()
+// Removes any repeated elements in this List, leaving only unique elements.
+// The order of the remaining elements is obtained by retaining the frontmost 
+// occurrance of each element, and removing all other occurances. The cursor 
+// is not moved with respect to the retained elements, i.e. it lies between 
+// the same two retained elements that it did before cleanup() was called.
+void List::cleanup() {
+    // TODO
+}
+
+#if 0
+// concat()
+// Returns a new List consisting of the elements of this List, followed by
+// the elements of L. The cursor in the returned List will be at postion 0.
+List List::concat(const List& L) const {
+    List ret = List();
+    L.moveFront();
+    while (L.position() < L.length()) {
+        ret.insertAfter(L.peekNext());
+        L.moveNext();
+    }
+}
+#endif
 
 // Overriden Operators -----------------------------------------------------
 

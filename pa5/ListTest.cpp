@@ -62,7 +62,6 @@ void test_2() {
    cout << "list after insertions" << endl;
    print_list(L);
    cout << L << endl;
-
 }
 
 void test_3() {
@@ -75,7 +74,6 @@ void test_3() {
    cout << "list after insertions" << endl;
    print_list(L);
    cout << L << endl;
-
 }
 
 void test_4() {
@@ -214,6 +212,96 @@ void test_9() {
    cout << L << endl;
 }
 
+void test_10() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+   L.moveFront();
+   L.moveNext();
+   cout << "List peekPrev is " << L.peekPrev() << endl;
+   cout << "List position is " << L.position() << endl;
+   cout << "List position after find next 5 is " << L.findNext(5) << endl;
+   cout << "List position after find next 100 is " << L.findNext(100) << endl;
+}
+
+void test_11() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+   L.moveBack();
+   L.movePrev();
+   cout << "List peekPrev is " << L.peekPrev() << endl;
+   cout << "List position is " << L.position() << endl;
+   cout << "List position after find prev 2 is " << L.findPrev(2) << endl;
+   cout << "List position after find prev 100 is " << L.findPrev(100) << endl;
+}
+
+void test_12() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+   L.moveFront();
+   while (L.position() < L.length()) {
+      cout << L.peekNext() << endl;
+      L.moveNext();
+   }  
+}
+
+void test_13() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+   List cpy = L;
+   cout << cpy << endl;
+   cout << "peekNext is " << cpy.peekNext() << endl; 
+}
+
+void test_14() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   cout << "Position is " << L.position() << endl; 
+   L.insertBefore(3);
+   cout << "Position is " << L.position() << endl; 
+   cout << L << endl;
+   L.insertBefore(2);
+   cout << "Position is " << L.position() << endl; 
+   cout << L << endl;
+   L.insertBefore(1);
+   cout << "Position is " << L.position() << endl; 
+   cout << L << endl;
+   L.insertBefore(5);
+   cout << "Position is " << L.position() << endl; 
+   cout << L << endl;
+   L.insertBefore(7);
+   cout << "Position is " << L.position() << endl; 
+   cout << L << endl;   
+}
+
 
 int main(){
    //test_1();
@@ -224,7 +312,12 @@ int main(){
    //test_6();
    //test_7();
    //test_8();
-   test_9();
+   //test_9();
+   //test_10();
+   //test_11();
+   //test_12();
+   test_13();
+   //test_14();
 
 
 
