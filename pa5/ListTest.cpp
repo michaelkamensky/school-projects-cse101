@@ -302,6 +302,173 @@ void test_14() {
    cout << L << endl;   
 }
 
+void test_15() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+
+   List M = List();
+   M.insertBefore(30);
+   M.insertBefore(20);
+   M.insertBefore(10);
+   M.insertBefore(50);
+   M.insertBefore(70);
+   cout << M << endl;
+
+   List N = L.concat(M);
+   cout << N << endl;
+
+}
+
+void test_16() {
+   List L = List();
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+   print_list(L);
+
+   L.clear();
+   cout << L << endl;
+   print_list(L);
+
+}
+
+void test_17() {
+   List L = List();
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+
+   List M = List();
+   M.insertBefore(3);
+   M.insertBefore(2);
+   M.insertBefore(10);
+   M.insertBefore(50);
+   M.insertBefore(70);
+   cout << M << endl;
+
+   if (L.equals(M)) {
+      cout << "L and M are equal lists" << endl;
+   } else {
+      cout << "L and M are NOT equal lists" << endl;
+   }
+
+   List N = List();
+   N.insertBefore(3);
+   N.insertBefore(2);
+   N.insertBefore(1);
+   N.insertBefore(5);
+   N.insertBefore(7);
+   cout << N << endl;
+
+   if (L.equals(N)) {
+      cout << "L and N are equal lists" << endl;
+   } else {
+      cout << "L and N are NOT equal lists" << endl;
+   }
+
+   List O = List();
+   O.insertBefore(3);
+   O.insertBefore(2);
+   O.insertBefore(1);
+   cout << O << endl;
+
+   if (L.equals(O)) {
+      cout << "L and O are equal lists" << endl;
+   } else {
+      cout << "L and O are NOT equal lists" << endl;
+   }
+
+
+}
+
+void test_18() {
+   List L = List();
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+
+   List M = List();
+   M.insertBefore(3);
+   M.insertBefore(2);
+   M.insertBefore(10);
+   M.insertBefore(50);
+   M.insertBefore(70);
+   cout << M << endl;
+
+   if (L == M) {
+      cout << "L and M are equal lists" << endl;
+   } else {
+      cout << "L and M are NOT equal lists" << endl;
+   }
+
+   List N = List();
+   N.insertBefore(3);
+   N.insertBefore(2);
+   N.insertBefore(1);
+   N.insertBefore(5);
+   N.insertBefore(7);
+   cout << N << endl;
+
+   if (L == N) {
+      cout << "L and N are equal lists" << endl;
+   } else {
+      cout << "L and N are NOT equal lists" << endl;
+   }
+
+   List O = List();
+   O.insertBefore(3);
+   O.insertBefore(2);
+   O.insertBefore(1);
+   cout << O << endl;
+
+   if (L == O) {
+      cout << "L and O are equal lists" << endl;
+   } else {
+      cout << "L and O are NOT equal lists" << endl;
+   }
+
+
+}
+
+void test_19() {
+   List L = List();
+   cout << "list after creation" << endl;
+   print_list(L);
+   L.insertBefore(3);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   cout << L << endl;
+
+   List M = List();
+   M.insertBefore(30);
+   M.insertBefore(20);
+   M.insertBefore(10);
+   M.insertBefore(50);
+   M.insertBefore(70);
+   cout << M << endl;
+
+   M = L;
+   cout << M << endl;
+
+}
 
 int main(){
    //test_1();
@@ -316,8 +483,13 @@ int main(){
    //test_10();
    //test_11();
    //test_12();
-   test_13();
+   //test_13();
    //test_14();
+   //test_15();
+   //test_16();
+   //test_17();
+   //test_18();
+   test_19();
 
 
 
