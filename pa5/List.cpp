@@ -107,7 +107,7 @@ ListElement List::front() const {
     if (num_elements > 0) {
         return frontDummy->next->data;
     } else {
-        throw std::length_error("List: front(): no elements in the list");
+        throw std::length_error("List: front(): empty list");
     }
 }
 
@@ -118,7 +118,7 @@ ListElement List::back() const {
     if (num_elements > 0) {
         return backDummy->prev->data;
     } else {
-        throw std::length_error("List: back(): no elements in the list");
+        throw std::length_error("List: back(): empty list");
     }
 }
 
@@ -135,7 +135,7 @@ ListElement List::peekNext() const{
     if (pos_cursor < num_elements) {
         return afterCursor->data;
     } else {
-        throw std::range_error("List: peekNext(): no more elements to find");
+        throw std::range_error("List: peekNext(): cursor at back");
     }
 }
 
@@ -146,7 +146,7 @@ ListElement List::peekPrev() const{
     if (pos_cursor > 0) {
         return beforeCursor->data;
     } else {
-        throw std::range_error("List: peekPrev(): no more elements to find");
+        throw std::range_error("List: peekPrev(): cursor at front");
     }
 }
 
@@ -203,7 +203,7 @@ ListElement List::moveNext() {
         pos_cursor += 1;
         return beforeCursor->data;
     } else {
-        throw std::range_error("List: moveNext(): no more elements to move to");
+        throw std::range_error("List: moveNext(): cursor at back");
     }
 }
 
@@ -220,7 +220,7 @@ ListElement List::movePrev() {
         pos_cursor -= 1;
         return afterCursor->data;
     } else {
-        throw std::range_error("List: movePrev(): no more elements to move to");
+        throw std::range_error("List: movePrev(): cursor at front");
     }
 }
 
@@ -261,7 +261,7 @@ void List::setAfter(ListElement x) {
     if (pos_cursor < num_elements) {
         afterCursor->data = x;
     } else {
-        throw std::range_error("List: setAfter(): no element to overide");
+        throw std::range_error("List: setAfter(): cursor at back");
     }
 }
 
@@ -272,7 +272,7 @@ void List::setBefore(ListElement x) {
     if (pos_cursor > 0) {
         beforeCursor->data = x;
     } else {
-        throw std::range_error("List: setBefore(): no element to overide");
+        throw std::range_error("List: setBefore(): cursor at front");
     }
 }
 
@@ -307,7 +307,7 @@ void List::eraseAfter() {
         delete node;
         num_elements -= 1;
     } else {
-        throw std::range_error("List: setAfter(): no element to overide");
+        throw std::range_error("List: eraseAfter(): cursor at back");
     }
 }
 
@@ -324,7 +324,7 @@ void List::eraseBefore() {
         num_elements -= 1;
         pos_cursor -= 1;
     } else {
-        throw std::range_error("List: setAfter(): no element to overide");
+        throw std::range_error("List: eraseBefore(): cursor at front");
     }
 }
 
