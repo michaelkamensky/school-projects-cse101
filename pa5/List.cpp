@@ -5,7 +5,7 @@
 
 #define DUMMYVAL -1
 
-#define DEBUG 1
+#define DEBUG 0
 
 // Private Constructor --------------------------------------------------------
 
@@ -104,14 +104,22 @@ int List::length() const {
 // Returns the front element in this List.
 // pre: length()>0
 ListElement List::front() const {
-    return frontDummy->next->data;
+    if (num_elements > 0) {
+        return frontDummy->next->data;
+    } else {
+        throw std::length_error("List: front(): no elements in the list");
+    }
 }
 
 // back()
 // Returns the back element in this List.
 // pre: length()>0
 ListElement List::back() const {
-    return backDummy->prev->data;
+    if (num_elements > 0) {
+        return backDummy->prev->data;
+    } else {
+        throw std::length_error("List: back(): no elements in the list");
+    }
 }
 
 // position()
@@ -127,7 +135,7 @@ ListElement List::peekNext() const{
     if (pos_cursor < num_elements) {
         return afterCursor->data;
     } else {
-        throw std::length_error("List: peekNext(): no more elements to find");
+        throw std::range_error("List: peekNext(): no more elements to find");
     }
 }
 
@@ -138,7 +146,7 @@ ListElement List::peekPrev() const{
     if (pos_cursor > 0) {
         return beforeCursor->data;
     } else {
-        throw std::length_error("List: peekPrev(): no more elements to find");
+        throw std::range_error("List: peekPrev(): no more elements to find");
     }
 }
 
@@ -195,7 +203,7 @@ ListElement List::moveNext() {
         pos_cursor += 1;
         return beforeCursor->data;
     } else {
-        throw std::length_error("List: moveNext(): no more elements to move to");
+        throw std::range_error("List: moveNext(): no more elements to move to");
     }
 }
 
@@ -212,7 +220,7 @@ ListElement List::movePrev() {
         pos_cursor -= 1;
         return afterCursor->data;
     } else {
-        throw std::length_error("List: movePrev(): no more elements to move to");
+        throw std::range_error("List: movePrev(): no more elements to move to");
     }
 }
 
@@ -253,7 +261,7 @@ void List::setAfter(ListElement x) {
     if (pos_cursor < num_elements) {
         afterCursor->data = x;
     } else {
-        throw std::length_error("List: setAfter(): no element to overide");
+        throw std::range_error("List: setAfter(): no element to overide");
     }
 }
 
@@ -264,7 +272,7 @@ void List::setBefore(ListElement x) {
     if (pos_cursor > 0) {
         beforeCursor->data = x;
     } else {
-        throw std::length_error("List: setBefore(): no element to overide");
+        throw std::range_error("List: setBefore(): no element to overide");
     }
 }
 
@@ -273,11 +281,16 @@ void List::setBefore(ListElement x) {
 // separated sequence of elements, surrounded by parentheses.
 std::string List::to_string() const {
     Node* N = nullptr;
-    std::string s = "";
-
+    std::string s = "(";
+    
     for(N=frontDummy->next; N!=backDummy; N=N->next){
-        s += std::to_string(N->data)+" ";
+        s += std::to_string(N->data);
+        if (N->next != backDummy) {
+            s += ", ";
+        }
     }
+
+    s += ")";
     
     return s;
 }
@@ -294,7 +307,7 @@ void List::eraseAfter() {
         delete node;
         num_elements -= 1;
     } else {
-        throw std::length_error("List: setAfter(): no element to overide");
+        throw std::range_error("List: setAfter(): no element to overide");
     }
 }
 
@@ -309,8 +322,9 @@ void List::eraseBefore() {
         afterCursor->prev = beforeCursor;
         delete node;
         num_elements -= 1;
+        pos_cursor -= 1;
     } else {
-        throw std::length_error("List: setAfter(): no element to overide");
+        throw std::range_error("List: setAfter(): no element to overide");
     }
 }
 
@@ -325,6 +339,7 @@ void List::eraseBefore() {
 int List::findNext(ListElement x) {
     while(pos_cursor < num_elements) {
         if(peekNext() == x) {
+            moveNext();
             return pos_cursor;
         }
         moveNext();
@@ -357,9 +372,10 @@ int List::findPrev(ListElement x) {
 // the same two retained elements that it did before cleanup() was called.
 void List::cleanup() {
     Node *testing = frontDummy->next;
+    int testing_pos = 0;
     while (testing != backDummy) {
         Node *iter = testing->next;
-        int pos = 1;
+        int pos = testing_pos;
         while (iter != backDummy) {
             // testing if the values of the two nodes are the same
             if (testing->data == iter->data) {
@@ -401,9 +417,11 @@ void List::cleanup() {
                     continue;         
                 }
             }
+            pos += 1;
             // move to the next node
             iter = iter->next;
         }
+        testing_pos += 1;
         // move to the next node
         testing = testing->next;
     }
@@ -442,8 +460,8 @@ List List::concat(const List& L) const {
         iter = iter->next;
     }
     // reset cursor
-    ret.beforeCursor = frontDummy;
-    ret.afterCursor = beforeCursor->next;
+    ret.beforeCursor = ret.frontDummy;
+    ret.afterCursor = ret.beforeCursor->next;
 
     return ret;
 
@@ -477,7 +495,9 @@ bool List::equals(const List& R) const {
 // operator<<()
 // Inserts string representation of L into stream.
 std::ostream& operator<<( std::ostream& stream, const List& L ) {
+#if DEBUG
     std::cout << "operator<< called" << std::endl;
+#endif
     return stream << L.List::to_string();
 }
 
