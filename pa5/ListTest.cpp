@@ -470,6 +470,82 @@ void test_19() {
 
 }
 
+void test_20() {
+   List L = List();
+   cout << "list after creation" << endl;
+   L.insertBefore(3);
+   L.insertBefore(3);
+   L.insertBefore(20);
+   L.insertBefore(25);
+   L.insertBefore(2);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   L.insertBefore(7);
+   cout << L << endl;
+   L.moveFront();
+   L.moveNext();
+   print_list(L);
+
+   L.cleanup();
+   cout << L << endl;
+   print_list(L);
+
+}
+
+void test_21() {
+   List L = List();
+   cout << "list after creation" << endl;
+   L.insertBefore(3);
+   L.insertBefore(3);
+   L.insertBefore(20);
+   L.insertBefore(25);
+   L.insertBefore(2);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   L.insertBefore(7);
+   cout << L << endl;
+   L.moveBack();
+   L.movePrev();
+   print_list(L);
+
+   L.cleanup();
+   cout << L << endl;
+   print_list(L);
+
+}
+
+void test_22() {
+   List L = List();
+   cout << "list after creation" << endl;
+   L.insertBefore(3);
+   L.insertBefore(3);
+   L.insertBefore(20);
+   L.insertBefore(25);
+   L.insertBefore(2);
+   L.insertBefore(2);
+   L.insertBefore(1);
+   L.insertBefore(5);
+   L.insertBefore(7);
+   L.insertBefore(7);
+   cout << L << endl;
+   L.moveFront();
+   L.moveNext();
+   L.moveNext();
+   L.moveNext();
+   L.moveNext();
+   L.moveNext();
+   print_list(L);
+
+   L.cleanup();
+   cout << L << endl;
+   print_list(L);
+
+}
+
 int main(){
    //test_1();
    //test_2();
@@ -489,7 +565,10 @@ int main(){
    //test_16();
    //test_17();
    //test_18();
-   test_19();
+   //test_19();
+   //test_20();
+   //test_21();
+   test_22();
 
 
 

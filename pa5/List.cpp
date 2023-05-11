@@ -356,7 +356,57 @@ int List::findPrev(ListElement x) {
 // is not moved with respect to the retained elements, i.e. it lies between 
 // the same two retained elements that it did before cleanup() was called.
 void List::cleanup() {
-    // TODO
+    Node *testing = frontDummy->next;
+    while (testing != backDummy) {
+        Node *iter = testing->next;
+        int pos = 1;
+        while (iter != backDummy) {
+            // testing if the values of the two nodes are the same
+            if (testing->data == iter->data) {
+                if (iter == afterCursor) {
+                    iter->next->prev = iter->prev;
+                    iter->prev->next = iter->next;
+                    afterCursor = iter->next;
+                    Node *temp = iter;
+                    iter = iter->next;
+                    delete temp;
+                    num_elements -= 1;
+                    pos += 1;
+                    continue;
+                }
+                else if (iter == beforeCursor) {
+                    iter->prev->next = iter->next;
+                    iter->next->prev = iter->prev;
+                    beforeCursor = iter->prev;
+                    Node *temp = iter;
+                    iter = iter->next;
+                    delete temp;
+                    num_elements -= 1;
+                    pos_cursor -= 1;
+                    pos += 1;
+                    continue;
+                } else {
+                    iter->next->prev = iter->prev;
+                    iter->prev->next = iter->next;
+                    Node *temp = iter;
+                    iter = iter->next;
+                    delete temp;
+                    num_elements -= 1;
+                    // conditional statment that checks the iter position is before the cursor
+                    // if it is then we subtract one from the position and do nothing other wise
+                    if (pos_cursor > pos) {
+                        pos_cursor -= 1;
+                    }
+                    pos += 1;
+                    continue;         
+                }
+            }
+            // move to the next node
+            iter = iter->next;
+        }
+        // move to the next node
+        testing = testing->next;
+    }
 }
 
 // concat()
