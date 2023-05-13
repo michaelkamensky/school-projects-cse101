@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cmath>
+#include <iomanip>
 
 #include "List.h"
 
@@ -37,7 +38,7 @@ void shuffle(List& D) {
         first_half.insertBefore(D.peekNext());
         D.moveNext();
     }
-    while (D.position() != (D.back()+1)) {
+    while (D.position() < D.length()) {
         second_half.insertBefore(D.peekNext());
         D.moveNext();
     }
@@ -50,7 +51,6 @@ void shuffle(List& D) {
     cout << "second_half" << endl;
     cout << second_half << endl;
 #endif
-
 
     // move the cursors to the front
     second_half.moveFront();
@@ -69,12 +69,10 @@ void shuffle(List& D) {
     }
 
     D.moveFront();
-
 #if DEBUG
     cout << "new D is" << endl;
     cout << D << endl;
 #endif
-
 }
 
 /* the main function of this program will use the List.ccp to preform a shuffle on lists of different sizes
@@ -105,23 +103,22 @@ int main(int argc, char** argv) {
 #if DEBUG
         cout << "original" << endl;
         cout << original << endl;
-        shuffle(original);
-        cout << original << endl;
         cout << "________" << endl;
 #endif
-#if 1
+        int count = 0;
         shuffle(original);
+        count += 1;
+#if DEBUG
         cout << original << endl;
-        int count = 1;
+#endif
         while (true) {
             if (original == copy) {
                 break;
             }
-            count += 1;
             shuffle(original);
+            count += 1;
         }
-        cout << i << "         " << count << endl; 
-#endif
+        cout << " " << i << std::setfill(' ') << std::setw(15 + to_string(count).length() - to_string(i).length()) << count << endl; 
     }
     
     return 0;
