@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#5 
+* List.cpp 
+* This is the code for doubly linked list in C++  
+*********************************************************************************/ 
 #include<iostream>
 #include<string>
 #include<stdexcept>
