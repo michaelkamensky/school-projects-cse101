@@ -160,7 +160,89 @@ int BigInteger::compare(const BigInteger& N) const {
         other.movePrev();
         mine.movePrev();
     }
-
     return 0;
+}
+
+// Manipulation procedures -------------------------------------------------
+
+// makeZero()
+// Re-sets this BigInteger to the zero state.
+void BigInteger::makeZero() {
+    signum = 0;
+    digits.clear();
+}
+
+// negate()
+// If this BigInteger is zero, does nothing, otherwise reverses the sign of 
+// this BigInteger positive <--> negative. 
+void BigInteger::negate() {
+    if (signum != 0) {
+        signum = signum * -1;
+    }
+}
+
+// Helper functions -------------------------------------------------------
+
+
+// negateList()
+// Changes the sign of each integer in List L. Used by sub().
+void negateList(List& L) {
+    L.moveBack();
+
+    while (true) {
+        long digit_mine = L.peekPrev();
+
+        L.setBefore(digit_mine * -1);
+
+        if (L.position() == 1) {
+            break;
+        }
+
+        L.movePrev();
+    }
+}
+
+// sumList()
+// Overwrites the state of S with A + sgn*B (considered as vectors).
+// Used by both sum() and sub().
+void static sumList(List& S, List A, List B, int sgn) {\
+    
+}
+
+// normalizeList()
+// Performs carries from right to left (least to most significant
+// digits), then returns the sign of the resulting integer. Used
+// by add(), sub() and mult().
+int static normalizeList(List& L) {}
+
+// shiftList()
+// Prepends p zero digits to L, multiplying L by base^p. Used by mult().
+void static shiftList(List& L, int p) {}
+
+// scalarMultList()
+// Multiplies L (considered as a vector) by m. Used by mult().
+void static scalarMultList(List& L, ListElement m) {}
+
+// BigInteger Arithmetic operations ----------------------------------------
+
+// add()
+// Returns a BigInteger representing the sum of this and N.
+BigInteger BigInteger::add(const BigInteger& N) const {
+}
+
+// sub()
+// Returns a BigInteger representing the difference of this and N.
+BigInteger BigInteger::sub(const BigInteger& N) const {
+    List L = digits;
+
+    negateList(L);
+
+    std::cout << L << std::endl;
+
+    return BigInteger("0");
 
 }
+
+// mult()
+// Returns a BigInteger representing the product of this and N. 
+BigInteger BigInteger::mult(const BigInteger& N) const {}
