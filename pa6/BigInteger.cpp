@@ -205,8 +205,38 @@ void negateList(List& L) {
 // sumList()
 // Overwrites the state of S with A + sgn*B (considered as vectors).
 // Used by both sum() and sub().
-void static sumList(List& S, List A, List B, int sgn) {\
-    
+void static sumList(List& S, List A, List B, int sgn) {
+    A.moveFront();
+    B.moveFront();
+
+    while (true) {
+        long digit_A = 0;
+        long digit_B = 0;
+
+        // check if we should read the lists
+        if (A.position() != A.length()) {
+            digit_A = A.peekNext();
+        }
+        if (B.position() != B.length()) {
+            digit_B = B.peekNext();
+        }
+
+        // logic of the function
+        S.insertAfter(digit_A + digit_B*sgn);
+
+        // check if we should move through the lists
+        if (A.position() != A.length()) {
+            A.moveNext();
+        }
+        if (B.position() != B.length()) {
+            B.moveNext();
+        }
+
+        // break condition
+        if (A.position() == A.length() && B.position() == B.length()) {
+            break;
+        }
+    }
 }
 
 // normalizeList()
@@ -233,14 +263,6 @@ BigInteger BigInteger::add(const BigInteger& N) const {
 // sub()
 // Returns a BigInteger representing the difference of this and N.
 BigInteger BigInteger::sub(const BigInteger& N) const {
-    List L = digits;
-
-    negateList(L);
-
-    std::cout << L << std::endl;
-
-    return BigInteger("0");
-
 }
 
 // mult()
