@@ -47,53 +47,68 @@ void static sumList(List& S, List A, List B, int sgn) {
     }
 }
 
+
 // normalizeList()
 // Performs carries from right to left (least to most significant
 // digits), then returns the sign of the resulting integer. Used
 // by add(), sub() and mult().
 int static normalizeList(List& L) {
-    // since the least sginiofcant values are in the front we must start in the front and carry over 
-    // into the larger placeholder values
     L.moveFront();
-    int carry_over = 0;
-    long digit_L = 0;
+    List R = List();
+    long high = 0;
+    long low;
+    int ret = 1;
+    long digit = 0;
 
-    while (true) {
-        // check if we should read the lists
-        if (L.position() != L.length()) {
-            digit_L = L.peekNext();
-            // logic for dealing with the carry over
-            L.setAfter(digit_L + carry_over);
-            carry_over = 0;
-            digit_L = L.peekNext();
-        } else {
-            if (carry_over != 0) {
-                L.insertAfter(carry_over);
-                break;
+    while (L.position() != L.length()) {
+        digit = L.peekNext();
+
+        digit += high;
+        high = 0;
+        if (L.position() != (L.length() -1)) {
+            while (digit < 0) {
+                digit += base2;
+                high -= 1;
             }
         }
+        high = high + digit/base2;
+        low = digit % base2;
+        R.insertBefore(low);
 
-        // replace base2 with base
-        while (digit_L > base2) {
-            digit_L -= base2;
-            carry_over += 1;
-        }
-        if (L.position() != L.length()) {
-            L.setAfter(digit_L);
-        }
+        L.moveNext();
+    }
+    while (high != 0) {
+        low = high % base2;
+        high = high / base2;
+        R.insertBefore(low);  ; 
+    }
+    R.moveBack();
+    digit = R.peekPrev();
+    if (digit < 0) {
+        ret = -1;
+        R.setBefore(-digit);
 
-        if (L.position() != L.length()) {
-            L.moveNext();
+    }
+    while (R.position() > 0) {
+        digit = R.peekPrev();
+        if (digit == 0) {
+            R.eraseBefore();
         } else {
             break;
         }
     }
+    if (R.length() == 0) {
+        ret = 0;
+    }
+    // cout << "L = " << L << endl;
+    // cout << "R = " << R << endl;
+    L = R;
 
-    // TODO return the sign of the result
-    return 0;
+    return ret;
 }
 
 // Tests -------------------------------------------------------
+using namespace std;
 
 void test_1() {
     // tests contructor
@@ -160,6 +175,9 @@ void test_4() {
     List S = List();
     List A = List();
     List B = List();
+    List D = List();
+    List E = List();
+    List F = List();
 
     A.insertAfter(12);
     A.insertAfter(34);
@@ -168,23 +186,125 @@ void test_4() {
     B.insertAfter(78);
     B.insertAfter(90);
 
+    D.insertAfter(-450);
+    D.insertAfter(-30);
+    D.insertAfter(-55);
+
+    E.insertAfter(-450);
+    E.insertAfter(321);
+    E.insertAfter(25);
+
+    F.insertAfter(100);
+    F.insertAfter(00);
+    F.insertAfter(00);
+
 
     sumList(S, A, B, 2);
 
     cout << S << endl;
+    cout << normalizeList(S) << endl;
+    cout << S << endl;
 
+    cout << D << endl;
+    cout << normalizeList(D) << endl;
+    cout << D << endl;
+
+    cout << E << endl;
+    cout << normalizeList(E) << endl;
+    cout << E << endl;
+
+    cout << F << endl;
+    cout << normalizeList(F) << endl;
+    cout << F << endl;
+
+
+}
+
+void test_5() {
+    // tests my helper functions
+    // had to add sub and mult to test them out since otherwise don't have access to them
+    // this test will become invalid once the add sub and mult logic has been implamented
+    // these are tests for code development
+    List S = List();
+    List D = List();
+    List E = List();
+    List A = List();
+    List B = List();
+
+
+    D.insertAfter(97);
+    D.insertAfter(57);
+    D.insertAfter(35);
+
+    E.insertAfter(82);
+    E.insertAfter(90);
+    E.insertAfter(14);
+
+    sumList(S, D, E, -1);
+
+    cout << S << endl;
     normalizeList(S);
 
     cout << S << endl;
 
+    A.insertAfter(1);
+    A.insertAfter(-233);
+    A.insertAfter(15);
 
+    cout << A << endl;
+    cout << normalizeList(A) << endl;
+    cout << A << endl;
+
+    B.insertAfter(0);
+    B.insertAfter(0);
+    B.insertAfter(0);
+
+    cout << B << endl;
+    cout << normalizeList(B) << endl;
+    cout << B << endl;
+
+    B.clear();
+    B.insertAfter(1);
+    B.insertAfter(-100);
+    B.insertAfter(0);
+
+    cout << B << endl;
+    cout << normalizeList(B) << endl;
+    cout << B << endl;
+
+    B.clear();
+    B.insertAfter(1000000);
+    B.insertAfter(0);
+
+    cout << B << endl;
+    cout << normalizeList(B) << endl;
+    cout << B << endl;
+
+    B.clear();
+    B.insertAfter(111111);
+    B.insertAfter(0);
+
+    cout << B << endl;
+    cout << normalizeList(B) << endl;
+    cout << B << endl;
+    
+#if 0
+    cout << D << endl;
+    cout << normalizeList(D) << endl;
+    cout << D << endl;
+
+    cout << E << endl;
+    cout << normalizeList(E) << endl;
+    cout << E << endl;
+#endif 
 }
 
 int main(){
     //test_1();
     //test_2();
     //test_3();
-    test_4();
+    //test_4();
+    test_5();
 
     return( EXIT_SUCCESS );
 }

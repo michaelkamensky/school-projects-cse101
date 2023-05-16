@@ -243,7 +243,60 @@ void static sumList(List& S, List A, List B, int sgn) {
 // Performs carries from right to left (least to most significant
 // digits), then returns the sign of the resulting integer. Used
 // by add(), sub() and mult().
-int static normalizeList(List& L) {}
+int static normalizeList(List& L) {
+    L.moveFront();
+    List R = List();
+    long high = 0;
+    long low;
+    int ret = 1;
+    long digit = 0;
+
+    while (L.position() != L.length()) {
+        digit = L.peekNext();
+
+        digit += high;
+        high = 0;
+        if (L.position() != (L.length() -1)) {
+            while (digit < 0) {
+                digit += base;
+                high -= 1;
+            }
+        }
+        high = high + digit/base;
+        low = digit % base;
+        R.insertBefore(low);
+
+        L.moveNext();
+    }
+    while (high != 0) {
+        low = high % base;
+        high = high / base;
+        R.insertBefore(low);  ; 
+    }
+    R.moveBack();
+    digit = R.peekPrev();
+    if (digit < 0) {
+        ret = -1;
+        R.setBefore(-digit);
+
+    }
+    while (R.position() > 0) {
+        digit = R.peekPrev();
+        if (digit == 0) {
+            R.eraseBefore();
+        } else {
+            break;
+        }
+    }
+    if (R.length() == 0) {
+        ret = 0;
+    }
+    // cout << "L = " << L << endl;
+    // cout << "R = " << R << endl;
+    L = R;
+
+    return ret;
+}
 
 // shiftList()
 // Prepends p zero digits to L, multiplying L by base^p. Used by mult().
