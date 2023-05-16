@@ -276,8 +276,9 @@ int static normalizeList(List& L) {
     R.moveBack();
     digit = R.peekPrev();
     if (digit < 0) {
+        negateList(R);
+        normalizeList(R);
         ret = -1;
-        R.setBefore(-digit);
 
     }
     while (R.position() > 0) {
