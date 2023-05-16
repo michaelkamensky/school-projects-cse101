@@ -300,11 +300,25 @@ int static normalizeList(List& L) {
 
 // shiftList()
 // Prepends p zero digits to L, multiplying L by base^p. Used by mult().
-void static shiftList(List& L, int p) {}
+void static shiftList(List& L, int p) {
+    L.moveFront();
+    for (int i = 0; i < p; i++) {
+        L.insertAfter(0);
+    }
+}
 
 // scalarMultList()
 // Multiplies L (considered as a vector) by m. Used by mult().
-void static scalarMultList(List& L, ListElement m) {}
+void static scalarMultList(List& L, ListElement m) {
+    L.moveFront();
+    long digit;
+    while (L.position() != L.length()) {
+        digit = L.peekNext();
+        digit = digit * m;
+        L.setAfter(digit);
+        L.moveNext();
+    }
+}
 
 // BigInteger Arithmetic operations ----------------------------------------
 

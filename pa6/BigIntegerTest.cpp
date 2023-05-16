@@ -107,6 +107,28 @@ int static normalizeList(List& L) {
     return ret;
 }
 
+// shiftList()
+// Prepends p zero digits to L, multiplying L by base^p. Used by mult().
+void static shiftList(List& L, int p) {
+    L.moveFront();
+    for (int i = 0; i < p; i++) {
+        L.insertAfter(0);
+    }
+}
+
+// scalarMultList()
+// Multiplies L (considered as a vector) by m. Used by mult().
+void static scalarMultList(List& L, ListElement m) {
+    L.moveFront();
+    long digit;
+    while (L.position() != L.length()) {
+        digit = L.peekNext();
+        digit = digit * m;
+        L.setAfter(digit);
+        L.moveNext();
+    }
+}
+
 // Tests -------------------------------------------------------
 using namespace std;
 
@@ -299,12 +321,33 @@ void test_5() {
 #endif 
 }
 
+void test_6() {
+    // these tests are built of the multiplication helper fucntions
+
+    List A = List();
+
+    A.insertAfter(1);
+    A.insertAfter(233);
+    A.insertAfter(15);
+
+    normalizeList(A);
+    cout << A << endl;
+
+    shiftList(A, 2);
+    cout << A << endl;
+
+    scalarMultList(A, 2);
+    cout << A << endl;
+
+}
+
 int main(){
     //test_1();
     //test_2();
     //test_3();
     //test_4();
-    test_5();
+    //test_5();
+    test_6();
 
     return( EXIT_SUCCESS );
 }
