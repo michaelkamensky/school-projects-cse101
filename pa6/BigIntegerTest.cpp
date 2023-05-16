@@ -10,6 +10,24 @@ int base2 = 100;
 
 // Helper functions -------------------------------------------------------
 
+// negateList()
+// Changes the sign of each integer in List L. Used by sub().
+void negateList(List& L) {
+    L.moveBack();
+
+    while (true) {
+        long digit_mine = L.peekPrev();
+
+        L.setBefore(digit_mine * -1);
+
+        if (L.position() == 1) {
+            break;
+        }
+
+        L.movePrev();
+    }
+}
+
 // sumList()
 // Overwrites the state of S with A + sgn*B (considered as vectors).
 // Used by both sum() and sub().
@@ -85,8 +103,9 @@ int static normalizeList(List& L) {
     R.moveBack();
     digit = R.peekPrev();
     if (digit < 0) {
+        negateList(R);
+        normalizeList(R);
         ret = -1;
-        R.setBefore(-digit);
 
     }
     while (R.position() > 0) {
@@ -346,8 +365,8 @@ int main(){
     //test_2();
     //test_3();
     //test_4();
-    //test_5();
-    test_6();
+    test_5();
+    //test_6();
 
     return( EXIT_SUCCESS );
 }

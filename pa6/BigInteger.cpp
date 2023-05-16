@@ -186,7 +186,7 @@ void BigInteger::negate() {
 
 // negateList()
 // Changes the sign of each integer in List L. Used by sub().
-void negateList(List& L) {
+void static negateList(List& L) {
     L.moveBack();
 
     while (true) {
