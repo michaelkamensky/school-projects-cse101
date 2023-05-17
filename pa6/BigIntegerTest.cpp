@@ -360,13 +360,45 @@ void test_6() {
 
 }
 
+void test_7() {
+    // these tests are for BigInteger.add
+    BigInteger bigint_00 = BigInteger("1234567");
+    BigInteger bigint_01 = BigInteger("00000100");
+
+    BigInteger bigint_02 = BigInteger("41537089");
+    BigInteger bigint_03 = BigInteger("143578");
+
+    BigInteger bigint_04 = BigInteger("-980260");
+    BigInteger bigint_05 = BigInteger("12356");
+
+    BigInteger bigint_06 = BigInteger("980260");
+    BigInteger bigint_07 = BigInteger("-12356");
+
+    BigInteger bigint_08 = BigInteger("+780260");
+    BigInteger bigint_09 = BigInteger("-982356");
+
+
+    BigInteger bigint_res =  bigint_00.add(bigint_01);
+
+    BigInteger bigint_res2 =  bigint_02.add(bigint_03);
+
+    BigInteger bigint_res3 =  bigint_04.add(bigint_05);
+
+    BigInteger bigint_res4 =  bigint_06.add(bigint_07);
+
+    BigInteger bigint_res5 =  bigint_08.add(bigint_09);
+    
+
+}
+
 int main(){
     //test_1();
     //test_2();
     //test_3();
     //test_4();
-    test_5();
+    //test_5();
     //test_6();
+    test_7();
 
     return( EXIT_SUCCESS );
 }

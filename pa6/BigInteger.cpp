@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<sstream>
 #include<stdexcept>
 #include"List.h"
 #include"BigInteger.h"
@@ -222,7 +223,7 @@ void static sumList(List& S, List A, List B, int sgn) {
         }
 
         // logic of the function
-        S.insertAfter(digit_A + digit_B*sgn);
+        S.insertBefore(digit_A + digit_B*sgn);
 
         // check if we should move through the lists
         if (A.position() != A.length()) {
@@ -326,6 +327,34 @@ void static scalarMultList(List& L, ListElement m) {
 // add()
 // Returns a BigInteger representing the sum of this and N.
 BigInteger BigInteger::add(const BigInteger& N) const {
+    List S = List();
+    sumList(S, digits, N.digits, N.signum);
+    std::cout << "After addition "<< S << std::endl;
+    int sign = normalizeList(S);
+    std::cout << "After normalize " << S << std::endl;
+
+    std::string str;
+    if (sign == -1) {
+        str += '-';
+    }
+    if (sign == 1) {
+        str += '+';
+    }
+    std::stringstream stream;
+    long digit;
+    S.moveFront();
+    while (S.position() != S.length()) {
+        digit = S.peekNext();
+        // std::cout << digit << std::endl;
+        stream << digit;
+        str += stream.str();
+        S.moveNext();
+        stream.str(std::string());
+    }
+    // std::cout << "The str= " << str << std::endl;
+
+    return BigInteger(str);
+
 }
 
 // sub()
