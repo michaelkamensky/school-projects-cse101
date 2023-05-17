@@ -332,7 +332,8 @@ BigInteger BigInteger::add(const BigInteger& N) const {
     std::cout << "After addition "<< S << std::endl;
     int sign = normalizeList(S);
     std::cout << "After normalize " << S << std::endl;
-
+    std::cout << "The sign is " << sign << std::endl;
+    
     std::string str;
     if (sign == -1) {
         str += '-';
@@ -342,16 +343,20 @@ BigInteger BigInteger::add(const BigInteger& N) const {
     }
     std::stringstream stream;
     long digit;
-    S.moveFront();
-    while (S.position() != S.length()) {
-        digit = S.peekNext();
+    S.moveBack();
+    while (S.position() > 0) {
+        digit = S.peekPrev();
         // std::cout << digit << std::endl;
+
         stream << digit;
-        str += stream.str();
-        S.moveNext();
+        std::string temp = stream.str();
+        if (temp.length() == 1 && S.position() != S.length()) {
+            temp.insert(0, "0");
+        }
+        str += temp;
+        S.movePrev();
         stream.str(std::string());
     }
-    // std::cout << "The str= " << str << std::endl;
 
     return BigInteger(str);
 
@@ -360,8 +365,54 @@ BigInteger BigInteger::add(const BigInteger& N) const {
 // sub()
 // Returns a BigInteger representing the difference of this and N.
 BigInteger BigInteger::sub(const BigInteger& N) const {
+
 }
 
 // mult()
 // Returns a BigInteger representing the product of this and N. 
 BigInteger BigInteger::mult(const BigInteger& N) const {}
+
+// Other Functions ---------------------------------------------------------
+
+// to_string()
+// Returns a string representation of this BigInteger consisting of its
+// base 10 digits. If this BigInteger is negative, the returned string 
+// will begin with a negative sign '-'. If this BigInteger is zero, the
+// returned string will consist of the character '0' only.
+std::string BigInteger::to_string() {
+    std::string str;
+    if (signum == -1) {
+        str += '-';
+    }
+    if (signum == 1) {
+        str += '+';
+    }
+    std::stringstream stream;
+    long digit;
+    digits.moveBack();
+    while (digits.position() > 0) {
+        digit = digits.peekPrev();
+        // std::cout << digit << std::endl;
+
+        stream << digit;
+        std::string temp = stream.str();
+        if (temp.length() < power && digits.position() != digits.length()) {
+            for (int i = 0; i < power - temp.length(); i++) {
+                temp.insert(0, "0");
+            }
+        }
+        str += temp;
+        digits.movePrev();
+        stream.str(std::string());
+    }
+
+    return str;
+}
+
+// Overriden Operators -----------------------------------------------------
+
+// operator<<()
+// Inserts string representation of N into stream.
+std::ostream& operator<<( std::ostream& stream, BigInteger N ) {
+    return stream << N.BigInteger::to_string();
+}
