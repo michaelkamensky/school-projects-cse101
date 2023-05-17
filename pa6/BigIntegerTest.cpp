@@ -384,6 +384,8 @@ void test_7() {
     BigInteger bigint_res2 =  bigint_02.add(bigint_03);
     cout << "Res2 " << bigint_res2 << endl;
 
+    cout << "bigint_04 " << bigint_04 << endl;
+    cout << "bigint_05 " << bigint_05 << endl;
     BigInteger bigint_res3 =  bigint_04.add(bigint_05);
     cout << "Res3 " << bigint_res3 << endl;
 

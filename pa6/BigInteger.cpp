@@ -328,7 +328,12 @@ void static scalarMultList(List& L, ListElement m) {
 // Returns a BigInteger representing the sum of this and N.
 BigInteger BigInteger::add(const BigInteger& N) const {
     List S = List();
-    sumList(S, digits, N.digits, N.signum);
+    List mine = digits;
+    // checks if the first number is neagative if it is then we negate the number
+    if (signum == -1) {
+        negateList(mine);
+    }
+    sumList(S, mine, N.digits, N.signum);
     std::cout << "After addition "<< S << std::endl;
     int sign = normalizeList(S);
     std::cout << "After normalize " << S << std::endl;
