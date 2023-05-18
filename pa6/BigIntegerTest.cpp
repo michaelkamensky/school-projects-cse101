@@ -377,6 +377,9 @@ void test_7() {
     BigInteger bigint_08 = BigInteger("+780260");
     BigInteger bigint_09 = BigInteger("-982356");
 
+    BigInteger bigint_10 = BigInteger("45317891012");
+    BigInteger bigint_11 = BigInteger("23479865");
+
 
     BigInteger bigint_res =  bigint_00.add(bigint_01);
     cout << "Res1 " << bigint_res << endl;
@@ -384,8 +387,6 @@ void test_7() {
     BigInteger bigint_res2 =  bigint_02.add(bigint_03);
     cout << "Res2 " << bigint_res2 << endl;
 
-    cout << "bigint_04 " << bigint_04 << endl;
-    cout << "bigint_05 " << bigint_05 << endl;
     BigInteger bigint_res3 =  bigint_04.add(bigint_05);
     cout << "Res3 " << bigint_res3 << endl;
 
@@ -394,6 +395,9 @@ void test_7() {
 
     BigInteger bigint_res5 =  bigint_08.add(bigint_09);
     cout << "Res5 " << bigint_res5 << endl;
+
+    BigInteger bigint_res6 =  bigint_10.add(bigint_11);
+    cout << "Res6 " << bigint_res6 << endl;
 
 }
 
@@ -464,7 +468,7 @@ void test_9() {
 }
 
 void test_10() {
-    // these tests are for BigInteger.sub
+    // these tests are for BigInteger.mult
     BigInteger bigint_00 = BigInteger("1234567");
     BigInteger bigint_01 = BigInteger("00000100");
 
@@ -482,7 +486,6 @@ void test_10() {
 
     BigInteger bigint_res =  bigint_00.mult(bigint_01);
     cout << "Res1 " << bigint_res << endl;
-
     BigInteger bigint_res2 =  bigint_02.mult(bigint_03);
     cout << "Res2 " << bigint_res2 << endl;
 
@@ -497,6 +500,24 @@ void test_10() {
 
 }
 
+void test_11() {
+    // these tests are for BigInteger.mult
+    BigInteger bigint_00 = BigInteger("980260");
+    BigInteger bigint_01 = BigInteger("-12356");
+
+    BigInteger bigint_res =  bigint_00.mult(bigint_01);
+    cout << bigint_00 << " * " << bigint_01 << " = "<< bigint_res << endl;
+}
+
+void test_12() {
+    // these tests are for BigInteger.mult
+    BigInteger bigint_00 = BigInteger("24442");
+    BigInteger bigint_01 = BigInteger("2444200");
+
+    BigInteger bigint_res =  bigint_00.add(bigint_01);
+    cout << bigint_00 << " + " << bigint_01 << " = "<< bigint_res << endl;
+}
+
 int main(){
     //test_1();
     //test_2();
@@ -508,6 +529,8 @@ int main(){
     //test_8();
     //test_9();
     test_10();
+    //test_11();
+    //test_12();
 
     return( EXIT_SUCCESS );
 }
