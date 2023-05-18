@@ -333,6 +333,7 @@ BigInteger BigInteger::add(const BigInteger& N) const {
     if (signum == -1) {
         negateList(mine);
     }
+
     sumList(S, mine, N.digits, N.signum);
     std::cout << "After addition "<< S << std::endl;
     int sign = normalizeList(S);
@@ -370,12 +371,114 @@ BigInteger BigInteger::add(const BigInteger& N) const {
 // sub()
 // Returns a BigInteger representing the difference of this and N.
 BigInteger BigInteger::sub(const BigInteger& N) const {
+    List S = List();
+    List mine = digits;
+    List other = N.digits;
+    // checks if the first number is neagative if it is then we negate the number
+    if (signum == -1) {
+        negateList(mine);
+    }
+    if (N.signum == -1) {
+        negateList(other);
+    }
+    sumList(S, mine, other, -1);
+    std::cout << "After subtraction "<< S << std::endl;
+    int sign = normalizeList(S);
+    std::cout << "After normalize " << S << std::endl;
+    std::cout << "The sign is " << sign << std::endl;
+    
+    std::string str;
+    if (sign == -1) {
+        str += '-';
+    }
+    if (sign == 1) {
+        str += '+';
+    }
+    std::stringstream stream;
+    long digit;
+    S.moveBack();
+    while (S.position() > 0) {
+        digit = S.peekPrev();
+        // std::cout << digit << std::endl;
 
+        stream << digit;
+        std::string temp = stream.str();
+        if (temp.length() == 1 && S.position() != S.length()) {
+            temp.insert(0, "0");
+        }
+        str += temp;
+        S.movePrev();
+        stream.str(std::string());
+    }
+    return BigInteger(str);
 }
 
 // mult()
 // Returns a BigInteger representing the product of this and N. 
-BigInteger BigInteger::mult(const BigInteger& N) const {}
+BigInteger BigInteger::mult(const BigInteger& N) const {
+    List smallest_list;
+    List largest_list;
+    List temp;
+    List temp_old;
+    List result;
+    if (compare(N) == 1 || compare(N) == 0) {
+        smallest_list = N.digits;
+        largest_list = digits;
+    } else {
+        smallest_list = digits;
+        largest_list = N.digits;
+    }
+
+    smallest_list.moveFront();
+    largest_list.moveFront();
+    long digit;
+    int shift = 0;
+    int sign;
+
+    while (smallest_list.position() != smallest_list.length()) {
+        digit = smallest_list.peekNext();
+        temp = largest_list;
+        scalarMultList(temp, digit);
+        shiftList(temp, shift);
+        shift += 1;
+        temp_old = result;
+
+
+        sumList(result, temp_old, temp, N.signum);
+        sign = normalizeList(result);
+
+        smallest_list.moveNext();
+    }
+    // convert result to string and then create the 
+    
+    std::cout << result << std::endl;
+
+    std::string str;
+    if (sign == -1) {
+        str += '-';
+    }
+    if (sign == 1) {
+        str += '+';
+    }
+    std::stringstream stream;
+    result.moveBack();
+    while (result.position() > 0) {
+        digit = result.peekPrev();
+        // std::cout << digit << std::endl;
+
+        stream << digit;
+        std::string temp = stream.str();
+        if (temp.length() < power && result.position() != result.length()) {
+            for (int i = 0; i < power - temp.length(); i++) {
+                temp.insert(0, "0");
+            }
+        }
+        str += temp;
+        result.movePrev();
+        stream.str(std::string());
+    }
+    return BigInteger(str);
+}
 
 // Other Functions ---------------------------------------------------------
 

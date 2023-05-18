@@ -394,12 +394,11 @@ void test_7() {
 
     BigInteger bigint_res5 =  bigint_08.add(bigint_09);
     cout << "Res5 " << bigint_res5 << endl;
-    
 
 }
 
 void test_8() {
-    // tests 
+    // tests to string method
     BigInteger bigint_00 = BigInteger("1234567");
     BigInteger bigint_01 = BigInteger("00000100");
     
@@ -426,8 +425,75 @@ void test_8() {
     cout << "Big int_07 " << bigint_07 << endl;
     cout << "Big int_08 " << bigint_08 << endl;
     cout << "Big int_09 " << bigint_09 << endl;
-    
-    
+
+}
+
+void test_9() {
+    // these tests are for BigInteger.sub
+    BigInteger bigint_00 = BigInteger("1234567");
+    BigInteger bigint_01 = BigInteger("00000100");
+
+    BigInteger bigint_02 = BigInteger("41537089");
+    BigInteger bigint_03 = BigInteger("143578");
+
+    BigInteger bigint_04 = BigInteger("-980260");
+    BigInteger bigint_05 = BigInteger("12356");
+
+    BigInteger bigint_06 = BigInteger("980260");
+    BigInteger bigint_07 = BigInteger("-12356");
+
+    BigInteger bigint_08 = BigInteger("+780260");
+    BigInteger bigint_09 = BigInteger("-982356");
+
+
+    BigInteger bigint_res =  bigint_00.sub(bigint_01);
+    cout << "Res1 " << bigint_res << endl;
+
+    BigInteger bigint_res2 =  bigint_02.sub(bigint_03);
+    cout << "Res2 " << bigint_res2 << endl;
+
+    BigInteger bigint_res3 =  bigint_04.sub(bigint_05);
+    cout << "Res3 " << bigint_res3 << endl;
+
+    BigInteger bigint_res4 =  bigint_06.sub(bigint_07);
+    cout << "Res4 " << bigint_res4 << endl;
+
+    BigInteger bigint_res5 =  bigint_08.sub(bigint_09);
+    cout << "Res5 " << bigint_res5 << endl;
+
+}
+
+void test_10() {
+    // these tests are for BigInteger.sub
+    BigInteger bigint_00 = BigInteger("1234567");
+    BigInteger bigint_01 = BigInteger("00000100");
+
+    BigInteger bigint_02 = BigInteger("41537089");
+    BigInteger bigint_03 = BigInteger("143578");
+
+    BigInteger bigint_04 = BigInteger("-980260");
+    BigInteger bigint_05 = BigInteger("12356");
+
+    BigInteger bigint_06 = BigInteger("980260");
+    BigInteger bigint_07 = BigInteger("-12356");
+
+    BigInteger bigint_08 = BigInteger("780260");
+    BigInteger bigint_09 = BigInteger("-982356");
+
+    BigInteger bigint_res =  bigint_00.mult(bigint_01);
+    cout << "Res1 " << bigint_res << endl;
+
+    BigInteger bigint_res2 =  bigint_02.mult(bigint_03);
+    cout << "Res2 " << bigint_res2 << endl;
+
+    BigInteger bigint_res3 =  bigint_04.mult(bigint_05);
+    cout << "Res3 " << bigint_res3 << endl;
+
+    BigInteger bigint_res4 =  bigint_06.mult(bigint_07);
+    cout << "Res4 " << bigint_res4 << endl;
+
+    BigInteger bigint_res5 =  bigint_08.mult(bigint_09);
+    cout << "Res5 " << bigint_res5 << endl;
 
 }
 
@@ -438,8 +504,10 @@ int main(){
     //test_4();
     //test_5();
     //test_6();
-    test_7();
+    //test_7();
     //test_8();
+    //test_9();
+    test_10();
 
     return( EXIT_SUCCESS );
 }
