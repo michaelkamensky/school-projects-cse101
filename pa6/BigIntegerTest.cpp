@@ -518,6 +518,45 @@ void test_12() {
     cout << bigint_00 << " + " << bigint_01 << " = "<< bigint_res << endl;
 }
 
+void test_13() {
+    // tests the compare functions
+    BigInteger bigint_00 = BigInteger("24442");
+    BigInteger bigint_01 = BigInteger("2444200");
+    BigInteger bigint_02 = BigInteger("24442");
+
+    bool b1 = bigint_00 == bigint_02;
+    cout << bigint_00 << " = " << bigint_02 << " "  << b1 << endl;
+
+    b1 = bigint_00 == bigint_01;
+    cout << bigint_00 << " = " << bigint_01 << " " << b1 << endl;
+
+    b1 = bigint_00 > bigint_01;
+    cout << bigint_00 << " > " << bigint_01 << " "  << b1 << endl;
+
+    b1 = bigint_00 >= bigint_01;
+    cout << bigint_00 << " >= " << bigint_01 << " "  << b1 << endl;
+
+    b1 = bigint_00 < bigint_01;
+    cout << bigint_00 << " < " << bigint_01 << " "  << b1 << endl;
+
+    b1 = bigint_00 <= bigint_01;
+    cout << bigint_00 << " <= " << bigint_01 << " " << b1 << endl;
+
+    cout << bigint_00 << " + " <<  bigint_01 << " = "  << bigint_00 + bigint_01 << endl;
+
+    cout << bigint_00 << " - " << bigint_01  << " = "  << bigint_00 - bigint_01 << endl;
+
+    cout << bigint_00 << " + " << bigint_02  << " = "  << bigint_00 + bigint_02 << endl;
+
+    cout << bigint_00 << " - " << bigint_02  << " = "  << bigint_00 - bigint_02 << endl;
+
+    cout << bigint_00 << " += " << bigint_02  << " = " ;
+    bigint_00 += bigint_02;
+    cout << bigint_00 << endl;
+
+    
+}
+
 int main(){
     //test_1();
     //test_2();
@@ -528,9 +567,10 @@ int main(){
     //test_7();
     //test_8();
     //test_9();
-    test_10();
+    // test_10();
     //test_11();
     //test_12();
+    test_13();
 
     return( EXIT_SUCCESS );
 }

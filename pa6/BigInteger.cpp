@@ -373,7 +373,11 @@ BigInteger BigInteger::add(const BigInteger& N) const {
         stream.str(std::string());
     }
 
-    return BigInteger(str);
+    if (str.length() > 0) {
+        return BigInteger(str);
+    } else {
+        return BigInteger("0");
+    }
 
 }
 
@@ -425,7 +429,11 @@ BigInteger BigInteger::sub(const BigInteger& N) const {
         S.movePrev();
         stream.str(std::string());
     }
-    return BigInteger(str);
+    if (str.length() > 0) {
+        return BigInteger(str);
+    } else {
+        return BigInteger("0");
+    }
 }
 
 // mult()
@@ -510,7 +518,11 @@ BigInteger BigInteger::mult(const BigInteger& N) const {
         result.movePrev();
         stream.str(std::string());
     }
-    return BigInteger(str);
+    if (str.length() > 0) {
+        return BigInteger(str);
+    } else {
+        return BigInteger("0");
+    }
 }
 
 // Other Functions ---------------------------------------------------------
@@ -543,8 +555,12 @@ std::string BigInteger::to_string() {
         digits.movePrev();
         stream.str(std::string());
     }
-
-    return str;
+    if (str.length() > 0) {
+        return str;
+    } else {
+        str += '0';
+        return str;
+    }
 }
 
 // Overriden Operators -----------------------------------------------------
@@ -553,4 +569,93 @@ std::string BigInteger::to_string() {
 // Inserts string representation of N into stream.
 std::ostream& operator<<( std::ostream& stream, BigInteger N ) {
     return stream << N.BigInteger::to_string();
+}
+
+// operator==()
+// Returns true if and only if A equals B. 
+bool operator==( const BigInteger& A, const BigInteger& B ) {
+    if (A.compare(B) == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// operator<()
+// Returns true if and only if A is less than B. 
+bool operator<( const BigInteger& A, const BigInteger& B ) {
+    if (A.compare(B) == -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// operator<=()
+// Returns true if and only if A is less than or equal to B. 
+bool operator<=( const BigInteger& A, const BigInteger& B ) {
+    if (A.compare(B) == -1 || A.compare(B) == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// operator>()
+// Returns true if and only if A is greater than B. 
+bool operator>( const BigInteger& A, const BigInteger& B ) {
+    if (A.compare(B) == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// operator>=()
+// Returns true if and only if A is greater than or equal to B. 
+bool operator>=( const BigInteger& A, const BigInteger& B ) {
+    if (A.compare(B) == 1 || A.compare(B) == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// operator+()
+// Returns the sum A+B. 
+BigInteger operator+( const BigInteger& A, const BigInteger& B ) {
+    return A.add(B);
+}
+
+// operator+=()
+// Overwrites A with the sum A+B. 
+BigInteger operator+=( BigInteger& A, const BigInteger& B ) {
+    A = A.add(B);
+    return A;
+}
+
+// operator-()
+// Returns the difference A-B. 
+BigInteger operator-( const BigInteger& A, const BigInteger& B ) {
+    return A.sub(B);
+}
+
+// operator-=()
+// Overwrites A with the difference A-B. 
+BigInteger operator-=( BigInteger& A, const BigInteger& B ) {
+    A = A.sub(B);
+    return A;
+}
+
+// operator*()
+// Returns the product A*B. 
+BigInteger operator*( const BigInteger& A, const BigInteger& B ) {
+    return A.mult(B);
+}
+
+// operator*=()
+// Overwrites A with the product A*B. 
+BigInteger operator*=( BigInteger& A, const BigInteger& B ) {
+    A = A.mult(B);
+    return A;
 }
