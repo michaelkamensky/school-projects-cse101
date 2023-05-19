@@ -2,6 +2,7 @@
 #include<string>
 #include<sstream>
 #include<stdexcept>
+#include<iomanip>
 #include"List.h"
 #include"BigInteger.h"
 
@@ -472,34 +473,28 @@ BigInteger BigInteger::mult(const BigInteger& N) const {
 // will begin with a negative sign '-'. If this BigInteger is zero, the
 // returned string will consist of the character '0' only.
 std::string BigInteger::to_string() {
-    std::string str;
-    if (signum == -1) {
-        str += '-';
+    if (signum  == 0) {
+        return "0";
     }
     std::stringstream stream;
     long digit;
     digits.moveBack();
+    if (signum == -1) {
+        stream << "-";
+    }
+    bool first = true;
     while (digits.position() > 0) {
         digit = digits.peekPrev();
-        // std::cout << digit << std::endl;
-
-        stream << digit;
-        std::string temp = stream.str();
-        if (temp.length() < (long unsigned int)power && digits.position() != digits.length()) {
-            for (unsigned long i = 0; i < power - temp.length(); i++) {
-                temp.insert(0, "0");
-            }
+        if (first) {
+            stream << digit;
+            first = false;
+        } else {
+            stream << std::setfill('0') << std::setw(power) << digit;
         }
-        str += temp;
         digits.movePrev();
-        stream.str(std::string());
     }
-    if (str.length() > 0) {
-        return str;
-    } else {
-        str += '0';
-        return str;
-    }
+
+    return stream.str();
 }
 
 // Overriden Operators -----------------------------------------------------

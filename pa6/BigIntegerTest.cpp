@@ -557,6 +557,14 @@ void test_13() {
     
 }
 
+void test_14() {
+    string str = "172172054965235507489029369166881131954970903225721";
+    BigInteger blah = BigInteger(str);
+    cout << str << endl;
+    cout << blah << endl;
+}
+
+
 int main(){
     //test_1();
     //test_2();
@@ -570,7 +578,8 @@ int main(){
     // test_10();
     //test_11();
     //test_12();
-    test_13();
+    //test_13();
+    test_14();
 
     return( EXIT_SUCCESS );
 }
