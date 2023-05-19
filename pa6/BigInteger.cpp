@@ -8,8 +8,8 @@
 #define DEBUG 0
 
 
-int power = 2;
-long base = 100;
+int power = 9;
+long base = 1000000000;
 
 // Class Constructors & Destructors ----------------------------------------
 
@@ -346,38 +346,13 @@ BigInteger BigInteger::add(const BigInteger& N) const {
     std::cout << "After normalize " << S << std::endl;
     std::cout << "The sign is " << sign << std::endl;
 #endif
+
+    BigInteger ret;
+    ret.signum = sign;
+    ret.digits = S;
     
-    std::string str;
-    if (sign == -1) {
-        str += '-';
-    }
-    if (sign == 1) {
-        str += '+';
-    }
-    std::stringstream stream;
-    long digit;
-    S.moveBack();
-    while (S.position() > 0) {
-        digit = S.peekPrev();
-#if DEBUG
-        std::cout << digit << std::endl;
-#endif
+    return ret;
 
-        stream << digit;
-        std::string temp = stream.str();
-        if (temp.length() == 1 && S.position() != S.length()) {
-            temp.insert(0, "0");
-        }
-        str += temp;
-        S.movePrev();
-        stream.str(std::string());
-    }
-
-    if (str.length() > 0) {
-        return BigInteger(str);
-    } else {
-        return BigInteger("0");
-    }
 
 }
 
@@ -403,37 +378,12 @@ BigInteger BigInteger::sub(const BigInteger& N) const {
     std::cout << "After normalize " << S << std::endl;
     std::cout << "The sign is " << sign << std::endl;
 #endif
-    
-    std::string str;
-    if (sign == -1) {
-        str += '-';
-    }
-    if (sign == 1) {
-        str += '+';
-    }
-    std::stringstream stream;
-    long digit;
-    S.moveBack();
-    while (S.position() > 0) {
-        digit = S.peekPrev();
-#if DEBUG
-        std::cout << digit << std::endl;
-#endif
 
-        stream << digit;
-        std::string temp = stream.str();
-        if (temp.length() == 1 && S.position() != S.length()) {
-            temp.insert(0, "0");
-        }
-        str += temp;
-        S.movePrev();
-        stream.str(std::string());
-    }
-    if (str.length() > 0) {
-        return BigInteger(str);
-    } else {
-        return BigInteger("0");
-    }
+
+    BigInteger ret;
+    ret.signum = sign;
+    ret.digits = S;
+    return ret;
 }
 
 // mult()
@@ -444,6 +394,10 @@ BigInteger BigInteger::mult(const BigInteger& N) const {
     List temp;
     List temp_old;
     List result;
+
+    if (signum == 0 || N.signum == 0) {
+        return BigInteger();
+    }
     if (compare(N) == 1 || compare(N) == 0) {
         smallest_list = N.digits;
         largest_list = digits;
@@ -496,33 +450,18 @@ BigInteger BigInteger::mult(const BigInteger& N) const {
 #if DEBUG    
     std::cout << result << std::endl;
 #endif
-
-    std::string str;
+    int sign;
     if (signum * N.signum == -1 ) {
-        str += '-';
-    }
-    std::stringstream stream;
-    result.moveBack();
-    while (result.position() > 0) {
-        digit = result.peekPrev();
-        // std::cout << digit << std::endl;
-
-        stream << digit;
-        std::string temp = stream.str();
-        if (temp.length() < (long unsigned int)power && result.position() != result.length()) {
-            for (unsigned long i = 0; i < power - temp.length(); i++) {
-                temp.insert(0, "0");
-            }
-        }
-        str += temp;
-        result.movePrev();
-        stream.str(std::string());
-    }
-    if (str.length() > 0) {
-        return BigInteger(str);
+        sign = -1;
     } else {
-        return BigInteger("0");
+        sign = 1;
     }
+
+    BigInteger ret;
+    ret.signum = sign;
+    ret.digits = result;
+    return ret;
+    
 }
 
 // Other Functions ---------------------------------------------------------
