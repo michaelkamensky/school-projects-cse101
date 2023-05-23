@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#6
+* BigIntegerTest.cpp 
+* A test for my BigInteger ADT
+*********************************************************************************/ 
 #include<iostream>
 #include<string>
 #include<stdexcept>
@@ -564,6 +570,15 @@ void test_14() {
     cout << blah << endl;
 }
 
+void test_15() {
+    try{
+      BigInteger J = BigInteger("+");
+   }catch( std::invalid_argument& e ){
+      cout << e.what() << endl;
+      cout << "   continuing without interruption" << endl;
+   }
+}
+
 
 int main(){
     //test_1();
@@ -579,7 +594,8 @@ int main(){
     //test_11();
     //test_12();
     //test_13();
-    test_14();
+    //test_14();
+    test_15();
 
     return( EXIT_SUCCESS );
 }

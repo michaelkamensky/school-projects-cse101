@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#6
+* Arithmetic.cpp 
+* A main class that uses the BigInteger ADT to preform some opertations
+*********************************************************************************/ 
 #include<iostream>
 #include<string>
 #include<stdexcept>

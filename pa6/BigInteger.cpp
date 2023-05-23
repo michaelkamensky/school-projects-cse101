@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#6
+* BigInteger.cpp 
+* A BigInteger ADT that creates a large int through a list of longs that can be added subtracted and mulitplied with other big ints
+*********************************************************************************/ 
 #include<iostream>
 #include<string>
 #include<sstream>
@@ -59,6 +65,10 @@ BigInteger::BigInteger(long x) {
 BigInteger::BigInteger(std::string s) {
     if (s.size() == 0) {
         throw std::invalid_argument("BigInteger: Constructor: empty string");
+    }
+
+    if (s.size() == 1 && (s[0] == '-' || s[0] == '+')){
+        throw std::invalid_argument("BigInteger: Constructor: non-numeric string");
     }
 
     char first_char = s.front();

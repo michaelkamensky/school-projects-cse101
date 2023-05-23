@@ -1,14 +1,23 @@
-# Programming Assignment 5
+# Programming Assignment 6
 
 ## Description
-In this assignment, I created a List ADT and a shuffle program. The Shuffle program takes list of different sizes and preforms the perfect shuffle on them until the list returns to its orignal state
+In this assignment, I created a BigInteger ADT and a main arithmetic class that uses the ADT to preform some basic operations
 
-This is a response to [pa5](https://people.ucsc.edu/~ptantalo/cse101/Spring23/pa5.pdf) in [Cse101 course](https://people.ucsc.edu/~ptantalo/cse101/Spring23/)
+This is a response to [pa6](https://people.ucsc.edu/~ptantalo/cse101/Spring23/pa6.pdf) in [Cse101 course](https://people.ucsc.edu/~ptantalo/cse101/Spring23/)
 
 ## File Descriptions
 
-### Shuffle.cpp
-Build lists of a certain size based of a commandline argumnet and then does a card shuffle until the decks are back to their original states the program also tracks how many times it does it 
+### Arithmetic.cpp
+A main class that uses the BigInteger ADT to preform some opertations
+
+### BigInteger.h
+A header file with all the public protypes for the BigInteger ADT
+
+### BigInteger.cpp
+A BigInteger ADT that creates a large int through a list of longs that can be added subtracted and mulitplied with other big ints
+
+### BigIntegerTest.cpp
+A test for my BigInteger ADT
 
 ### List.cpp
 This is the code for doubly linked list in C++ 
@@ -34,7 +43,7 @@ make clean && make
 ## Usage
 To run this program run encode as follows
 ```
-./Shuffle [input_int_] 
+./Arithmetic [input_file] [output_file] 
 ```
 
 ## Support
