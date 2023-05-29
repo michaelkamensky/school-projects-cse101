@@ -121,7 +121,7 @@ Dictionary::Node* Dictionary::findNext(Node* N) {
             // we skip this parent because it was already visited
             Node* cur = N;
             Node* parent = N->parent;
-            while (parent->right == N){
+            while (parent->right == cur){
                 cur = parent;
                 parent = cur->parent;
             }
@@ -145,7 +145,7 @@ Dictionary::Node* Dictionary::findPrev(Node* N) {
             // we skip this parent because it was already visited
             Node* cur = N;
             Node* parent = N->parent;
-            while (parent->left == N){
+            while (parent->left == cur){
                 cur = parent;
                 parent = cur->parent;
             }
@@ -177,10 +177,11 @@ Dictionary::Dictionary() {
 
 // Copy constructor.
 Dictionary::Dictionary(const Dictionary& D) {
-    num_pairs = D.num_pairs;
-    nil = D.nil;
-    root = D.root;
-    current = D.current;
+    num_pairs = 0;
+    nil = new Node("", 0);
+    root = nil;
+    current = nil;
+    preOrderCopy(D.root, D.nil);
     
 }
 
@@ -220,7 +221,7 @@ valType& Dictionary::getValue(keyType k) const {
         Node* n = search(root, k);
         return n->val;
     } else {
-        throw std::invalid_argument("getValue(): k does not exist");
+        throw std::invalid_argument("Dictionary: getValue(): key \"" + k + "\" does not exist");
     }
 }
 
@@ -242,7 +243,7 @@ keyType Dictionary::currentKey() const {
     if(hasCurrent()) {
         return current->key;
     } else {
-        throw std::invalid_argument("currentKey(): current does not exist");
+        throw std::invalid_argument("Dictionary: currentKey(): current undefined");
     }
 }
 
@@ -253,7 +254,7 @@ valType& Dictionary::currentVal() const {
     if(hasCurrent()) {
         return current->val;
     }else {
-        throw std::invalid_argument("currentVal(): current does not exist");
+        throw std::invalid_argument("Dictionary: currentVal(): current undefined");
     }
 }
 
@@ -329,7 +330,7 @@ void Dictionary::transplant(Node* u, Node* v) {
 // Pre: contains(k).
 void Dictionary::remove(keyType k) {
     if (!contains(k)){
-        throw std::invalid_argument("remove(): k does not exist");
+        throw std::invalid_argument("Dictionary: remove(): key \"" + k + "\" does not exist");
     }
     Node* z = search(root, k);
     if (z == current) {
@@ -344,12 +345,20 @@ void Dictionary::remove(keyType k) {
     }
     else {                           // case 3
         Node* y = findMin(z->right);
+        bool fix_left = true;
         if (y->parent != z) {
             transplant(y, y->right);
             y->right = z->right;
             y->right->parent = y;
+            fix_left = false;
         }
         transplant(z, y);
+        if (fix_left) {
+            y->left = z->left;
+        } else {
+            y->left = z->left;
+            y->right = z->right;
+        }
         y->left->parent = y;
     }
 }
@@ -382,11 +391,9 @@ void Dictionary::end() {
 void Dictionary::next() {
     if (hasCurrent()) {
         Node* advance = findNext(current);
-        if (advance != nil) {
-            current = advance;
-        }
+        current = advance;
     } else {
-        throw std::invalid_argument("next(): current does not exist");
+        throw std::invalid_argument("Dictionary: next(): current undefined");
     }
 }
 
@@ -398,11 +405,9 @@ void Dictionary::next() {
 void Dictionary::prev() {
     if (hasCurrent()) {
         Node* advance = findPrev(current);
-        if (advance != nil) {
-            current = advance;
-        }
+        current = advance;
     } else {
-        throw std::invalid_argument("prev(): current does not exist");
+        throw std::invalid_argument("Dictionary: prev(): current undefined");
     }
 }
 
