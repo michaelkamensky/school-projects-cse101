@@ -21,7 +21,7 @@
 void Dictionary::inOrderString(std::string& s, Node* R) const {
     if (R != nil) {
         inOrderString(s, R->left);
-        s += R->key + " : " + std::to_string(R->val) + " \n";
+        s += R->key + " : " + std::to_string(R->val) + "\n";
         inOrderString(s, R->right);
     }
 
@@ -33,7 +33,7 @@ void Dictionary::inOrderString(std::string& s, Node* R) const {
 // by a pre-order tree walk.
 void Dictionary::preOrderString(std::string& s, Node* R) const {
     if (R != nil) {
-        s += R->key + " : " + std::to_string(R->val) + " \n";
+        s += R->key + "\n";
         preOrderString(s, R->left);
         preOrderString(s, R->right);
     }
@@ -307,9 +307,9 @@ void Dictionary::setValue(keyType k, valType v) {
 }
 
 // helper for delete
-void Dictionary::transplant(Node* root, Node* u, Node* v) const {
+void Dictionary::transplant(Node* u, Node* v) {
     if (u->parent == nil) {
-        root = u->right;
+        root = v;
     }
     else if (u == u->parent->left) {
         u->parent->left = v;
@@ -337,19 +337,19 @@ void Dictionary::remove(keyType k) {
     }
     num_pairs -= 1;
     if (z->left == nil) {               // case 1  or case 2.1 (right only)
-        transplant(root, z, z->right);
+        transplant(z, z->right);
     }
     else if (z->right == nil) {       // case 2.2 (left only)
-        transplant(root, z, z->left);
+        transplant(z, z->left);
     }
     else {                           // case 3
         Node* y = findMin(z->right);
         if (y->parent != z) {
-            transplant(root, y, y->right);
+            transplant(y, y->right);
             y->right = z->right;
             y->right->parent = y;
         }
-        transplant(root, z, y);
+        transplant(z, y);
         y->left->parent = y;
     }
 }

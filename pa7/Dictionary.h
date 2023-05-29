@@ -51,7 +51,7 @@ private:
    // by a pre-order tree walk.
    void preOrderString(std::string& s, Node* R) const;
 
-   void transplant(Node* root, Node* u, Node* v) const;
+   void transplant(Node* u, Node* v);
 
    // preOrderCopy()
    // Recursively inserts a deep copy of the subtree rooted at R into this 
