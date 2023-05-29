@@ -345,20 +345,13 @@ void Dictionary::remove(keyType k) {
     }
     else {                           // case 3
         Node* y = findMin(z->right);
-        bool fix_left = true;
         if (y->parent != z) {
             transplant(y, y->right);
             y->right = z->right;
             y->right->parent = y;
-            fix_left = false;
         }
         transplant(z, y);
-        if (fix_left) {
-            y->left = z->left;
-        } else {
-            y->left = z->left;
-            y->right = z->right;
-        }
+        y->left = z->left;
         y->left->parent = y;
     }
 }
