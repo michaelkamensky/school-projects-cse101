@@ -1,8 +1,8 @@
 /********************************************************************************* 
 * Michael V Kamensky
-* 2023 Winter CSE101 PA#6
-* Arithmetic.cpp 
-* A main class that uses the BigInteger ADT to preform some opertations
+* 2023 Winter CSE101 PA#7
+* Order.cpp 
+* A main class that uses the dictionary ADT to construct and dictionary and return an inorder and preorder string representation
 *********************************************************************************/ 
 #include<iostream>
 #include<string>

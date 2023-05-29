@@ -1,8 +1,8 @@
 /********************************************************************************* 
 * Michael V Kamensky
-* 2023 Winter CSE101 PA#6
-* BigInteger.cpp 
-* A BigInteger ADT that creates a large int through a list of longs that can be added subtracted and mulitplied with other big ints
+* 2023 Winter CSE101 PA#7
+* Dictionary.cpp 
+* The defintions for the Dictionary ADT uses Binary Trees to simulate the dictionary construct
 *********************************************************************************/ 
 #include<iostream>
 #include<string>
