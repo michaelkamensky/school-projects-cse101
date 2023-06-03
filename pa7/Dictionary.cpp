@@ -274,36 +274,36 @@ void Dictionary::clear() {
 // If a pair with key==k exists, overwrites the corresponding value with v, 
 // otherwise inserts the new pair (k, v).
 void Dictionary::setValue(keyType k, valType v) {
-    if(contains(k)) {
-        Node* n = search(root, k);
-        n->val = v;
-    } // else the value does not exist 
-    else {
-        Node* insert = new Node(k, v);
-        num_pairs += 1;
-        insert->left = nil;
-        insert->right = nil;
-        Node* y = nil;
-        Node* x = root;
-        while (x != nil) {
-            y = x;
-            if (insert->key < x->key) {
-                x = x->left;
-            }
-            else {
-                x = x->right;
-            }
+    Node* insert = new Node(k, v);
+    num_pairs += 1;
+    insert->left = nil;
+    insert->right = nil;
+    Node* y = nil;
+    Node* x = root;
+    while (x != nil) {
+        y = x;
+        if (insert->key < x->key) {
+            x = x->left;
         }
-        insert->parent = y;
-        if (y == nil) {
-            root = insert;   // tree T was empty
-        }
-        else if (insert->key < y->key) {
-            y->left = insert;
+        else if (insert->key == x->key) {
+            num_pairs -= 1;
+            x->val = v;
+            delete insert;
+            return;
         }
         else {
-            y->right = insert;
+            x = x->right;
         }
+    }
+    insert->parent = y;
+    if (y == nil) {
+        root = insert;   // tree T was empty
+    }
+    else if (insert->key < y->key) {
+        y->left = insert;
+    }
+    else {
+        y->right = insert;
     }
 }
 
