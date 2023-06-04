@@ -37,11 +37,14 @@ void Dictionary::inOrderString(std::string& s, Node* R) const {
 // by a pre-order tree walk.
 void Dictionary::preOrderString(std::string& s, Node* R) const {
     if (R != nil) {
+#if 0
         if (R->color == BLACK) {
             s += R->key + "\n";
         } else {
             s += R->key + " (RED)\n";
         }
+#endif
+        s += R->key + "\n";
         preOrderString(s, R->left);
         preOrderString(s, R->right);
     }
@@ -368,7 +371,6 @@ void Dictionary::RB_DeleteFixUp(Node* N) {
 void Dictionary::RB_Delete(Node* N) {
     Node* y = N;
     Node* x;
-    delete N;
     int y_original_color = y->color;
     if (N->left == nil) {
         x = N->right;
@@ -396,8 +398,10 @@ void Dictionary::RB_Delete(Node* N) {
         y->color = N->color;
     }
     if (y_original_color == BLACK) { 
+        delete N;
         RB_DeleteFixUp(x);
     }
+    
 }
 
 // Class Constructors & Destructors ----------------------------------------
