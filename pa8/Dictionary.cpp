@@ -399,9 +399,9 @@ void Dictionary::RB_Delete(Node* N) {
         y->color = N->color;
     }
     if (y_original_color == BLACK) { 
-        delete N;
         RB_DeleteFixUp(x);
     }
+    delete N;
     
 }
 
