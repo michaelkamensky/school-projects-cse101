@@ -19,7 +19,7 @@ int main(int argc, char * argv[]){
    string tokenBuffer;
    string token;
    // string delim = " "; 
-   string delim = " \t\\\"\',<.>/?;:[{]}|`~!@#$^&*()-_=+0123456789";
+   string delim = " \t\\\"\',<.>/?;:[{]}|`~!@#$^&*()\%-_=+0123456789";
 
    // check command line for correct number of arguments
    if( argc != 3 ){
@@ -81,7 +81,7 @@ int main(int argc, char * argv[]){
    }
 
    // logic to print out the dictionary
-   cout << dict << endl;
+   out << dict << endl;
 
    // close files 
    in.close();
