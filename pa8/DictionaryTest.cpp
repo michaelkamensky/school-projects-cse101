@@ -17,242 +17,83 @@ void test_1() {
     test.setValue("c", 7);
     test.setValue("d", 10);
     test.setValue("d", 5);
+    test.setValue("e", 20);
     
-
-    test.remove("e");
+    std::cout << test << std::endl;
     
 }
 
 void test_2() {
-    // test for iteration functions
+    // constructor test and set value test
     Dictionary test;
     test.setValue("a", 6);
     test.setValue("b", 7);
     test.setValue("e", 25);
     test.setValue("c", 7);
     test.setValue("d", 10);
-    test.setValue("d", 5);
 
-    test.begin();
+    std::cout << test << std::endl;
 
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.next();
-
-    std::cout << "after 1 move next" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.next();
-
-    std::cout << "after 2 move next" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.next();
-
-    std::cout << "after 3 move next" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.next();
-
-    std::cout << "after 4 move next" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.end();
-
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.prev();
-
-    std::cout << "after 1 move prev" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.prev();
-
-    std::cout << "after 2 move prev" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.prev();
-
-    std::cout << "after 3 move prev" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
-
-    test.prev();
-
-    std::cout << "after 4 move prev" << std::endl;
-    std::cout << "test.currentKey() = " << test.currentKey() << std::endl;
-    std::cout << "test.currentVal() = " << test.currentVal() << std::endl;
+    test.remove("d");
     
+    std::cout << test << std::endl;
     
 }
 
 void test_3() {
-    // constructor test and set value test
-    Dictionary test;
-    test.setValue("a", 6);
-    test.setValue("b", 7);
-    test.setValue("e", 25);
-    test.setValue("c", 7);
-    test.setValue("d", 5);
-    
+Dictionary A;
 
-    std::cout << test;
+std::string S[] =   { // words to insert
+                "plaices",
+                "ambusher",
+                "crosby",
+                "wattles",
+                "pardoner",
+                "pythons",
+                "second",
+                "forms",
+                "impales",
+                "pic",
+                "verticals",
+                "recriminator",
+                "depressants",
+                "cul",
+                "potables",
+                "norm",
+                "reinsurer",
+                "deschooler",
+                "recoining",
+                "dissocialised",
+                "cohabit",
+                "hemiolia",
+                "cantling",
+                "glamorized",
+                "millesimal",
+                "glagolitic"
+            };
 
-    std::string res = test.pre_string();
-    std::cout << "preorder_toString\n" << res;
-    
+    // insert some pairs into A
+    for(int i=0; i<26; i++){
+        A.setValue(S[i], i+1);
+    }
+
+    std::cout << A << std::endl;
+
+    // A.remove("second");
+
+    // std::cout << A << std::endl;
+
+    A.remove("forms");
+
+    std::cout << A << std::endl;
 }
 
-void test_4() {
-    // test for the compare funcs
-    Dictionary test;
-    test.setValue("a", 6);
-    test.setValue("b", 7);
-    test.setValue("e", 25);
-    test.setValue("c", 7);
-    test.setValue("d", 10);
-    test.setValue("d", 5);
-    
-
-    std::cout << test;
-
-    Dictionary test2;
-    test2.setValue("a", 6);
-    test2.setValue("b", 7);
-    test2.setValue("e", 25);
-    test2.setValue("c", 7);
-    test2.setValue("d", 5);
-
-    std::cout << test2 << std::endl;
-#if 1
-    if(test == test2) {
-        std::cout << "They are the same dictionaries" << std::endl;
-    } else {
-        std::cout << "They are different dictionaries" << std::endl;
-    }
-#endif
-
-    test.setValue("a", 6);
-    test.setValue("b", 7);
-    test.setValue("e", 25);
-    test.setValue("c", 7);
-    test.setValue("d", 10); 
-
-    std::cout << test;
-
-    test2.setValue("a", 6);
-    test2.setValue("b", 7);
-    test2.setValue("e", 25);
-    test2.setValue("c", 7);
-    test2.setValue("d", 5);
-
-    std::cout << test2 << std::endl;
-#if 1
-    if(test == test2) {
-        std::cout << "They are the same dictionaries" << std::endl;
-    } else {
-        std::cout << "They are different dictionaries" << std::endl;
-    }
-#endif
-
-    test.setValue("a", 6);
-    test.setValue("b", 7);
-    test.setValue("e", 25);
-    test.setValue("c", 7);
-    test.setValue("d", 5);
-    test.remove("e");
-
-    std::cout << test;
-
-    test2.setValue("a", 6);
-    test2.setValue("b", 7);
-    test2.setValue("e", 25);
-    test2.setValue("c", 7);
-    test2.setValue("d", 5);
-
-    std::cout << test2 << std::endl;
-#if 1
-    if(test == test2) {
-        std::cout << "They are the same dictionaries" << std::endl;
-    } else {
-        std::cout << "They are different dictionaries" << std::endl;
-    }
-#endif   
-    
-}
-
-void test_5() {
-    // test for the compare funcs
-    Dictionary test;
-    test.setValue("a", 6);
-    test.setValue("b", 7);
-    test.setValue("e", 25);
-    test.setValue("c", 7);
-    test.setValue("d", 5);
-    
-
-    std::cout << test;
-
-    Dictionary test2;
-    test2.setValue("a", 6);
-    test2.setValue("b", 7);
-    test2.setValue("c", 7);
-    test2.setValue("d", 5);
-
-    test2 = test;
-
-    std::cout << test2 << std::endl;
-#if 1
-    if(test == test2) {
-        std::cout << "They are the same dictionaries" << std::endl;
-    } else {
-        std::cout << "They are different dictionaries" << std::endl;
-    }
-#endif
-
-    test2.remove("a");
-#if 1
-    if(test == test2) {
-        std::cout << "They are the same dictionaries" << std::endl;
-    } else {
-        std::cout << "They are different dictionaries" << std::endl;
-    }
-#endif
-}
-
-void test_6() {
-    // constructor test and set value test
-    Dictionary test;
-    test.setValue("a", 6);
-    test.setValue("b", 7);
-    test.setValue("e", 25);
-    test.setValue("c", 7);
-    test.setValue("d", 10);
-
-    std::cout << test << std::endl;
-    
-    test.setValue("d", 5);
-    //test.setValue("e", 20);
-
-    std::cout << test << std::endl;
-    
-}
 
 int main(){
-    //test_1();
-    //test_2();
-    //test_3();
-    //test_4();
-    //test_5();
-    test_6();
+    // test_1();
+    // test_2();
+    test_3();
+
 
     return( EXIT_SUCCESS );
 }
