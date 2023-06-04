@@ -1,3 +1,9 @@
+/********************************************************************************* 
+* Michael V Kamensky
+* 2023 Winter CSE101 PA#8
+* WordFrequency.cpp
+* A main class that uses the dictionary ADT to construct and dictionary of the frequencies of words in a file
+*********************************************************************************/ 
 #include<iostream>
 #include<fstream>
 #include<string>

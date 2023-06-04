@@ -1,8 +1,8 @@
 /********************************************************************************* 
 * Michael V Kamensky
-* 2023 Winter CSE101 PA#7
+* 2023 Winter CSE101 PA#8
 * Dictionary.cpp 
-* The defintions for the Dictionary ADT uses Binary Trees to simulate the dictionary construct
+* The defintions for the Dictionary ADT uses RED-BLACK Binary Trees to simulate the dictionary construct
 *********************************************************************************/ 
 #include<iostream>
 #include<string>

@@ -1,19 +1,22 @@
-# Programming Assignment 7
+# Programming Assignment 8
 
 ## Description
-In this assignment, I created a Dictionary ADT that uses a Binary Tree to simulate a dictionary
-This is a response to [pa7](https://people.ucsc.edu/~ptantalo/cse101/Spring23/pa7.pdf) in [Cse101 course](https://people.ucsc.edu/~ptantalo/cse101/Spring23/)
+In this assignment, I created a Dictionary ADT that uses a REB-BLACK Binary Tree to simulate a dictionary
+This is a response to [pa8](https://people.ucsc.edu/~ptantalo/cse101/Spring23/pa8.pdf) in [Cse101 course](https://people.ucsc.edu/~ptantalo/cse101/Spring23/)
 
 ## File Descriptions
 
 ### Order.cpp
 A main class that uses the dictionary ADT to construct and dictionary and return an inorder and preorder string representation
 
+### WordFrequency.cpp
+A main class that uses the dictionary ADT to construct and dictionary of the frequencies of words in a file
+
 ### Dictionary.h
 A header file with all the public protypes for the Dictionary ADT
 
 ### Dictionary.cpp
-The defintions for the Dictionary ADT uses Binary Trees to simulate the dictionary construct
+The defintions for the Dictionary ADT uses RED-BLACK Binary Trees to simulate the dictionary construct
 
 ### DictionaryTest.cpp 
 A test for the dictionary ADT functions
@@ -34,6 +37,10 @@ make clean && make
 To run this program run encode as follows
 ```
 ./Order [input_file] [output_file] 
+```
+
+```
+./WordFrequency [input_file] [output_file] 
 ```
 
 ## Support
