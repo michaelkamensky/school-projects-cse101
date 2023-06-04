@@ -43,8 +43,9 @@ void Dictionary::preOrderString(std::string& s, Node* R) const {
         } else {
             s += R->key + " (RED)\n";
         }
-#endif
+#else
         s += R->key + "\n";
+#endif
         preOrderString(s, R->left);
         preOrderString(s, R->right);
     }
