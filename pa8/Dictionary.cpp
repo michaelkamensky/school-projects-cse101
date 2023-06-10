@@ -37,7 +37,7 @@ void Dictionary::inOrderString(std::string& s, Node* R) const {
 // by a pre-order tree walk.
 void Dictionary::preOrderString(std::string& s, Node* R) const {
     if (R != nil) {
-#if 0
+#if 1
         if (R->color == BLACK) {
             s += R->key + "\n";
         } else {
